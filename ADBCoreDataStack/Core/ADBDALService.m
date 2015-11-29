@@ -41,8 +41,6 @@
 }
 
 /**
- *  Readings are mainly sync. Async readings can be rarely helpful (when reading from the persistent store).
- *
  *  1. always use the main context
  *  2. call either performBlockAndWait: or performBlock: (the block will always be executed on the main theard/queue)
  *  3. execute the fetch request
@@ -95,17 +93,12 @@
 }
 
 /**
- *  Writings are always async by definition.
- *  The future is fulfilled when the save is applied to the persistent store.
- *  Clients can ignore the return value and use this method synchronously.
- *  When the method returns it is guaranteed that the main managed object context has been updated and saved.
- *
- *  1. create a temporary slave context with a private queue concurrency type, with the main context as parent
- *  2. perform a sync block (performBlockAndWait is reentrant) on the created context (it's on a bkg queue but will reuse the main queue if called from the main thread)
+ *  1. use the slave context with a private queue concurrency type, with the main context as parent
+ *  2. perform an async block (performBlockAndWait is reentrant) on the created context (it's on a bkg queue but will reuse the main queue if called from the main thread)
  *  3. in the block, execute the actions (changes parameter)
  *  4. save slave context
  *  5. if no saving errors save all the way down to the persistent store via the persistence controller
- *  6. call the completion handler with any error encountered along the way or nil
+ *  6. the future is fulfilled after the save is applied to the persistent store.
  */
 - (JEFuture *)writeBlock:(void(^)(NSManagedObjectContext *))changes
 {
