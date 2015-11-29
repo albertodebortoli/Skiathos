@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
+// Frameworks
 #import <Foundation/Foundation.h>
+
+// Vendors
 #import <JustPromises/JustPromises.h>
 #import "ADBPersistenceProtocol.h"
 
@@ -17,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) id<ADBPersistenceProtocol> persistenceController;
 
 - (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController;
-
+- (void)initialize;
 - (void)persist;
 
 @end

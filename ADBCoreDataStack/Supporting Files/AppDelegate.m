@@ -28,6 +28,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[ADBGlobals sharedCoreDataStack] initialize];
+    
     UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
         builder.firstname = @"Alberto";
         builder.lastname = @"De Bo";

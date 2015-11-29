@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
+// Frameworks
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+
+// Protocols
 #import "ADBPersistenceProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN

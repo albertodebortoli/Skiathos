@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
+// Frameworks
 #import <Foundation/Foundation.h>
+
+// Protocols
 #import "ADBPersistenceProtocol.h"
 #import "ADBDataAccessLayerProtocol.h"
 

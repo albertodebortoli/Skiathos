@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
+// Frameworks
 #import <Foundation/Foundation.h>
 
-@class ADBPersistenceController;
-@class ADBDALService;
-@class ADBCoreDataStack;
+// CoreDataStack Core
+#import "ADBDALService.h"
+#import "ADBPersistenceController.h"
+#import "ADBCoreDataStack.h"
 
 @interface ADBGlobals : NSObject
 

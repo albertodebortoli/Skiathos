@@ -7,9 +7,6 @@
 //
 
 #import "ADBGlobals.h"
-#import "ADBDALService.h"
-#import "ADBPersistenceController.h"
-#import "ADBCoreDataStack.h"
 
 @implementation ADBGlobals
 

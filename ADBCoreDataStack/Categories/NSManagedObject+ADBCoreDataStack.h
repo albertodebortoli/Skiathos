@@ -7,7 +7,9 @@
 //
 
 #import <CoreData/CoreData.h>
-#import "JEFuture.h"
+
+// Vendors
+#import <JustPromises/JustPromises.h>
 
 @interface NSManagedObject (ADBCoreDataStack)
 

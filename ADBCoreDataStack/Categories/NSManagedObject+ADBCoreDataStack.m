@@ -9,7 +9,7 @@
 #import "NSManagedObject+ADBCoreDataStack.h"
 
 // Vendors
-#import "JEFuture.h"
+#import <JustPromises/JustPromises.h>
 
 // CoreDataStack
 #import "ADBGlobals.h"
