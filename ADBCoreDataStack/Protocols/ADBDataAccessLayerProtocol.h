@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ADBDataAccessLayerProtocol <NSObject>
 
-- (NSManagedObjectContext *)mainContext;
-
 // Readings
 
 - (JEFuture *)executeFetchRequest:(NSFetchRequest *)request;

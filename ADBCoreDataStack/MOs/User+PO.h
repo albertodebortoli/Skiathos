@@ -11,6 +11,6 @@
 
 @interface User (PO)
 
-- (UserPO *)userPO;
+- (UserPO *)po;
 
 @end

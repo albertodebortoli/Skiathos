@@ -10,7 +10,7 @@
 
 @implementation User (PO)
 
-- (UserPO *)userPO
+- (UserPO *)po
 {
     return [UserPO userWithBlock:^(UserPOBuilder *builder) {
         builder.firstname = self.firstname;

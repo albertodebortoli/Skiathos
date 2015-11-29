@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 
+// Categories
+#import "NSManagedObject+ADBCoreDataStack.h"
+
 // Managed Objects
 #import "User.h"
 #import "Pet.h"
@@ -19,8 +22,7 @@
 #import <JustPromises/JustPromises.h>
 
 // CoreDataStack
-#import "ADBCoreDataStack+User.h"
-#import "ADBCoreDataStackClient.h"
+#import "ADBGlobals.h"
 
 @implementation AppDelegate
 
@@ -28,26 +30,26 @@
 {
     UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
         builder.firstname = @"Alberto";
+        builder.lastname = @"De Bo";
     }];
 
-    [[ADBCoreDataStackClient sharedInstance] saveUser:userPO].continueWithTask(^JEFuture *(JEFuture *fut) {
-        
+    [User save:@[userPO]].continueWithTask(^JEFuture *(JEFuture *fut) {
+
         if ([fut hasResult])
         {
-            [[ADBCoreDataStackClient sharedInstance] currentUser].continueOnMainQueue(^(JEFuture *fut) {
+            [User first].continueOnMainQueue(^(JEFuture *fut) {
                 UserPO *userPO = fut.result;
                 NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
             });
         }
-        
+    
         return [JEFuture futureWithResolutionOfFuture:fut];
     });
     
-    [[ADBCoreDataStackClient sharedInstance] allUsers].continueOnMainQueue(^(JEFuture *fut) {
+    [User all].continueOnMainQueue(^(JEFuture *fut) {
         NSArray *allUsers = [fut result];
         NSLog(@"%@", allUsers);
     });
-    
     
     return YES;
 }

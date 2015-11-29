@@ -35,11 +35,6 @@
 
 #pragma mark - ADBDataAccessLayerProtocol
 
-- (NSManagedObjectContext *)mainContext
-{
-    return [self.persistenceController managedObjectContext];
-}
-
 /**
  *  1. always use the main context
  *  2. call either performBlockAndWait: or performBlock: (the block will always be executed on the main theard/queue)
@@ -50,7 +45,7 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    NSManagedObjectContext *main = [self mainContext];
+    NSManagedObjectContext *main = [self.persistenceController managedObjectContext];
     
     [main performBlock:^{
         NSError *error;
@@ -73,7 +68,7 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    NSManagedObjectContext *main = [self mainContext];
+    NSManagedObjectContext *main = [self.persistenceController managedObjectContext];
     
     [main performBlock:^{
         NSError *error;

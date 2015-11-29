@@ -11,23 +11,19 @@
 
 @interface ADBCoreDataStack ()
 
-@property (nonatomic, strong, readwrite) id<ADBDataAccessLayerProtocol> DALService;
 @property (nonatomic, strong, readwrite) id<ADBPersistenceProtocol> persistenceController;
 
 @end
 
 @implementation ADBCoreDataStack
 
-- (instancetype)initWithDALService:(id<ADBDataAccessLayerProtocol>)DALService
-             persistenceController:(id<ADBPersistenceProtocol>)persistenceController;
+- (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController
 {
-    NSParameterAssert(DALService);
     NSParameterAssert(persistenceController);
     
     self = [super init];
     if (self)
     {
-        _DALService = DALService;
         _persistenceController = persistenceController;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
