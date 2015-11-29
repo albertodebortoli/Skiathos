@@ -29,8 +29,43 @@
     {
         _DALService = DALService;
         _persistenceController = persistenceController;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillResignActive:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidEnterBackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillTerminate:)
+                                                     name:UIApplicationWillTerminateNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification
+{
+    [self persist];
+}
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification
+{
+    [self persist];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [self persist];
 }
 
 - (void)persist
