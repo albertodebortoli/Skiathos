@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Readings
 
-- (NSArray *)executeFetchRequest:(NSFetchRequest *)request;
-- (NSUInteger)countForFetchRequest:(NSFetchRequest *)request;
+- (JEFuture *)executeFetchRequest:(NSFetchRequest *)request;
+- (JEFuture *)countForFetchRequest:(NSFetchRequest *)request;
 
 // Writings
 

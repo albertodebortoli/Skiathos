@@ -11,8 +11,8 @@
 
 @interface ADBCoreDataStack (User)
 
-- (NSArray *)allUsers;
-- (UserPO *)currentUser;
+- (JEFuture *)allUsers;
+- (JEFuture *)currentUser;
 - (JEFuture *)saveUser:(UserPO *)user;
 
 @end

@@ -10,41 +10,43 @@
 
 @interface ADBPersistenceController ()
 
-@property (nonatomic, strong, readwrite) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong) NSManagedObjectContext *privateContext;
-
-@property (nonatomic, copy) void (^initCallback)(void);
 
 @end
 
 @implementation ADBPersistenceController
 
-- (id)initWithDataModelFileName:(NSString *)dataModelFileName
+- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName
 {
-    return [self initWithDataModelFileName:dataModelFileName callback:nil];
+    return [self initSQLiteStoreWithDataModelFileName:dataModelFileName callback:nil];
 }
 
-- (id)initWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^)(void))callback
+- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName  callback:(void(^)(void))callback
 {
     self = [super init];
     if (self)
     {
-        _initCallback = [callback copy];
-        [self _initializeCoreDataWithDataModelFileName:dataModelFileName];
+        [self _initializeSQLiteStoreWithDataModelFileName:dataModelFileName callback:callback];
     }
     
     return self;
+}
+
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return _mainContext;
 }
 
 #pragma mark - ADBPersistenceProtocol
 
 - (void)save:(void(^)(NSError *))handler
 {
-    if (![[self privateContext] hasChanges] && ![[self managedObjectContext] hasChanges]) return;
+    if (![[self privateContext] hasChanges] && ![[self mainContext] hasChanges]) return;
     
-    [[self managedObjectContext] performBlockAndWait:^{
+    [[self mainContext] performBlockAndWait:^{
         NSError *error = nil;
-        BOOL saveOnMainContextSucceeded = [self.managedObjectContext save:&error];
+        BOOL saveOnMainContextSucceeded = [self.mainContext save:&error];
         NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", error.localizedDescription, error.userInfo);
         
         [[self privateContext] performBlock:^{
@@ -63,11 +65,11 @@
 
 #pragma mark - Private
 
-- (void)_initializeCoreDataWithDataModelFileName:(NSString *)dataModelFileName
+- (void)_initializeSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^)(void))callback
 {
     NSParameterAssert(dataModelFileName);
     
-    if ([self managedObjectContext]) return;
+    if ([self mainContext]) return;
     
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:dataModelFileName withExtension:@"momd"];
     NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
@@ -76,11 +78,11 @@
     NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     NSAssert(coordinator, @"Failed to initialize coordinator");
     
-    [self setManagedObjectContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType]];
+    [self setMainContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType]];
     
     [self setPrivateContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType]];
     [self.privateContext setPersistentStoreCoordinator:coordinator];
-    [self.managedObjectContext setParentContext:[self privateContext]];
+    [self.mainContext setParentContext:[self privateContext]];
     
     void (^privateContextSetupBlock)() = ^{
         NSPersistentStoreCoordinator *psc = [[self privateContext] persistentStoreCoordinator];
@@ -97,14 +99,14 @@
         NSAssert([psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error], @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.initCallback)
+            if (callback)
             {
-                self.initCallback();
+                callback();
             }
         });
     };
     
-    if (self.initCallback != nil)
+    if (callback != nil)
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             privateContextSetupBlock();

@@ -29,7 +29,6 @@
         _persistenceController = persistenceController;
         _slave = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [_slave setParentContext:[_persistenceController managedObjectContext]];
-
     }
     return self;
 }
@@ -49,42 +48,50 @@
  *  3. execute the fetch request
  *  4. return the results if no error occurred
  */
-- (NSArray *)executeFetchRequest:(NSFetchRequest *)fetchRequest
+- (JEFuture *)executeFetchRequest:(NSFetchRequest *)fetchRequest
 {
+    JEPromise *promise = [[JEPromise alloc] init];
+    
     NSManagedObjectContext *main = [self mainContext];
     
-    __block NSArray *mos = nil;
-    
-    [main performBlockAndWait:^{
+    [main performBlock:^{
         NSError *error;
         NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
         
-        if (!error)
+        if (error)
         {
-            mos = results;
+            [promise setError:error];
+        }
+        else
+        {
+            [promise setResult:results];
         }
     }];
     
-    return mos;
+    return [promise future];
 }
 
-- (NSUInteger)countForFetchRequest:(NSFetchRequest *)request
+- (JEFuture *)countForFetchRequest:(NSFetchRequest *)request
 {
+    JEPromise *promise = [[JEPromise alloc] init];
+    
     NSManagedObjectContext *main = [self mainContext];
     
-    __block NSUInteger count = 0;
-    
-    [main performBlockAndWait:^{
+    [main performBlock:^{
         NSError *error;
         NSUInteger result = [main countForFetchRequest:request error:&error];
         
-        if (!error)
+        if (error)
         {
-            count = result;
+            [promise setError:error];
+        }
+        else
+        {
+            [promise setResult:@(result)];
         }
     }];
     
-    return count;
+    return [promise future];
 }
 
 /**
@@ -104,9 +111,9 @@
 {
     NSParameterAssert(changes);
     
-    JEPromise *promise = [JEPromise new];
+    JEPromise *promise = [[JEPromise alloc] init];
     
-    [self.slave performBlockAndWait:^{
+    [self.slave performBlock:^{
         
         changes(self.slave);
         

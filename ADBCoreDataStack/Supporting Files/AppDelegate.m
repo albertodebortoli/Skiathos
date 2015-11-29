@@ -34,16 +34,20 @@
         
         if ([fut hasResult])
         {
-            UserPO *userPO = [[ADBCoreDataStackClient sharedInstance] currentUser];
-            NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
+            [[ADBCoreDataStackClient sharedInstance] currentUser].continueOnMainQueue(^(JEFuture *fut) {
+                UserPO *userPO = fut.result;
+                NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
+            });
         }
         
         return [JEFuture futureWithResolutionOfFuture:fut];
     });
     
-    NSArray *allUsers = [[ADBCoreDataStackClient sharedInstance] allUsers];
+    [[ADBCoreDataStackClient sharedInstance] allUsers].continueOnMainQueue(^(JEFuture *fut) {
+        NSArray *allUsers = [fut result];
+        NSLog(@"%@", allUsers);
+    });
     
-    NSLog(@"%@", allUsers);
     
     return YES;
 }

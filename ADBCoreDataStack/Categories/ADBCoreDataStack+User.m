@@ -15,34 +15,56 @@ NSString *const kUserEntityName = @"User";
 
 @implementation ADBCoreDataStack (User)
 
-- (NSArray *)allUsers
+- (JEFuture *)allUsers
 {
+    JEPromise *promise = [[JEPromise alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kUserEntityName
                                                          inManagedObjectContext:self.DALService.mainContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSArray *results = [self.DALService executeFetchRequest:request];
+    [self.DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+        
+        if (fut.hasError)
+        {
+            [promise setError:fut.error];
+        }
+        else
+        {
+            NSArray *results = [fut result];
+            NSArray *pos = [results mapUsingBlock:^id(User *user) {
+                return [user userPO];
+            }];
+            [promise setResult:pos];
+        }
+    });
     
-    return [results mapUsingBlock:^id(User *user) {
-        return [user userPO];
-    }];
+    return [promise future];
 }
 
-- (UserPO *)currentUser
+- (JEFuture *)currentUser
 {
+    JEPromise *promise = [[JEPromise alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kUserEntityName
                                                          inManagedObjectContext:self.DALService.mainContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
     [request setFetchLimit:1];
     
-    NSArray *results = [self.DALService executeFetchRequest:request];
+    [self.DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+        
+        if (fut.hasError)
+        {
+            [promise setError:fut.error];
+        }
+        else
+        {
+            User *result = [[fut result] firstObject];
+            [promise setResult:[result userPO]];
+        }
+    });
     
-    User *user = [results firstObject];
-    
-    return [user userPO];
+    return [promise future];
 }
 
 - (JEFuture *)saveUser:(UserPO *)user

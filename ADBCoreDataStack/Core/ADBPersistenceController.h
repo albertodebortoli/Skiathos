@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  The second one creates the persistent store in background and the callback is called asynchronously.
  *  If the callback parameter is nil, the second method behaves like the first one.
  */
-- (id)initWithDataModelFileName:(NSString *)dataModelFileName;
-- (id)initWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^__nullable)(void))callback;
+- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName;
+- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^__nullable)(void))callback;
 
 @end
 
