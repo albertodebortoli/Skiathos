@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+// Vendors
+#import <JustPromises/JustPromises.h>
+
 @protocol ADBPersistenceProtocol <NSObject>
 
 - (NSManagedObjectContext *)managedObjectContext;
 
-- (void)save:(void(^)(NSError *error))handler;
+- (JEFuture *)save;
 
 @end

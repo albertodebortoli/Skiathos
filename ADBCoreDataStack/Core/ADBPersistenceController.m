@@ -8,6 +8,9 @@
 
 #import "ADBPersistenceController.h"
 
+// Vendors
+#import <JustPromises/JustPromises.h>
+
 @interface ADBPersistenceController ()
 
 @property (nonatomic, strong) NSManagedObjectContext *mainContext;
@@ -40,27 +43,39 @@
 
 #pragma mark - ADBPersistenceProtocol
 
-- (void)save:(void(^)(NSError *))handler
+- (JEFuture *)save
 {
-    if (![[self privateContext] hasChanges] && ![[self mainContext] hasChanges]) return;
+    JEPromise *promise = [[JEPromise alloc] init];
     
-    [[self mainContext] performBlockAndWait:^{
+    if (![[self privateContext] hasChanges] && ![[self mainContext] hasChanges]) {
+        [promise setResult:@NO];
+        return [promise future];
+    }
+    
+    [[self mainContext] performBlock:^{
         NSError *error = nil;
         BOOL saveOnMainContextSucceeded = [self.mainContext save:&error];
         NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", error.localizedDescription, error.userInfo);
+        
+        if (error) {
+            [promise setError:error];
+        }
         
         [[self privateContext] performBlock:^{
             NSError *privateContextError = nil;
             BOOL saveOnPrivateContextSucceeded = [self.privateContext save:&privateContextError];
             NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", privateContextError.localizedDescription, privateContextError.userInfo);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (handler)
-                {
-                    handler(privateContextError);
-                }
-            });
+
+            if (error) {
+                [promise setError:error];
+            }
+            else {
+                [promise setResult:@(saveOnMainContextSucceeded && saveOnPrivateContextSucceeded)];
+            }
         }];
     }];
+    
+    return [promise future];
 }
 
 #pragma mark - Private

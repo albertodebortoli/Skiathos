@@ -109,16 +109,9 @@
         [_slave save:&error];
         if (!error)
         {
-            [self.persistenceController save:^(NSError *err) {
-                if (err)
-                {
-                    [promise setError:error];
-                }
-                else
-                {
-                    [promise setResult:@YES];
-                }
-            }];
+            [self.persistenceController save].continues(^void(JEFuture *fut) {
+                [promise setResolutionOfFuture:fut];
+            });
         }
         else
         {

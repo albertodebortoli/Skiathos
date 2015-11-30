@@ -77,10 +77,10 @@
         bgTask = UIBackgroundTaskInvalid;
     }];
     
-    [self.persistenceController save:^(NSError *error) {
+    [self.persistenceController save].continues(^void(JEFuture *fut) {
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
-    }];
+    });
 }
 
 @end
