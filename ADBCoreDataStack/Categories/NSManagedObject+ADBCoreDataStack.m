@@ -96,6 +96,41 @@
             }];
         }
     }];
+
++ (JEFuture *)deleteAll
+{
+    JEPromise *promise = [[JEPromise alloc] init];
+    
+    __block NSError *error = nil;
+    
+    [[ADBGlobals sharedDALService] writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        
+        NSManagedObjectContext *context = [ADBGlobals sharedPersistenceController].managedObjectContext;
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
+                                                             inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setReturnsObjectsAsFaults:YES];
+        [request setIncludesPropertyValues:NO];
+        [request setEntity:entityDescription];
+        
+        NSArray *objectsToDelete = [localContext executeFetchRequest:request error:&error];
+        
+        if (!error) {
+            for (NSManagedObject *objectToDelete in objectsToDelete) {
+                [localContext deleteObject:objectToDelete];
+            }
+        }
+    }].continues(^void(JEFuture *fut) {
+        
+        if (error) {
+            [promise setError:error];
+        }
+        else {
+            [promise setResult:@YES];
+        }
+    });
+    
+    return [promise future];
 }
 
 #pragma mark - Private

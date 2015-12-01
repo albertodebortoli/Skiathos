@@ -16,5 +16,6 @@
 + (JEFuture *)all;
 + (JEFuture *)first;
 + (JEFuture *)save:(NSArray *)plainObjects;
++ (JEFuture *)deleteAll;
 
 @end
