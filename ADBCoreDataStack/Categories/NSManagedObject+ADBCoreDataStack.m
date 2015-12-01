@@ -79,7 +79,9 @@
 
 + (JEFuture *)save:(NSArray *)plainObjects
 {
-    return [[ADBGlobals sharedDALService] writeBlock:^(NSManagedObjectContext *localContext) {
+    JEPromise *promise = [[JEPromise alloc] init];
+    
+    [[ADBGlobals sharedDALService] writeBlock:^(NSManagedObjectContext *localContext) {
         
         for (NSObject *plainObject in plainObjects)
         {
@@ -95,7 +97,14 @@
 #pragma clang diagnostic pop
             }];
         }
-    }];
+        
+    }].continues(^void(JEFuture *fut) {
+        
+        [promise setResolutionOfFuture:fut];
+    });
+    
+    return [promise future];
+}
 
 + (JEFuture *)deleteAll
 {
