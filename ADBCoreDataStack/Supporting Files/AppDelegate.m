@@ -28,6 +28,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [User deleteAll].continues(^void(JEFuture *fut) {
+
+        [User all].continueOnMainQueue(^(JEFuture *fut) {
+            NSArray *allUsers = [fut result];
+            NSLog(@"%@", allUsers);
+        });
+
+    });
+
+    [User all].continueOnMainQueue(^(JEFuture *fut) {
+        NSArray *allUsers = [fut result];
+        NSLog(@"%@", allUsers);
+    });
+
+
     [[ADBGlobals sharedCoreDataStack] initialize];
     
     UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
