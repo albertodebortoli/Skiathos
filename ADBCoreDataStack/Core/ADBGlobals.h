@@ -16,6 +16,8 @@
 
 @interface ADBGlobals : NSObject
 
+// thinking of a way for not having singletons (dependency injection doesn't fit here)
+
 + (ADBPersistenceController *)sharedPersistenceController;
 + (ADBDALService *)sharedDALService;
 + (ADBCoreDataStack *)sharedCoreDataStack;

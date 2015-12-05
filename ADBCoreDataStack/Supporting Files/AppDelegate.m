@@ -28,47 +28,39 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [User deleteAll].continues(^void(JEFuture *fut) {
-
-        [User all].continueOnMainQueue(^(JEFuture *fut) {
-            NSArray *allUsers = [fut result];
-            NSLog(@"%@", allUsers);
-        });
-
-    });
-
-    [User all].continueOnMainQueue(^(JEFuture *fut) {
-        NSArray *allUsers = [fut result];
-        NSLog(@"%@", allUsers);
-    });
-
-
     [[ADBGlobals sharedCoreDataStack] initialize];
-    
-    UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
-        builder.firstname = @"Alberto";
-        builder.lastname = @"De Bo";
-    }];
-
-    [User save:@[userPO]].continueWithTask(^JEFuture *(JEFuture *fut) {
-
-        if ([fut hasResult])
-        {
-            [User first].continueOnMainQueue(^(JEFuture *fut) {
-                UserPO *userPO = fut.result;
-                NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
-            });
-        }
-    
-        return [JEFuture futureWithResolutionOfFuture:fut];
-    });
-    
-    [User all].continueOnMainQueue(^(JEFuture *fut) {
-        NSArray *allUsers = [fut result];
-        NSLog(@"%@", allUsers);
-    });
+    [self showMeSomething];
     
     return YES;
+}
+
+- (void)showMeSomething
+{
+    NSLog(@"Delete all");
+    [User deleteAll].continueWithSuccessTask(^JEFuture *(NSNumber *result) {
+        return [User all].continueWithSuccessTask(^JEFuture *(NSArray *allUsers) {
+            NSLog(@"All users: %@", allUsers);
+            return [JEFuture futureWithResult:allUsers];
+        });
+    }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
+        UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
+            builder.firstname = @"John";
+            builder.lastname = @"Doe";
+        }];
+        NSLog(@"Save one");
+        return [User save:@[userPO]];
+    }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
+        return [User first].continueWithSuccessTask(^JEFuture *(UserPO *userPO) {
+            NSLog(@"Fetch one");
+            NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
+            return [JEFuture futureWithResult:userPO];
+        });
+    }).continues(^(JEFuture *fut) {
+        [User all].continueOnMainQueue(^(JEFuture *fut) {
+            NSArray *allUsers = [fut result];
+            NSLog(@"All users: %@", allUsers);
+        });
+    });
 }
 
 @end

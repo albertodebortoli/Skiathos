@@ -14,6 +14,8 @@ static ADBCoreDataStack *sharedCoreDataStack = nil;
 static ADBDALService *sharedDALService = nil;
 static ADBPersistenceController *sharedPersistenceController = nil;
 
+// thinking of a way for not having singletons (dependency injection doesn't fit here)
+
 #pragma mark - Singleton
 
 + (ADBPersistenceController *)sharedPersistenceController
