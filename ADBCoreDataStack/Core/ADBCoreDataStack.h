@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController;
 - (void)initialize;
-- (void)persist;
+- (JEFuture *)persist;
 
 @end
 

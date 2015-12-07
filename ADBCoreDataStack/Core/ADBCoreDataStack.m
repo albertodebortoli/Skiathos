@@ -69,7 +69,7 @@
     [self persist];
 }
 
-- (void)persist
+- (JEFuture *)persist
 {
     UIApplication *application = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
@@ -77,9 +77,10 @@
         bgTask = UIBackgroundTaskInvalid;
     }];
     
-    [self.persistenceController save].continues(^void(JEFuture *fut) {
+    return [self.persistenceController save].continueWithTask(^JEFuture *(JEFuture *fut) {
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+        return [JEFuture futureWithResolutionOfFuture:fut];
     });
 }
 
