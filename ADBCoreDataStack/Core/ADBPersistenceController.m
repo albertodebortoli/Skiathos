@@ -52,9 +52,15 @@
         return [promise future];
     }
     
+    __weak typeof(self) weakSelf = self;
+    
     [[self mainContext] performBlock:^{
+        
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) return;
+        
         NSError *error = nil;
-        BOOL saveOnMainContextSucceeded = [self.mainContext save:&error];
+        BOOL saveOnMainContextSucceeded = [strongSelf.mainContext save:&error];
         NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", error.localizedDescription, error.userInfo);
         
         if (error) {
@@ -63,8 +69,12 @@
         }
         
         [[self privateContext] performBlock:^{
+            
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf) return;
+            
             NSError *privateContextError = nil;
-            BOOL saveOnPrivateContextSucceeded = [self.privateContext save:&privateContextError];
+            BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&privateContextError];
             NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", privateContextError.localizedDescription, privateContextError.userInfo);
 
             if (error) {
