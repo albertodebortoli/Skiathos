@@ -59,6 +59,7 @@
         
         if (error) {
             [promise setError:error];
+            return;
         }
         
         [[self privateContext] performBlock:^{
