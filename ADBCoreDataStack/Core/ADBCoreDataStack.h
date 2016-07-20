@@ -9,20 +9,23 @@
 // Frameworks
 #import <Foundation/Foundation.h>
 
-// Vendors
-#import <JustPromises/JustPromises.h>
+// CoreDataStack Core
+
+// Protocols
 #import "ADBPersistenceProtocol.h"
+#import "ADBDataAccessLayerProtocol.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
+/*
+ * This is a facade.
+ * And a singleton.
+ * 
+ * I'm so proud of myself.
+ */
 @interface ADBCoreDataStack : NSObject
 
-@property (nonatomic, strong, readonly) id<ADBPersistenceProtocol> persistenceController;
+@property (nonatomic, readonly) id <ADBPersistenceProtocol> persistenceController;
+@property (nonatomic, readonly) id <ADBDataAccessLayerProtocol> DALService;
 
-- (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController;
-- (void)initialize;
-- (JEFuture *)persist;
++ (ADBCoreDataStack *)sharedInstance;
 
 @end
-
-NS_ASSUME_NONNULL_END

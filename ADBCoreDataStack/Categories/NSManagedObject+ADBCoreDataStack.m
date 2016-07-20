@@ -2,8 +2,8 @@
 //  NSManagedObject+ADBCoreDataStack.m
 //  ADBCoreDataStack
 //
-//  Created by Alberto DeBortoli on 29/11/2015.
-//  Copyright © 2015 JUST EAT. All rights reserved.
+//  Created by Alberto De Bortoli on 29/11/2015.
+//  Copyright © 2015 Alberto De Bortoli. All rights reserved.
 //
 
 #import "NSManagedObject+ADBCoreDataStack.h"
@@ -12,7 +12,7 @@
 #import <JustPromises/JustPromises.h>
 
 // CoreDataStack
-#import "ADBGlobals.h"
+#import "ADBCoreDataStack.h"
 #import "ADBDALService.h"
 #import "ADBPersistenceController.h"
 
@@ -29,11 +29,11 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
-                                                         inManagedObjectContext:[ADBGlobals sharedPersistenceController].managedObjectContext];
+                                                         inManagedObjectContext:[ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    [[ADBGlobals sharedDALService] executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
         
         if (fut.hasError)
         {
@@ -56,12 +56,12 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
-                                                         inManagedObjectContext:[ADBGlobals sharedPersistenceController].managedObjectContext];
+                                                         inManagedObjectContext:[ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     [request setFetchLimit:1];
     
-    [[ADBGlobals sharedDALService] executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
         
         if (fut.hasError)
         {
@@ -81,7 +81,7 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    [[ADBGlobals sharedDALService] writeBlock:^(NSManagedObjectContext *localContext) {
+    [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext *localContext) {
         
         for (NSObject *plainObject in plainObjects)
         {
@@ -112,9 +112,9 @@
     
     __block NSError *error = nil;
     
-    [[ADBGlobals sharedDALService] writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+    [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
         
-        NSManagedObjectContext *context = [ADBGlobals sharedPersistenceController].managedObjectContext;
+        NSManagedObjectContext *context = [ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext;
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
                                                              inManagedObjectContext:context];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];

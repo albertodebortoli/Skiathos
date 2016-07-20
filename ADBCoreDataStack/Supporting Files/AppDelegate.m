@@ -22,13 +22,14 @@
 #import <JustPromises/JustPromises.h>
 
 // CoreDataStack
-#import "ADBGlobals.h"
+#import "ADBCoreDataStack.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[ADBGlobals sharedCoreDataStack] initialize];
+    // to initialize the stack
+    [ADBCoreDataStack sharedInstance];
     [self showMeSomething];
     
     return YES;

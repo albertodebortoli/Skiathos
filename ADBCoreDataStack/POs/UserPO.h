@@ -21,8 +21,8 @@
 
 @interface UserPO : NSObject
 
-@property (nonatomic, copy, readonly) NSString *firstname;
-@property (nonatomic, copy, readonly) NSString *lastname;
+@property (nonatomic, readonly) NSString *firstname;
+@property (nonatomic, readonly) NSString *lastname;
 
 + (instancetype)userWithBlock:(void(^)(UserPOBuilder *builder))block;
 

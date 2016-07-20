@@ -13,8 +13,8 @@
 
 @interface ADBPersistenceController ()
 
-@property (nonatomic, strong) NSManagedObjectContext *mainContext;
-@property (nonatomic, strong) NSManagedObjectContext *privateContext;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
 
 @end
 

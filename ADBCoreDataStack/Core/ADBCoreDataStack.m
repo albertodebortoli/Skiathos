@@ -8,80 +8,45 @@
 
 #import "ADBCoreDataStack.h"
 
-// Frameworks
-#import <UIKit/UIKit.h>
+#import "ADBDALService.h"
+#import "ADBPersistenceController.h"
+#import "ADBReactor.h"
+
+static NSString *const kDataModelFileName = @"DataModel";
 
 @interface ADBCoreDataStack ()
 
-@property (nonatomic, strong, readwrite) id<ADBPersistenceProtocol> persistenceController;
+@property (nonatomic, strong, readwrite) ADBPersistenceController *persistenceController;
+@property (nonatomic, strong, readwrite) ADBDALService *DALService;
+@property (nonatomic, strong, readwrite) ADBReactor *reactor;
 
 @end
 
+static ADBCoreDataStack *sharedInstance = nil;
+
 @implementation ADBCoreDataStack
 
-- (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController
++ (ADBCoreDataStack *)sharedInstance
 {
-    NSParameterAssert(persistenceController);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] initTheWayWeWantIt];
+    });
     
+    return sharedInstance;
+}
+
+- (instancetype)initTheWayWeWantIt
+{
     self = [super init];
     if (self)
     {
-        _persistenceController = persistenceController;
+        _persistenceController = [[ADBPersistenceController alloc] initSQLiteStoreWithDataModelFileName:kDataModelFileName];
+        _DALService = [[ADBDALService alloc] initWithPersistenceController:_persistenceController];
+        _reactor = [[ADBReactor alloc] initWithPersistenceController:_persistenceController];
+        [_reactor initialize];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-}
-
-- (void)initialize
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillResignActive:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillTerminate:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
-}
-
-- (void)applicationWillResignActive:(NSNotification *)notification
-{
-    [self persist];
-}
-
-- (void)applicationDidEnterBackground:(NSNotification *)notification
-{
-    [self persist];
-}
-
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-    [self persist];
-}
-
-- (JEFuture *)persist
-{
-    UIApplication *application = [UIApplication sharedApplication];
-    __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    return [self.persistenceController save].continueWithTask(^JEFuture *(JEFuture *fut) {
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-        return [JEFuture futureWithResolutionOfFuture:fut];
-    });
 }
 
 @end

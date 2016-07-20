@@ -12,8 +12,8 @@
 		4F13A1131C0B74D5002F3DC3 /* NSObject+Introspecta.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F13A1111C0B74D5002F3DC3 /* NSObject+Introspecta.m */; };
 		4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43F2501B67DFC800A03939 /* CoreData.framework */; };
 		4FE2E8B81BF933D800580749 /* NSArray+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8961BF933D800580749 /* NSArray+Functional.m */; };
-		4FE2E8B91BF933D800580749 /* ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8991BF933D800580749 /* ADBCoreDataStack.m */; };
-		4FE2E8BA1BF933D800580749 /* ADBGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89B1BF933D800580749 /* ADBGlobals.m */; };
+		4FE2E8B91BF933D800580749 /* ADBReactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8991BF933D800580749 /* ADBReactor.m */; };
+		4FE2E8BA1BF933D800580749 /* ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89B1BF933D800580749 /* ADBCoreDataStack.m */; };
 		4FE2E8BB1BF933D800580749 /* ADBDALService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89D1BF933D800580749 /* ADBDALService.m */; };
 		4FE2E8BC1BF933D800580749 /* ADBPersistenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89F1BF933D800580749 /* ADBPersistenceController.m */; };
 		4FE2E8C11BF933D800580749 /* Pet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8A71BF933D800580749 /* Pet.m */; };
@@ -44,6 +44,7 @@
 		00C0F45071651135B5F43166 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		27052BA97A62C9076DD95CC6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		35C5CF282B71859D7272CE05 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		4F0501291D3F7F1800B51BE4 /* ADBPersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBPersistence.h; sourceTree = "<group>"; };
 		4F13A10B1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ADBCoreDataStack.h"; sourceTree = "<group>"; };
 		4F13A10C1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+ADBCoreDataStack.m"; sourceTree = "<group>"; };
 		4F13A10E1C0B74D5002F3DC3 /* ISVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVar.h; sourceTree = "<group>"; };
@@ -57,10 +58,10 @@
 		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4FE2E8951BF933D800580749 /* NSArray+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Functional.h"; sourceTree = "<group>"; };
 		4FE2E8961BF933D800580749 /* NSArray+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Functional.m"; sourceTree = "<group>"; };
-		4FE2E8981BF933D800580749 /* ADBCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCoreDataStack.h; sourceTree = "<group>"; };
-		4FE2E8991BF933D800580749 /* ADBCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBCoreDataStack.m; sourceTree = "<group>"; };
-		4FE2E89A1BF933D800580749 /* ADBGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBGlobals.h; sourceTree = "<group>"; };
-		4FE2E89B1BF933D800580749 /* ADBGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBGlobals.m; sourceTree = "<group>"; };
+		4FE2E8981BF933D800580749 /* ADBReactor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBReactor.h; sourceTree = "<group>"; };
+		4FE2E8991BF933D800580749 /* ADBReactor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBReactor.m; sourceTree = "<group>"; };
+		4FE2E89A1BF933D800580749 /* ADBCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCoreDataStack.h; sourceTree = "<group>"; };
+		4FE2E89B1BF933D800580749 /* ADBCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBCoreDataStack.m; sourceTree = "<group>"; };
 		4FE2E89C1BF933D800580749 /* ADBDALService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBDALService.h; sourceTree = "<group>"; };
 		4FE2E89D1BF933D800580749 /* ADBDALService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBDALService.m; sourceTree = "<group>"; };
 		4FE2E89E1BF933D800580749 /* ADBPersistenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBPersistenceController.h; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		4FE2E88B1BF933D800580749 /* ADBCoreDataStack */ = {
 			isa = PBXGroup;
 			children = (
+				4F0501291D3F7F1800B51BE4 /* ADBPersistence.h */,
 				4FE2E8921BF933D800580749 /* Categories */,
 				4FE2E8971BF933D800580749 /* Core */,
 				4FE2E8A51BF933D800580749 /* MOs */,
@@ -172,10 +174,10 @@
 		4FE2E8971BF933D800580749 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				4FE2E8981BF933D800580749 /* ADBCoreDataStack.h */,
-				4FE2E8991BF933D800580749 /* ADBCoreDataStack.m */,
-				4FE2E89A1BF933D800580749 /* ADBGlobals.h */,
-				4FE2E89B1BF933D800580749 /* ADBGlobals.m */,
+				4FE2E8981BF933D800580749 /* ADBReactor.h */,
+				4FE2E8991BF933D800580749 /* ADBReactor.m */,
+				4FE2E89A1BF933D800580749 /* ADBCoreDataStack.h */,
+				4FE2E89B1BF933D800580749 /* ADBCoreDataStack.m */,
 				4FE2E89C1BF933D800580749 /* ADBDALService.h */,
 				4FE2E89D1BF933D800580749 /* ADBDALService.m */,
 				4FE2E89E1BF933D800580749 /* ADBPersistenceController.h */,
@@ -397,9 +399,9 @@
 				4F13A1121C0B74D5002F3DC3 /* ISVar.m in Sources */,
 				4FE2E8C41BF933D800580749 /* UserPO.m in Sources */,
 				4FE2E8E21BF9347200580749 /* DataModel.xcdatamodeld in Sources */,
-				4FE2E8BA1BF933D800580749 /* ADBGlobals.m in Sources */,
+				4FE2E8BA1BF933D800580749 /* ADBCoreDataStack.m in Sources */,
 				4FE2E8BB1BF933D800580749 /* ADBDALService.m in Sources */,
-				4FE2E8B91BF933D800580749 /* ADBCoreDataStack.m in Sources */,
+				4FE2E8B91BF933D800580749 /* ADBReactor.m in Sources */,
 				4FE2E8C21BF933D800580749 /* User+PO.m in Sources */,
 				4FE2E8C31BF933D800580749 /* User.m in Sources */,
 				4FE2E8D31BF9341300580749 /* main.m in Sources */,

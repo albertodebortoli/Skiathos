@@ -2,8 +2,8 @@
 //  NSManagedObject+ADBCoreDataStack.h
 //  ADBCoreDataStack
 //
-//  Created by Alberto DeBortoli on 29/11/2015.
-//  Copyright © 2015 JUST EAT. All rights reserved.
+//  Created by Alberto De Bortoli on 29/11/2015.
+//  Copyright © 2015 Alberto De Bortoli. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
