@@ -38,46 +38,19 @@
  *  3. execute the fetch request
  *  4. return the results if no error occurred
  */
-- (JEFuture *)executeFetchRequest:(NSFetchRequest *)fetchRequest
+- (NSArray *)executeFetchRequest:(NSFetchRequest *)fetchRequest
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
+    NSError *error;
     NSManagedObjectContext *main = self.persistenceController.mainContext;
     
-    [main performBlock:^{
-        NSError *error;
-        NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
-        
-        if (error) {
-            [promise setError:error];
-        }
-        else {
-            [promise setResult:results];
-        }
-    }];
-    
-    return [promise future];
+    NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
+    return results;
 }
 
-- (JEFuture *)countForFetchRequest:(NSFetchRequest *)request
+- (NSUInteger)countForFetchRequest:(NSFetchRequest *)request
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
-    NSManagedObjectContext *main = self.persistenceController.mainContext;
-    
-    [main performBlock:^{
-        NSError *error;
-        NSUInteger result = [main countForFetchRequest:request error:&error];
-        
-        if (error) {
-            [promise setError:error];
-        }
-        else {
-            [promise setResult:@(result)];
-        }
-    }];
-    
-    return [promise future];
+    NSError *error = nil;
+    return [self.persistenceController.mainContext countForFetchRequest:request error:&error];
 }
 
 #pragma mark - ADBCommandModelProtocol
@@ -91,7 +64,7 @@
         NSError *error;
         [context save:&error];
         if (!error) {
-            [self.persistenceController save].continues(^void(JEFuture *fut) {
+            [_persistenceController save].continues(^void(JEFuture *fut) {
                 [promise setResolutionOfFuture:fut];
             });
         }
@@ -116,13 +89,11 @@
  *  5. if no saving errors save all the way down to the persistent store via the persistence controller
  *  6. the future is fulfilled after the save is applied to the persistent store.
  */
-- (JEFuture *)writeBlock:(void(^)(NSManagedObjectContext *))changes
+- (void)writeBlock:(void(^)(NSManagedObjectContext *))changes
 {
     NSParameterAssert(changes);
     
-    JEPromise *promise = [[JEPromise alloc] init];
-    
-    [self.persistenceController.slaveContext performBlock:^{
+    [self.persistenceController.slaveContext performBlockAndWait:^{
         
         changes(_persistenceController.slaveContext);
         
@@ -131,16 +102,16 @@
         if (!error)
         {
             [_persistenceController save].continues(^void(JEFuture *fut) {
-                [promise setResolutionOfFuture:fut];
+                if (fut.error) {
+                    // track error
+                }
             });
         }
         else
         {
-            [promise setError:error];
+            // track error
         }
     }];
-    
-    return [promise future];
 }
 
 @end

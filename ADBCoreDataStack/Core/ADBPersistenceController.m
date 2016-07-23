@@ -48,7 +48,18 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    if (![[self privateContext] hasChanges] && ![[self mainContext] hasChanges]) {
+    __block BOOL mainHasChanges = NO;
+    __block BOOL privateHasChanges = NO;
+    
+    [self.mainContext performBlockAndWait:^{
+        mainHasChanges = [self.mainContext hasChanges];
+    }];
+    
+    [self.privateContext performBlockAndWait:^{
+        privateHasChanges = [self.privateContext hasChanges];
+    }];
+    
+    if (!mainHasChanges && !privateHasChanges) {
         [promise setResult:@NO];
         return [promise future];
     }

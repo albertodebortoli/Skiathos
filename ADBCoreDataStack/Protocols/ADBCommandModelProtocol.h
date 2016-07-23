@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (JEFuture *)saveContext:(NSManagedObjectContext *)context;
 - (JEFuture *)saveToPersistentStore;
-- (JEFuture *)writeBlock:(void(^)(NSManagedObjectContext *localContext))changes;
+- (void)writeBlock:(void(^)(NSManagedObjectContext *))changes;
 
 @end
 

@@ -17,12 +17,17 @@
 + (instancetype)create;
 + (instancetype)createInContext:(NSManagedObjectContext *)context;
 
-- (JEFuture *)save; // from object's context down to disk
-- (JEFuture *)remove; // down to disk
-+ (JEFuture *)deleteAll; // down to disk
++ (NSUInteger)numberOfEntities; // main context
++ (NSUInteger)numberOfEntitiesWithPredicate:(NSPredicate *)searchTerm; // main context
+
+- (void)save; // from object's context down to disk
+- (void)remove; // down to disk
++ (void)deleteAll; // down to disk
 
 // Readings
-+ (JEFuture *)all; // main context
-+ (JEFuture *)first; // main context
++ (NSArray *)all; // main context
++ (NSArray *)allWithPredicate:(NSPredicate *)pred; // main context
++ (instancetype)first; // main context
++ (instancetype)firstWhereAttribute:(NSString *)attribute isEqualTo:(NSString *)value;
 
 @end

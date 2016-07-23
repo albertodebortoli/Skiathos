@@ -40,32 +40,26 @@
 - (void)showMeSomething
 {
     NSLog(@"Delete all");
-    [User deleteAll].continueWithSuccessTask(^JEFuture *(NSNumber *result) {
-        return [User all].continueWithSuccessTask(^JEFuture *(NSArray *allUsers) {
-            NSLog(@"All users: %@", allUsers);
-            return [JEFuture futureWithResult:allUsers];
-        });
-    }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
-        
-        User *user = [User create];
-        user.firstname = @"John";
-        user.lastname = @"Doe";
-        
-        NSLog(@"Save one");
-        return [user save];
-        
-    }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
-        return [User first].continueWithSuccessTask(^JEFuture *(User *user) {
-            NSLog(@"Fetch one");
-//            NSLog(@"%@ %@", user.firstname, user.lastname);
-            return [JEFuture futureWithResult:user];
-        });
-    }).continues(^(JEFuture *fut) {
-        [User all].continueOnMainQueue(^(JEFuture *fut) {
-            NSArray *allUsers = [fut result];
-            NSLog(@"All users: %@", allUsers);
-        });
-    });
+    
+    [User deleteAll];
+    
+    NSArray *allUsers = [User all];
+    NSLog(@"All users: %@", allUsers);
+    
+    User *user = [User create];
+    user.firstname = @"John";
+    user.lastname = @"Doe";
+    
+    NSLog(@"Save one");
+    [user save];
+    
+    User *user2 = [User first];
+    NSLog(@"Fetch one");
+    NSLog(@"%@ %@", user2.firstname, user2.lastname);
+    
+    NSArray *allUsers2 = [User all];
+    NSLog(@"All users: %@", allUsers2);
+    
 }
 
 @end

@@ -49,7 +49,7 @@
 + (instancetype)create
 {
     NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self.class)
-                                                        inManagedObjectContext:NSManagedObjectContext.child];
+                                                        inManagedObjectContext:NSManagedObjectContext.main];
     return mo;
 }
 
@@ -60,36 +60,40 @@
     return mo;
 }
 
-- (JEFuture *)save
++ (NSUInteger)numberOfEntities
 {
-    return [[ADBCoreDataStack sharedInstance].DALService saveContext:self.managedObjectContext];
+    NSFetchRequest *request = [self basicFetchRequest];
+    return [[ADBCoreDataStack sharedInstance].DALService countForFetchRequest:request];
 }
 
-- (JEFuture *)remove
++ (NSUInteger)numberOfEntitiesWithPredicate:(NSPredicate *)searchTerm
 {
-    return [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
-        
+    NSFetchRequest *request = [self basicFetchRequest];
+    [request setPredicate:searchTerm];
+    return [[ADBCoreDataStack sharedInstance].DALService countForFetchRequest:request];
+}
+
+- (void)save
+{
+    [[ADBCoreDataStack sharedInstance].DALService saveContext:self.managedObjectContext];
+}
+
+- (void)remove
+{
+    [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
         [localContext deleteObject:self];
-        
     }];
 }
 
-+ (JEFuture *)deleteAll
++ (void)deleteAll
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
-    __block NSError *error = nil;
-    
     [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
-        
-        NSManagedObjectContext *context = [ADBCoreDataStack sharedInstance].persistenceController.mainContext;
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
-                                                             inManagedObjectContext:context];
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+                
+        NSFetchRequest *request = [self basicFetchRequest];
         [request setReturnsObjectsAsFaults:YES];
         [request setIncludesPropertyValues:NO];
-        [request setEntity:entityDescription];
         
+        NSError *error = nil;
         NSArray *objectsToDelete = [localContext executeFetchRequest:request error:&error];
         
         if (!error) {
@@ -98,83 +102,61 @@
             }
         }
         
-    }].continues(^void(JEFuture *fut) {
-        
-        if (error) {
-            [promise setError:error];
-        }
-        else {
-            [promise setResult:@YES];
-        }
-    });
-    
-    return [promise future];
+    }];
 }
 
-+ (JEFuture *)all
++ (NSArray *)all
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
-                                                         inManagedObjectContext:NSManagedObjectContext.main];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
-    
-    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
-        
-        if (fut.hasError) {
-            [promise setError:fut.error];
-        }
-        else {
-            [promise setResult:fut.result];
-        }
-    });
-    
-    return [promise future];
+    NSFetchRequest *request = [self basicFetchRequest];
+    return [self _objectsForFetchRequest:request];
 }
 
-+ (JEFuture *)allWithPredicate:(NSPredicate *)searchTerm
++ (NSArray *)allWithPredicate:(NSPredicate *)pred
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
-                                                         inManagedObjectContext:NSManagedObjectContext.main];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
-    [request setPredicate:searchTerm];
+    NSFetchRequest *request = [self basicFetchRequest];
+    [request setPredicate:pred];
     
-    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
-        
-        if (fut.hasError) {
-            [promise setError:fut.error];
-        }
-        else {
-            [promise setResult:fut.result];
-        }
-    });
-    
-    return [promise future];
+    return [self _objectsForFetchRequest:request];
 }
 
-+ (JEFuture *)first
++ (instancetype)first
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
-                                                         inManagedObjectContext:NSManagedObjectContext.main];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
+    NSFetchRequest *request = [self basicFetchRequest];
     [request setFetchLimit:1];
     
-    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
-        
-        if (fut.hasError) {
-            [promise setError:fut.error];
-        }
-        else {
-            NSManagedObject *result = [fut.result firstObject];
-            [promise setResult:result];
-        }
-    });
+    return [self _firstObjectForFetchRequest:request];
+}
+
++ (instancetype)firstWhereAttribute:(NSString *)attribute isEqualTo:(NSString *)value
+{
+    NSFetchRequest *request = [self basicFetchRequest];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%K = %@", attribute, value]];
+    [request setFetchLimit:1];
     
-    return [promise future];
+    return [self _firstObjectForFetchRequest:request];
+}
+
+#pragma mark - Private
+
++ (NSFetchRequest *)basicFetchRequest
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
+                                                         inManagedObjectContext:NSManagedObjectContext.main];
+    [request setEntity:entityDescription];
+    return request;
+}
+
++ (NSArray *)_objectsForFetchRequest:(NSFetchRequest *)request
+{
+    NSArray *results = [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request];
+    return results;
+}
+
++ (NSManagedObject *)_firstObjectForFetchRequest:(NSFetchRequest *)request
+{
+    NSArray *results = [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request];
+    return [results firstObject];
 }
 
 @end
