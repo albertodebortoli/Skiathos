@@ -9,8 +9,6 @@
 // Frameworks
 #import <Foundation/Foundation.h>
 
-// Vendors
-#import <JustPromises/JustPromises.h>
 #import "ADBPersistenceProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN

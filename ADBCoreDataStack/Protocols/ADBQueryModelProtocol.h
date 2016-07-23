@@ -8,17 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import <JustPromises/JustPromises.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ADBQueryModelProtocol <NSObject>
 
-- (NSManagedObjectContext *)slaveContext;
-
 // Readings
 
-- (NSArray *)executeFetchRequest:(NSFetchRequest *)request;
+- (NSArray *)objectsFetchRequest:(NSFetchRequest *)fetchRequest;
+- (NSManagedObject *)objectFetchRequest:(NSFetchRequest *)fetchRequest;
+
 - (NSUInteger)countForFetchRequest:(NSFetchRequest *)request;
 
 @end

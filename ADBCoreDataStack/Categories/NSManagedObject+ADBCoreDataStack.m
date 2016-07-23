@@ -8,9 +8,6 @@
 
 #import "NSManagedObject+ADBCoreDataStack.h"
 
-// Vendors
-#import <JustPromises/JustPromises.h>
-
 // CoreDataStack
 #import "ADBCoreDataStack.h"
 #import "ADBDALService.h"
@@ -108,7 +105,7 @@
 + (NSArray *)all
 {
     NSFetchRequest *request = [self basicFetchRequest];
-    return [self _objectsForFetchRequest:request];
+    return [self adb_objectsForFetchRequest:request];
 }
 
 + (NSArray *)allWithPredicate:(NSPredicate *)pred
@@ -116,7 +113,7 @@
     NSFetchRequest *request = [self basicFetchRequest];
     [request setPredicate:pred];
     
-    return [self _objectsForFetchRequest:request];
+    return [self adb_objectsForFetchRequest:request];
 }
 
 + (instancetype)first
@@ -124,7 +121,7 @@
     NSFetchRequest *request = [self basicFetchRequest];
     [request setFetchLimit:1];
     
-    return [self _firstObjectForFetchRequest:request];
+    return [self adb_firstObjectForFetchRequest:request];
 }
 
 + (instancetype)firstWhereAttribute:(NSString *)attribute isEqualTo:(NSString *)value
@@ -133,7 +130,7 @@
     [request setPredicate:[NSPredicate predicateWithFormat:@"%K = %@", attribute, value]];
     [request setFetchLimit:1];
     
-    return [self _firstObjectForFetchRequest:request];
+    return [self adb_firstObjectForFetchRequest:request];
 }
 
 #pragma mark - Private
@@ -147,16 +144,16 @@
     return request;
 }
 
-+ (NSArray *)_objectsForFetchRequest:(NSFetchRequest *)request
++ (NSArray *)adb_objectsForFetchRequest:(NSFetchRequest *)request
 {
-    NSArray *results = [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request];
+    NSArray *results = [[ADBCoreDataStack sharedInstance].DALService objectsFetchRequest:request];
     return results;
 }
 
-+ (NSManagedObject *)_firstObjectForFetchRequest:(NSFetchRequest *)request
++ (NSManagedObject *)adb_firstObjectForFetchRequest:(NSFetchRequest *)request
 {
-    NSArray *results = [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request];
-    return [results firstObject];
+    NSManagedObject *object = [[ADBCoreDataStack sharedInstance].DALService objectFetchRequest:request];
+    return object;
 }
 
 @end

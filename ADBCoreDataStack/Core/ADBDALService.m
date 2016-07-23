@@ -8,7 +8,6 @@
 
 #import "ADBDALService.h"
 #import <CoreData/CoreData.h>
-#import <JustPromises/JustPromises.h>
 
 @interface ADBDALService ()
 
@@ -38,13 +37,22 @@
  *  3. execute the fetch request
  *  4. return the results if no error occurred
  */
-- (NSArray *)executeFetchRequest:(NSFetchRequest *)fetchRequest
+- (NSArray *)objectsFetchRequest:(NSFetchRequest *)fetchRequest
 {
     NSError *error;
     NSManagedObjectContext *main = self.persistenceController.mainContext;
     
     NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
     return results;
+}
+
+- (NSManagedObject *)objectFetchRequest:(NSFetchRequest *)fetchRequest
+{
+    NSError *error;
+    NSManagedObjectContext *main = self.persistenceController.mainContext;
+    
+    NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
+    return [results firstObject];
 }
 
 - (NSUInteger)countForFetchRequest:(NSFetchRequest *)request
@@ -55,28 +63,19 @@
 
 #pragma mark - ADBCommandModelProtocol
 
-- (JEFuture *)saveContext:(NSManagedObjectContext *)context
+- (void)saveContext:(NSManagedObjectContext *)context
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
     [context performBlock:^{
         
         NSError *error;
         [context save:&error];
         if (!error) {
-            [_persistenceController save].continues(^void(JEFuture *fut) {
-                [promise setResolutionOfFuture:fut];
-            });
-        }
-        else {
-            [promise setError:error];
+            [_persistenceController save:nil];
         }
     }];
-    
-    return [promise future];
 }
 
-- (JEFuture *)saveToPersistentStore
+- (void)saveToPersistentStore
 {
     return [self saveContext:self.persistenceController.slaveContext];
 }
@@ -101,15 +100,7 @@
         [_persistenceController.slaveContext save:&error];
         if (!error)
         {
-            [_persistenceController save].continues(^void(JEFuture *fut) {
-                if (fut.error) {
-                    // track error
-                }
-            });
-        }
-        else
-        {
-            // track error
+            [_persistenceController save:nil];
         }
     }];
 }

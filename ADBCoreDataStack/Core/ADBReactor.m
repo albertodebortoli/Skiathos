@@ -56,20 +56,20 @@
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-    [self persist];
+    [self persist:nil];
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification
 {
-    [self persist];
+    [self persist:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    [self persist];
+    [self persist:nil];
 }
 
-- (JEFuture *)persist
+- (void)persist:(void(^)(NSError *))handler
 {
     UIApplication *application = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
@@ -77,11 +77,10 @@
         bgTask = UIBackgroundTaskInvalid;
     }];
     
-    return [self.persistenceController save].continueWithTask(^JEFuture *(JEFuture *fut) {
+    return [self.persistenceController save:^(NSError *error) {
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
-        return [JEFuture futureWithResolutionOfFuture:fut];
-    });
+    }];
 }
 
 @end

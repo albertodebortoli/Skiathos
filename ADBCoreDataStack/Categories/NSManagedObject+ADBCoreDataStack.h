@@ -8,9 +8,6 @@
 
 #import <CoreData/CoreData.h>
 
-// Vendors
-#import <JustPromises/JustPromises.h>
-
 @interface NSManagedObject (ADBCoreDataStack)
 
 // Writings

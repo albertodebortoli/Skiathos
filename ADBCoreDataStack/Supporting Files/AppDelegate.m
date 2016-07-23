@@ -16,12 +16,6 @@
 #import "User.h"
 #import "Pet.h"
 
-// Plain Objects
-//#import "UserPO.h"
-
-// Vendors
-#import <JustPromises/JustPromises.h>
-
 // CoreDataStack
 #import "ADBCoreDataStack.h"
 
@@ -50,6 +44,8 @@
     user.firstname = @"John";
     user.lastname = @"Doe";
     
+    NSLog(@"Count: %li", [User numberOfEntities]);
+    
     NSLog(@"Save one");
     [user save];
     
@@ -57,6 +53,9 @@
     NSLog(@"Fetch one");
     NSLog(@"%@ %@", user2.firstname, user2.lastname);
     
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K = %@", @"firstname", @"John"];
+    NSLog(@"Count: %li", [User numberOfEntitiesWithPredicate:pred]);
+
     NSArray *allUsers2 = [User all];
     NSLog(@"All users: %@", allUsers2);
     

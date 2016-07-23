@@ -8,9 +8,6 @@
 
 #import "ADBPersistenceController.h"
 
-// Vendors
-#import <JustPromises/JustPromises.h>
-
 @interface ADBPersistenceController ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
@@ -44,10 +41,8 @@
 
 #pragma mark - ADBPersistenceProtocol
 
-- (JEFuture *)save
+- (void)save:(void(^)(NSError *error))handler;
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
     __block BOOL mainHasChanges = NO;
     __block BOOL privateHasChanges = NO;
     
@@ -60,8 +55,10 @@
     }];
     
     if (!mainHasChanges && !privateHasChanges) {
-        [promise setResult:@NO];
-        return [promise future];
+        if (handler) {
+            handler(nil);
+        }
+        return;
     }
     
     __weak typeof(self) weakSelf = self;
@@ -76,7 +73,9 @@
         NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", error.localizedDescription, error.userInfo);
         
         if (error) {
-            [promise setError:error];
+            if (handler) {
+                handler(error);
+            }
             return;
         }
         
@@ -90,15 +89,12 @@
             NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", privateContextError.localizedDescription, privateContextError.userInfo);
 
             if (error) {
-                [promise setError:error];
-            }
-            else {
-                [promise setResult:@(saveOnMainContextSucceeded && saveOnPrivateContextSucceeded)];
+                if (handler) {
+                    handler(error);
+                }
             }
         }];
     }];
-    
-    return [promise future];
 }
 
 #pragma mark - Private

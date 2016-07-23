@@ -8,18 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import <JustPromises/JustPromises.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ADBCommandModelProtocol <NSObject>
 
-- (NSManagedObjectContext *)slaveContext;
-
 // Writings
 
-- (JEFuture *)saveContext:(NSManagedObjectContext *)context;
-- (JEFuture *)saveToPersistentStore;
+- (void)saveContext:(NSManagedObjectContext *)context;
+- (void)saveToPersistentStore;
 - (void)writeBlock:(void(^)(NSManagedObjectContext *))changes;
 
 @end
