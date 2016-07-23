@@ -26,7 +26,7 @@
     [ADBJustEatCoreDataStack sharedInstance];
     [self showMeSomethingFromMainQueueStraight];
 //    [self showMeSomethingFromMainQueue];
-//    [self showMeSomethingFromBkgQueue];
+    [self showMeSomethingFromBkgQueue];
     
     return YES;
 }
