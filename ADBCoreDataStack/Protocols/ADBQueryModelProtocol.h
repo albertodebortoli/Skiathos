@@ -15,10 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Readings
 
-- (NSArray *)objectsFetchRequest:(NSFetchRequest *)fetchRequest;
-- (NSManagedObject *)objectFetchRequest:(NSFetchRequest *)fetchRequest;
-
-- (NSUInteger)countForFetchRequest:(NSFetchRequest *)request;
+- (void)read:(void(^)(NSManagedObjectContext *))changes;
 
 @end
 

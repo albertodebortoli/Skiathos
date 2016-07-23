@@ -9,24 +9,17 @@
 // Frameworks
 #import <Foundation/Foundation.h>
 
-// CoreDataStack Core
-
 // Protocols
 #import "ADBPersistenceProtocol.h"
 #import "ADBQueryModelProtocol.h"
 #import "ADBCommandModelProtocol.h"
 
-/*
- * This is a facade.
- * And a singleton.
- * 
- * I'm so proud of myself.
- */
 @interface ADBCoreDataStack : NSObject
 
 @property (nonatomic, readonly) id <ADBPersistenceProtocol> persistenceController;
 @property (nonatomic, readonly) id <ADBQueryModelProtocol, ADBCommandModelProtocol> DALService;
 
-+ (ADBCoreDataStack *)sharedInstance;
+- (instancetype)initWithPersistenceController:(id <ADBPersistenceProtocol>)persistenceController
+                                   dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService;
 
 @end

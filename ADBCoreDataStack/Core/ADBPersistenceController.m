@@ -34,9 +34,14 @@
     return self;
 }
 
-- (NSManagedObjectContext *)managedObjectContext
+- (NSManagedObjectContext *)currentThreadContext
 {
-    return _mainContext;
+    if ([NSThread isMainThread])
+    {
+        return _mainContext;
+    }
+    
+    return _slaveContext;
 }
 
 #pragma mark - ADBPersistenceProtocol

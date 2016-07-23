@@ -26,23 +26,14 @@ static ADBCoreDataStack *sharedInstance = nil;
 
 @implementation ADBCoreDataStack
 
-+ (ADBCoreDataStack *)sharedInstance
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] initTheWayWeWantIt];
-    });
-    
-    return sharedInstance;
-}
-
-- (instancetype)initTheWayWeWantIt
+- (instancetype)initWithPersistenceController:(id <ADBPersistenceProtocol>)persistenceController
+                                   dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService
 {
     self = [super init];
     if (self)
     {
-        _persistenceController = [[ADBPersistenceController alloc] initSQLiteStoreWithDataModelFileName:kDataModelFileName];
-        _DALService = [[ADBDALService alloc] initWithPersistenceController:_persistenceController];
+        _persistenceController = persistenceController;
+        _DALService = dalService;
         _reactor = [[ADBReactor alloc] initWithPersistenceController:_persistenceController];
         [_reactor initialize];
     }

@@ -15,9 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Writings
 
-- (void)saveContext:(NSManagedObjectContext *)context;
-- (void)saveToPersistentStore;
-- (void)writeBlock:(void(^)(NSManagedObjectContext *))changes;
+- (void)write:(void(^)(NSManagedObjectContext *))changes;
 
 @end
 
