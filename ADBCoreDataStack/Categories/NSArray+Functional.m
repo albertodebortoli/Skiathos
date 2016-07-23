@@ -10,7 +10,7 @@
 
 @implementation NSArray (Functional)
 
-- (NSArray *)mapUsingBlock:(MapBlock )block
+- (NSArray *)mapUsingBlock:(MapBlock)block
 {
     NSMutableArray *a = [NSMutableArray arrayWithCapacity:[self count]];
     for (id o in self)

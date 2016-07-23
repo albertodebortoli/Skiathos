@@ -14,4 +14,8 @@
 #import "ADBReactor.h"
 #import "ADBCoreDataStack.h"
 
+// Categories
+#import "NSManagedObjectContext+JEAdditions.h"
+#import "NSManagedObject+ADBCoreDataStack.h"
+
 #endif /* ADBCoreDataStack_h */

@@ -13,7 +13,6 @@
 @interface ADBDALService ()
 
 @property (nonatomic, strong) id<ADBPersistenceProtocol> persistenceController;
-@property (nonatomic, strong) NSManagedObjectContext *slave;
 
 @end
 
@@ -27,13 +26,11 @@
     if (self)
     {
         _persistenceController = persistenceController;
-        _slave = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_slave setParentContext:[_persistenceController managedObjectContext]];
     }
     return self;
 }
 
-#pragma mark - ADBDataAccessLayerProtocol
+#pragma mark - ADBQueryModelProtocol
 
 /**
  *  1. always use the main context
@@ -45,18 +42,16 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    NSManagedObjectContext *main = [self.persistenceController managedObjectContext];
+    NSManagedObjectContext *main = self.persistenceController.mainContext;
     
     [main performBlock:^{
         NSError *error;
         NSArray *results = [main executeFetchRequest:fetchRequest error:&error];
         
-        if (error)
-        {
+        if (error) {
             [promise setError:error];
         }
-        else
-        {
+        else {
             [promise setResult:results];
         }
     }];
@@ -68,23 +63,49 @@
 {
     JEPromise *promise = [[JEPromise alloc] init];
     
-    NSManagedObjectContext *main = [self.persistenceController managedObjectContext];
+    NSManagedObjectContext *main = self.persistenceController.mainContext;
     
     [main performBlock:^{
         NSError *error;
         NSUInteger result = [main countForFetchRequest:request error:&error];
         
-        if (error)
-        {
+        if (error) {
             [promise setError:error];
         }
-        else
-        {
+        else {
             [promise setResult:@(result)];
         }
     }];
     
     return [promise future];
+}
+
+#pragma mark - ADBCommandModelProtocol
+
+- (JEFuture *)saveContext:(NSManagedObjectContext *)context
+{
+    JEPromise *promise = [[JEPromise alloc] init];
+    
+    [context performBlock:^{
+        
+        NSError *error;
+        [context save:&error];
+        if (!error) {
+            [self.persistenceController save].continues(^void(JEFuture *fut) {
+                [promise setResolutionOfFuture:fut];
+            });
+        }
+        else {
+            [promise setError:error];
+        }
+    }];
+    
+    return [promise future];
+}
+
+- (JEFuture *)saveToPersistentStore
+{
+    return [self saveContext:self.persistenceController.slaveContext];
 }
 
 /**
@@ -101,15 +122,15 @@
     
     JEPromise *promise = [[JEPromise alloc] init];
     
-    [self.slave performBlock:^{
+    [self.persistenceController.slaveContext performBlock:^{
         
-        changes(self.slave);
+        changes(_persistenceController.slaveContext);
         
         NSError *error;
-        [_slave save:&error];
+        [_persistenceController.slaveContext save:&error];
         if (!error)
         {
-            [self.persistenceController save].continues(^void(JEFuture *fut) {
+            [_persistenceController save].continues(^void(JEFuture *fut) {
                 [promise setResolutionOfFuture:fut];
             });
         }

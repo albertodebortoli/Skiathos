@@ -13,9 +13,16 @@
 
 @interface NSManagedObject (ADBCoreDataStack)
 
-+ (JEFuture *)all;
-+ (JEFuture *)first;
-+ (JEFuture *)save:(NSArray *)plainObjects;
-+ (JEFuture *)deleteAll;
+// Writings
++ (instancetype)create;
++ (instancetype)createInContext:(NSManagedObjectContext *)context;
+
+- (JEFuture *)save; // from object's context down to disk
+- (JEFuture *)remove; // down to disk
++ (JEFuture *)deleteAll; // down to disk
+
+// Readings
++ (JEFuture *)all; // main context
++ (JEFuture *)first; // main context
 
 @end

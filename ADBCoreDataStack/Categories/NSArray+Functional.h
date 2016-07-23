@@ -10,7 +10,7 @@
 
 typedef id(^MapBlock)(id obj);
 
-typedef BOOL (^FilterBlock)(id obj);
+typedef BOOL(^FilterBlock)(id obj);
 
 @interface NSArray (Functional)
 

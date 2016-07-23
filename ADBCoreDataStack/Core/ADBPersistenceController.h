@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ADBPersistenceController : NSObject <ADBPersistenceProtocol>
 
-@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
-
 /**
  *  These methods initialize a Core Data stack. dataModelFileName must be the name of the xcdatamodeld file.
  *  The first version is synchronous and creates the entire stack before returning.

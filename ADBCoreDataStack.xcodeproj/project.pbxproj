@@ -8,18 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		4F13A10D1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F13A10C1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m */; };
-		4F13A1121C0B74D5002F3DC3 /* ISVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F13A10F1C0B74D5002F3DC3 /* ISVar.m */; };
-		4F13A1131C0B74D5002F3DC3 /* NSObject+Introspecta.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F13A1111C0B74D5002F3DC3 /* NSObject+Introspecta.m */; };
 		4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43F2501B67DFC800A03939 /* CoreData.framework */; };
+		4F87039A1D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8703991D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.m */; };
 		4FE2E8B81BF933D800580749 /* NSArray+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8961BF933D800580749 /* NSArray+Functional.m */; };
 		4FE2E8B91BF933D800580749 /* ADBReactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8991BF933D800580749 /* ADBReactor.m */; };
 		4FE2E8BA1BF933D800580749 /* ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89B1BF933D800580749 /* ADBCoreDataStack.m */; };
 		4FE2E8BB1BF933D800580749 /* ADBDALService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89D1BF933D800580749 /* ADBDALService.m */; };
 		4FE2E8BC1BF933D800580749 /* ADBPersistenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E89F1BF933D800580749 /* ADBPersistenceController.m */; };
 		4FE2E8C11BF933D800580749 /* Pet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8A71BF933D800580749 /* Pet.m */; };
-		4FE2E8C21BF933D800580749 /* User+PO.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8A91BF933D800580749 /* User+PO.m */; };
 		4FE2E8C31BF933D800580749 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8AB1BF933D800580749 /* User.m */; };
-		4FE2E8C41BF933D800580749 /* UserPO.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8AE1BF933D800580749 /* UserPO.m */; };
 		4FE2E8C51BF933D800580749 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8B31BF933D800580749 /* ViewController.m */; };
 		4FE2E8D01BF9341300580749 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8CB1BF9341300580749 /* AppDelegate.m */; };
 		4FE2E8D31BF9341300580749 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8CF1BF9341300580749 /* main.m */; };
@@ -47,15 +44,15 @@
 		4F0501291D3F7F1800B51BE4 /* ADBPersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBPersistence.h; sourceTree = "<group>"; };
 		4F13A10B1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ADBCoreDataStack.h"; sourceTree = "<group>"; };
 		4F13A10C1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+ADBCoreDataStack.m"; sourceTree = "<group>"; };
-		4F13A10E1C0B74D5002F3DC3 /* ISVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVar.h; sourceTree = "<group>"; };
-		4F13A10F1C0B74D5002F3DC3 /* ISVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVar.m; sourceTree = "<group>"; };
-		4F13A1101C0B74D5002F3DC3 /* NSObject+Introspecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Introspecta.h"; sourceTree = "<group>"; };
-		4F13A1111C0B74D5002F3DC3 /* NSObject+Introspecta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Introspecta.m"; sourceTree = "<group>"; };
 		4F186A911B75560E007E0091 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4F186AA91B7601F1007E0091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4F43F2271B67DFBE00A03939 /* ADBCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADBCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2401B67DFBE00A03939 /* ADBCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADBCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4F8703981D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+JEAdditions.h"; sourceTree = "<group>"; };
+		4F8703991D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+JEAdditions.m"; sourceTree = "<group>"; };
+		4F87039B1D43672200AAF71C /* ADBCommandModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBCommandModelProtocol.h; sourceTree = "<group>"; };
+		4F87039C1D43672200AAF71C /* ADBQueryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBQueryModelProtocol.h; sourceTree = "<group>"; };
 		4FE2E8951BF933D800580749 /* NSArray+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Functional.h"; sourceTree = "<group>"; };
 		4FE2E8961BF933D800580749 /* NSArray+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Functional.m"; sourceTree = "<group>"; };
 		4FE2E8981BF933D800580749 /* ADBReactor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBReactor.h; sourceTree = "<group>"; };
@@ -68,13 +65,8 @@
 		4FE2E89F1BF933D800580749 /* ADBPersistenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBPersistenceController.m; sourceTree = "<group>"; };
 		4FE2E8A61BF933D800580749 /* Pet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pet.h; sourceTree = "<group>"; };
 		4FE2E8A71BF933D800580749 /* Pet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pet.m; sourceTree = "<group>"; };
-		4FE2E8A81BF933D800580749 /* User+PO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+PO.h"; sourceTree = "<group>"; };
-		4FE2E8A91BF933D800580749 /* User+PO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+PO.m"; sourceTree = "<group>"; };
 		4FE2E8AA1BF933D800580749 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4FE2E8AB1BF933D800580749 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		4FE2E8AD1BF933D800580749 /* UserPO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPO.h; sourceTree = "<group>"; };
-		4FE2E8AE1BF933D800580749 /* UserPO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPO.m; sourceTree = "<group>"; };
-		4FE2E8B01BF933D800580749 /* ADBDataAccessLayerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBDataAccessLayerProtocol.h; sourceTree = "<group>"; };
 		4FE2E8B11BF933D800580749 /* ADBPersistenceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBPersistenceProtocol.h; sourceTree = "<group>"; };
 		4FE2E8B21BF933D800580749 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4FE2E8B31BF933D800580749 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -147,7 +139,6 @@
 				4FE2E8921BF933D800580749 /* Categories */,
 				4FE2E8971BF933D800580749 /* Core */,
 				4FE2E8A51BF933D800580749 /* MOs */,
-				4FE2E8AC1BF933D800580749 /* POs */,
 				4FE2E8AF1BF933D800580749 /* Protocols */,
 				4FE2E8C91BF9341300580749 /* Supporting Files */,
 				4FE2E8B21BF933D800580749 /* ViewController.h */,
@@ -159,12 +150,10 @@
 		4FE2E8921BF933D800580749 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				4F13A10E1C0B74D5002F3DC3 /* ISVar.h */,
-				4F13A10F1C0B74D5002F3DC3 /* ISVar.m */,
-				4F13A1101C0B74D5002F3DC3 /* NSObject+Introspecta.h */,
-				4F13A1111C0B74D5002F3DC3 /* NSObject+Introspecta.m */,
 				4F13A10B1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.h */,
 				4F13A10C1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m */,
+				4F8703981D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.h */,
+				4F8703991D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.m */,
 				4FE2E8951BF933D800580749 /* NSArray+Functional.h */,
 				4FE2E8961BF933D800580749 /* NSArray+Functional.m */,
 			);
@@ -191,27 +180,17 @@
 			children = (
 				4FE2E8A61BF933D800580749 /* Pet.h */,
 				4FE2E8A71BF933D800580749 /* Pet.m */,
-				4FE2E8A81BF933D800580749 /* User+PO.h */,
-				4FE2E8A91BF933D800580749 /* User+PO.m */,
 				4FE2E8AA1BF933D800580749 /* User.h */,
 				4FE2E8AB1BF933D800580749 /* User.m */,
 			);
 			path = MOs;
 			sourceTree = "<group>";
 		};
-		4FE2E8AC1BF933D800580749 /* POs */ = {
-			isa = PBXGroup;
-			children = (
-				4FE2E8AD1BF933D800580749 /* UserPO.h */,
-				4FE2E8AE1BF933D800580749 /* UserPO.m */,
-			);
-			path = POs;
-			sourceTree = "<group>";
-		};
 		4FE2E8AF1BF933D800580749 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				4FE2E8B01BF933D800580749 /* ADBDataAccessLayerProtocol.h */,
+				4F87039C1D43672200AAF71C /* ADBQueryModelProtocol.h */,
+				4F87039B1D43672200AAF71C /* ADBCommandModelProtocol.h */,
 				4FE2E8B11BF933D800580749 /* ADBPersistenceProtocol.h */,
 			);
 			path = Protocols;
@@ -392,17 +371,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F13A1131C0B74D5002F3DC3 /* NSObject+Introspecta.m in Sources */,
 				4FE2E8C51BF933D800580749 /* ViewController.m in Sources */,
 				4F13A10D1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m in Sources */,
 				4FE2E8BC1BF933D800580749 /* ADBPersistenceController.m in Sources */,
-				4F13A1121C0B74D5002F3DC3 /* ISVar.m in Sources */,
-				4FE2E8C41BF933D800580749 /* UserPO.m in Sources */,
+				4F87039A1D42AE4300AAF71C /* NSManagedObjectContext+JEAdditions.m in Sources */,
 				4FE2E8E21BF9347200580749 /* DataModel.xcdatamodeld in Sources */,
 				4FE2E8BA1BF933D800580749 /* ADBCoreDataStack.m in Sources */,
 				4FE2E8BB1BF933D800580749 /* ADBDALService.m in Sources */,
 				4FE2E8B91BF933D800580749 /* ADBReactor.m in Sources */,
-				4FE2E8C21BF933D800580749 /* User+PO.m in Sources */,
 				4FE2E8C31BF933D800580749 /* User.m in Sources */,
 				4FE2E8D31BF9341300580749 /* main.m in Sources */,
 				4FE2E8B81BF933D800580749 /* NSArray+Functional.m in Sources */,

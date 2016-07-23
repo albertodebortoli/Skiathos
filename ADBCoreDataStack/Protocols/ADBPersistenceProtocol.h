@@ -14,7 +14,9 @@
 
 @protocol ADBPersistenceProtocol <NSObject>
 
-- (NSManagedObjectContext *)managedObjectContext;
+@property (nonatomic, readonly) NSManagedObjectContext *mainContext;
+@property (nonatomic, readonly) NSManagedObjectContext *privateContext;
+@property (nonatomic, readonly) NSManagedObjectContext *slaveContext;
 
 - (JEFuture *)save;
 

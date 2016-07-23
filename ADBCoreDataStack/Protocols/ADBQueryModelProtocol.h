@@ -1,5 +1,5 @@
 //
-//  ADBDataAccessLayerProtocol.h
+//  ADBQueryModelProtocol.h
 //  ADBCoreDataStack
 //
 //  Created by Alberto De Bortoli on 15/11/2015.
@@ -12,16 +12,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ADBDataAccessLayerProtocol <NSObject>
+@protocol ADBQueryModelProtocol <NSObject>
+
+- (NSManagedObjectContext *)slaveContext;
 
 // Readings
 
 - (JEFuture *)executeFetchRequest:(NSFetchRequest *)request;
 - (JEFuture *)countForFetchRequest:(NSFetchRequest *)request;
-
-// Writings
-
-- (JEFuture *)writeBlock:(void(^)(NSManagedObjectContext *localContext))changes;
 
 @end
 

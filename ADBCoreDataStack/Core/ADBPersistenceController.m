@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *slaveContext;
 
 @end
 
@@ -106,9 +107,11 @@
     
     [self setMainContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType]];
     
-    [self setPrivateContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType]];
-    [self.privateContext setPersistentStoreCoordinator:coordinator];
-    [self.mainContext setParentContext:[self privateContext]];
+    self.privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    self.privateContext.persistentStoreCoordinator = coordinator;
+    self.mainContext.parentContext = self.privateContext;
+    self.slaveContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [self.slaveContext setParentContext:self.mainContext];
     
     void (^privateContextSetupBlock)() = ^{
         NSPersistentStoreCoordinator *psc = [[self privateContext] persistentStoreCoordinator];

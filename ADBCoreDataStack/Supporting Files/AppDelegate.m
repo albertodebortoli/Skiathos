@@ -10,13 +10,14 @@
 
 // Categories
 #import "NSManagedObject+ADBCoreDataStack.h"
+#import "NSManagedObjectContext+JEAdditions.h"
 
 // Managed Objects
 #import "User.h"
 #import "Pet.h"
 
 // Plain Objects
-#import "UserPO.h"
+//#import "UserPO.h"
 
 // Vendors
 #import <JustPromises/JustPromises.h>
@@ -31,6 +32,7 @@
     // to initialize the stack
     [ADBCoreDataStack sharedInstance];
     [self showMeSomething];
+    [self showMeSomething];
     
     return YES;
 }
@@ -44,17 +46,19 @@
             return [JEFuture futureWithResult:allUsers];
         });
     }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
-        UserPO *userPO = [UserPO userWithBlock:^(UserPOBuilder *builder) {
-            builder.firstname = @"John";
-            builder.lastname = @"Doe";
-        }];
+        
+        User *user = [User create];
+        user.firstname = @"John";
+        user.lastname = @"Doe";
+        
         NSLog(@"Save one");
-        return [User save:@[userPO]];
+        return [user save];
+        
     }).continueWithSuccessTask(^JEFuture *(NSNumber *result) {
-        return [User first].continueWithSuccessTask(^JEFuture *(UserPO *userPO) {
+        return [User first].continueWithSuccessTask(^JEFuture *(User *user) {
             NSLog(@"Fetch one");
-            NSLog(@"%@ %@", userPO.firstname, userPO.lastname);
-            return [JEFuture futureWithResult:userPO];
+//            NSLog(@"%@ %@", user.firstname, user.lastname);
+            return [JEFuture futureWithResult:user];
         });
     }).continues(^(JEFuture *fut) {
         [User all].continueOnMainQueue(^(JEFuture *fut) {

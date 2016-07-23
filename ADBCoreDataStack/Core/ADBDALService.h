@@ -11,11 +11,12 @@
 
 // Protocols
 #import "ADBPersistenceProtocol.h"
-#import "ADBDataAccessLayerProtocol.h"
+#import "ADBQueryModelProtocol.h"
+#import "ADBCommandModelProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ADBDALService : NSObject <ADBDataAccessLayerProtocol>
+@interface ADBDALService : NSObject <ADBQueryModelProtocol, ADBCommandModelProtocol>
 
 - (instancetype)initWithPersistenceController:(id<ADBPersistenceProtocol>)persistenceController;
 

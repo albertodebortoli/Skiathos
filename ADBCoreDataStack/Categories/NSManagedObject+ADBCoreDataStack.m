@@ -18,92 +18,60 @@
 
 // Categories
 #import "NSArray+Functional.h"
-#import "NSManagedObject+ADBCoreDataStack.h"
-#import "NSObject+Introspecta.h"
+#import "NSManagedObjectContext+JEAdditions.h"
 
 @implementation NSManagedObject (ADBCoreDataStack)
 
 #pragma mark - Public
 
-+ (JEFuture *)all
+- (instancetype)inContext:(NSManagedObjectContext *)otherContext
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
-                                                         inManagedObjectContext:[ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
+    NSError *error = nil;
     
-    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
-        
-        if (fut.hasError)
+    if ([[self objectID] isTemporaryID])
+    {
+        BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
+        if (!success)
         {
-            [promise setError:fut.error];
+//            [MagicalRecord handleErrors:error];
+            return nil;
         }
-        else
-        {
-            NSArray *results = [fut result];
-            NSArray *pos = [results mapUsingBlock:^id(NSManagedObject *mo) {
-                return [mo po];
-            }];
-            [promise setResult:pos];
-        }
-    });
+    }
     
-    return [promise future];
+    error = nil;
+    
+    NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
+//    [MagicalRecord handleErrors:error];
+    
+    return inContext;
 }
 
-+ (JEFuture *)first
++ (instancetype)create
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
-                                                         inManagedObjectContext:[ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
-    [request setFetchLimit:1];
-    
-    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
-        
-        if (fut.hasError)
-        {
-            [promise setError:fut.error];
-        }
-        else
-        {
-            NSManagedObject *result = [[fut result] firstObject];
-            [promise setResult:[result po]];
-        }
-    });
-    
-    return [promise future];
+    NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self.class)
+                                                        inManagedObjectContext:NSManagedObjectContext.child];
+    return mo;
 }
 
-+ (JEFuture *)save:(NSArray *)plainObjects
++ (instancetype)createInContext:(NSManagedObjectContext *)context
 {
-    JEPromise *promise = [[JEPromise alloc] init];
-    
-    [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext *localContext) {
+    NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self.class)
+                                                        inManagedObjectContext:context];
+    return mo;
+}
+
+- (JEFuture *)save
+{
+    return [[ADBCoreDataStack sharedInstance].DALService saveContext:self.managedObjectContext];
+}
+
+- (JEFuture *)remove
+{
+    return [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
         
-        for (NSObject *plainObject in plainObjects)
-        {
-            NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([self class]) inManagedObjectContext:localContext];
-            
-            [[plainObject cocoaSerialization] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                NSString *selecterString = [NSString stringWithFormat:@"set%@:", [key capitalizedString]];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                if ([mo respondsToSelector:NSSelectorFromString(selecterString)]) {
-                    [mo performSelector:NSSelectorFromString(selecterString) withObject:obj];
-                }
-#pragma clang diagnostic pop
-            }];
-        }
+        [localContext deleteObject:self];
         
-    }].continues(^void(JEFuture *fut) {
-        
-        [promise setResolutionOfFuture:fut];
-    });
-    
-    return [promise future];
+    }];
 }
 
 + (JEFuture *)deleteAll
@@ -114,8 +82,8 @@
     
     [[ADBCoreDataStack sharedInstance].DALService writeBlock:^(NSManagedObjectContext * _Nonnull localContext) {
         
-        NSManagedObjectContext *context = [ADBCoreDataStack sharedInstance].persistenceController.managedObjectContext;
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([self class])
+        NSManagedObjectContext *context = [ADBCoreDataStack sharedInstance].persistenceController.mainContext;
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
                                                              inManagedObjectContext:context];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setReturnsObjectsAsFaults:YES];
@@ -129,6 +97,7 @@
                 [localContext deleteObject:objectToDelete];
             }
         }
+        
     }].continues(^void(JEFuture *fut) {
         
         if (error) {
@@ -142,11 +111,70 @@
     return [promise future];
 }
 
-#pragma mark - Private
-
-- (id)po
++ (JEFuture *)all
 {
-    return nil;
+    JEPromise *promise = [[JEPromise alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
+                                                         inManagedObjectContext:NSManagedObjectContext.main];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+        
+        if (fut.hasError) {
+            [promise setError:fut.error];
+        }
+        else {
+            [promise setResult:fut.result];
+        }
+    });
+    
+    return [promise future];
+}
+
++ (JEFuture *)allWithPredicate:(NSPredicate *)searchTerm
+{
+    JEPromise *promise = [[JEPromise alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
+                                                         inManagedObjectContext:NSManagedObjectContext.main];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    [request setPredicate:searchTerm];
+    
+    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+        
+        if (fut.hasError) {
+            [promise setError:fut.error];
+        }
+        else {
+            [promise setResult:fut.result];
+        }
+    });
+    
+    return [promise future];
+}
+
++ (JEFuture *)first
+{
+    JEPromise *promise = [[JEPromise alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass(self.class)
+                                                         inManagedObjectContext:NSManagedObjectContext.main];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    [request setFetchLimit:1];
+    
+    [[ADBCoreDataStack sharedInstance].DALService executeFetchRequest:request].continueOnMainQueue(^(JEFuture *fut) {
+        
+        if (fut.hasError) {
+            [promise setError:fut.error];
+        }
+        else {
+            NSManagedObject *result = [fut.result firstObject];
+            [promise setResult:result];
+        }
+    });
+    
+    return [promise future];
 }
 
 @end

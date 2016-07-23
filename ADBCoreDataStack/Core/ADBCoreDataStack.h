@@ -13,7 +13,8 @@
 
 // Protocols
 #import "ADBPersistenceProtocol.h"
-#import "ADBDataAccessLayerProtocol.h"
+#import "ADBQueryModelProtocol.h"
+#import "ADBCommandModelProtocol.h"
 
 /*
  * This is a facade.
@@ -24,7 +25,7 @@
 @interface ADBCoreDataStack : NSObject
 
 @property (nonatomic, readonly) id <ADBPersistenceProtocol> persistenceController;
-@property (nonatomic, readonly) id <ADBDataAccessLayerProtocol> DALService;
+@property (nonatomic, readonly) id <ADBQueryModelProtocol, ADBCommandModelProtocol> DALService;
 
 + (ADBCoreDataStack *)sharedInstance;
 
