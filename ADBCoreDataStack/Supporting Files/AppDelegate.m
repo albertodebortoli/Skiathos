@@ -25,14 +25,8 @@
     // to initialize the stack
     [ADBJustEatCoreDataStack sharedInstance];
     [self showMeSomethingFromMainQueueStraight];
-    [self showMeSomethingFromMainQueueStraight];
-    [self showMeSomethingFromMainQueueStraight];
 //    [self showMeSomethingFromMainQueue];
-//    [self showMeSomethingFromMainQueue];
-//    [self showMeSomethingFromMainQueue];
-    [self showMeSomethingFromBkgQueue];
-    [self showMeSomethingFromBkgQueue];
-    [self showMeSomethingFromBkgQueue];
+//    [self showMeSomethingFromBkgQueue];
     
     return YES;
 }

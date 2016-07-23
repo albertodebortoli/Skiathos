@@ -13,8 +13,6 @@
 
 @property (nonatomic, readonly) NSManagedObjectContext *mainContext;
 @property (nonatomic, readonly) NSManagedObjectContext *privateContext;
-@property (nonatomic, readonly) NSManagedObjectContext *slaveContext;
-@property (nonatomic, readonly) NSManagedObjectContext *currentThreadContext;
 
 - (void)save:(void(^)(NSError *error))handler;
 

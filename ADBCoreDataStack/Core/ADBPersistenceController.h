@@ -13,6 +13,11 @@
 // Protocols
 #import "ADBPersistenceProtocol.h"
 
+typedef NS_ENUM(NSUInteger, ADBStoreType) {
+    ADBStoreTypeSQLite,
+    ADBStoreTypeInMemory
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ADBPersistenceController : NSObject <ADBPersistenceProtocol>
@@ -23,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  The second one creates the persistent store in background and the callback is called asynchronously.
  *  If the callback parameter is nil, the second method behaves like the first one.
  */
-- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName;
-- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^__nullable)(void))callback;
+- (id)initWithStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName;
+- (id)initWithStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName callback:(void(^__nullable)(void))callback;
 
 @end
 

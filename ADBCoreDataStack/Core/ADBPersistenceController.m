@@ -12,36 +12,25 @@
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
-@property (nonatomic, strong, readwrite) NSManagedObjectContext *slaveContext;
 
 @end
 
 @implementation ADBPersistenceController
 
-- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName
+- (id)initWithStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName
 {
-    return [self initSQLiteStoreWithDataModelFileName:dataModelFileName callback:nil];
+    return [self initWithStoreType:storeType dataModelFileName:dataModelFileName callback:nil];
 }
 
-- (id)initSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName  callback:(void(^)(void))callback
+- (id)initWithStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName callback:(void(^)(void))callback
 {
     self = [super init];
     if (self)
     {
-        [self _initializeSQLiteStoreWithDataModelFileName:dataModelFileName callback:callback];
+        [self _initializeStoreType:storeType dataModelFileName:dataModelFileName callback:callback];
     }
     
     return self;
-}
-
-- (NSManagedObjectContext *)currentThreadContext
-{
-    if ([NSThread isMainThread])
-    {
-        return _mainContext;
-    }
-    
-    return _slaveContext;
 }
 
 #pragma mark - ADBPersistenceProtocol
@@ -104,7 +93,7 @@
 
 #pragma mark - Private
 
-- (void)_initializeSQLiteStoreWithDataModelFileName:(NSString *)dataModelFileName callback:(void(^)(void))callback
+- (void)_initializeStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName callback:(void(^)(void))callback
 {
     NSParameterAssert(dataModelFileName);
     
@@ -122,22 +111,18 @@
     self.privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     self.privateContext.persistentStoreCoordinator = coordinator;
     self.mainContext.parentContext = self.privateContext;
-    self.slaveContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [self.slaveContext setParentContext:self.mainContext];
     
     void (^privateContextSetupBlock)() = ^{
         NSPersistentStoreCoordinator *psc = [[self privateContext] persistentStoreCoordinator];
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        options[NSMigratePersistentStoresAutomaticallyOption] = @YES;
-        options[NSInferMappingModelAutomaticallyOption] = @YES;
-        options[NSSQLitePragmasOption] = @{ @"journal_mode":@"DELETE" };
         
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-        NSURL *storeURL = [documentsURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", dataModelFileName]];
-        
-        NSError *error = nil;
-        NSAssert([psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error], @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
+        switch (storeType) {
+            case ADBStoreTypeSQLite:
+                [[self class] adb_addSQLiteStoreToCoordinator:psc dataModelFileName:dataModelFileName];
+                break;
+            case ADBStoreTypeInMemory:
+                [[self class] adb_addInMemoryStoreToCoordinator:psc];
+                break;
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (callback)
@@ -157,6 +142,44 @@
     {
         privateContextSetupBlock();
     }
+}
+
+#pragma mark - Private
+
++ (void)adb_addSQLiteStoreToCoordinator:(NSPersistentStoreCoordinator *)psc dataModelFileName:(NSString *)dataModelFileName
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [documentsURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", dataModelFileName]];
+    NSDictionary *options = [self adb_autoMigratingOptions];
+    
+    NSError *error = nil;
+    NSAssert([psc addPersistentStoreWithType:NSSQLiteStoreType
+                               configuration:nil
+                                         URL:storeURL
+                                     options:options
+                                       error:&error], @"Error adding Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
+    
+}
+
++ (void)adb_addInMemoryStoreToCoordinator:(NSPersistentStoreCoordinator *)psc
+{
+    NSError *error = nil;
+    NSAssert([psc addPersistentStoreWithType:NSInMemoryStoreType
+                               configuration:nil
+                                         URL:nil
+                                     options:nil
+                                       error:&error], @"Error initializing Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
+}
+
++ (NSDictionary *)adb_autoMigratingOptions;
+{
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    options[NSMigratePersistentStoresAutomaticallyOption] = @YES;
+    options[NSInferMappingModelAutomaticallyOption] = @YES;
+    options[NSSQLitePragmasOption] = @{ @"journal_mode":@"WAL" };
+    
+    return options;
 }
 
 @end

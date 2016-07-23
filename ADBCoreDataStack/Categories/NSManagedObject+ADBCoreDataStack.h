@@ -14,7 +14,6 @@
 + (instancetype)createInContext:(NSManagedObjectContext *)context;
 + (NSUInteger)numberOfEntitiesInContext:(NSManagedObjectContext *)context;
 + (NSUInteger)numberOfEntitiesWithPredicate:(NSPredicate *)searchTerm inContext:(NSManagedObjectContext *)context;
-- (void)saveInContext:(NSManagedObjectContext *)context;
 - (void)removeInContext:(NSManagedObjectContext *)context;
 + (void)deleteAllInContext:(NSManagedObjectContext *)context;
 + (NSArray *)allInContext:(NSManagedObjectContext *)context;
