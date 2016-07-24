@@ -10,16 +10,17 @@ Databases are all about readings and writings and for this reason our APIs are i
 The stack used by this component is the one described [here](http://martiancraft.com/blog/2015/03/core-data-stack/) by Marcus Zarra.
 
 ```
-Persistent Store Coordinator
-            ^
-            |
-Private Context (NSPrivateQueueConcurrencyType)
-            ^
-            |
-Main Context (NSMainQueueConcurrencyType)
-            ^
-            |
-Slave Contexts (NSPrivateQueueConcurrencyType)
+                                Persistent Store Coordinator
+                                               ^
+                                               |
+                       Private Context (NSPrivateQueueConcurrencyType)
+                                               ^
+                                               |
+                           Main Context (NSMainQueueConcurrencyType)
+             ^                                 ^                                  ^
+             |                                 |                                  |
+     Slave Contexts                    Slave Contexts                     Slave Contexts
+(NSPrivateQueueConcurrencyType)   (NSPrivateQueueConcurrencyType)    (NSPrivateQueueConcurrencyType)
 ```
 
 The basic design involves a few main components:
@@ -37,11 +38,12 @@ The main context should be the source of truth and is tied to your UI, having a 
 ## Thread safery
 
 All the accesses to the persistence layer should be done via the DALService and are guaranteed to be thread-safe.
-It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 1` in your project to make sure that the you don't misuse Core Data in terms of threading and concurrency (by accessing managed objects from different threads and similar errors). 
-We don't want to consider creating interfaces to hide the concepts of managed object context: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level.
-Therefore the design forces us to make all the readings and writings via JustPersistence and the ManagedObject category methods are intended to always be explicit on the context (e.g. `[User createInContext:context];`).
+It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 1` in your project to make sure that the you don't misuse Core Data in terms of threading and concurrency (by accessing managed objects from different threads and similar errors).
 
-Readings happen to the main context, while writings happen to the slave one and changes are always saved back to the persistence store asynchronously without blocking the UI.
+We don't want to consider creating interfaces to hide the concept of `ManagedObjectContext`: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level (that would be ignoring the benefits that Core Data gives to us).
+Therefore, the design of JustPersistence forces us to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `createInContext:`).
+
+Readings happen to the main context, while writings happen to the slave one and changes are always saved back to the persistence store asynchronously without blocking the main thread.
 
 ## Show me the code
 
@@ -109,3 +111,5 @@ JustPersistence writing:
 
 - Error handling
 - Complete Active Record interface
+- Tests
+- Swift version
