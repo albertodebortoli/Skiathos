@@ -62,13 +62,13 @@
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) return;
         
-        NSError *error = nil;
-        BOOL saveOnMainContextSucceeded = [strongSelf.mainContext save:&error];
-        NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", error.localizedDescription, error.userInfo);
+        NSError *mcError = nil;
+        BOOL saveOnMainContextSucceeded = [strongSelf.mainContext save:&mcError];
+        NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", mcError.localizedDescription, mcError.userInfo);
         
-        if (error) {
+        if (mcError) {
             if (handler) {
-                handler(error);
+                handler(mcError);
             }
             return;
         }
@@ -78,13 +78,13 @@
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return;
             
-            NSError *privateContextError = nil;
-            BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&privateContextError];
-            NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", privateContextError.localizedDescription, privateContextError.userInfo);
+            NSError *pcError = nil;
+            BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&pcError];
+            NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", pcError.localizedDescription, pcError.userInfo);
 
-            if (error) {
+            if (pcError) {
                 if (handler) {
-                    handler(error);
+                    handler(pcError);
                 }
             }
         }];
@@ -154,22 +154,29 @@
     NSDictionary *options = [self adb_autoMigratingOptions];
     
     NSError *error = nil;
-    NSAssert([psc addPersistentStoreWithType:NSSQLiteStoreType
-                               configuration:nil
-                                         URL:storeURL
-                                     options:options
-                                       error:&error], @"Error adding Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
-    
+    NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType
+                                                 configuration:nil
+                                                           URL:storeURL
+                                                       options:options
+                                                         error:&error];
+    if (!store)
+    {
+        // handle error @"Error adding Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
+    }
 }
 
 + (void)adb_addInMemoryStoreToCoordinator:(NSPersistentStoreCoordinator *)psc
 {
     NSError *error = nil;
-    NSAssert([psc addPersistentStoreWithType:NSInMemoryStoreType
-                               configuration:nil
-                                         URL:nil
-                                     options:nil
-                                       error:&error], @"Error initializing Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
+    NSPersistentStore *store = [psc addPersistentStoreWithType:NSInMemoryStoreType
+                                                 configuration:nil
+                                                           URL:nil
+                                                       options:nil
+                                                         error:&error];
+    if (!store)
+    {
+        // handle error @"Error adding Persistent Store: %@\n%@", [error localizedDescription], [error userInfo]);
+    }
 }
 
 + (NSDictionary *)adb_autoMigratingOptions;

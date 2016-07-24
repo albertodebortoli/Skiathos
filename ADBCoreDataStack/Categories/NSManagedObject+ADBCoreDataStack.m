@@ -93,12 +93,8 @@
 {
     NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
     
-    __block NSArray *results = nil;
-    [context performBlockAndWait:^{
-        NSError *error;
-        results = [context executeFetchRequest:request error:&error];
-    }];
-    
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
     return results;
 }
 
@@ -107,12 +103,36 @@
     NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
     [request setPredicate:pred];
     
-    __block NSArray *results = nil;
-    [context performBlockAndWait:^{
-        NSError *error;
-        results = [context executeFetchRequest:request error:&error];
-    }];
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
+    return results;
+}
+
++ (NSArray *)allWithPredicate:(NSPredicate *)pred sortedBy:(NSString *)sortTerm ascending:(BOOL)ascending inContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
+    [request setPredicate:pred];
     
+    NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
+    NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];
+    for (__strong NSString *sortKey in sortKeys)
+    {
+        NSArray * sortComponents = [sortKey componentsSeparatedByString:@":"];
+        if (sortComponents.count > 1)
+        {
+            NSString *customAscending = sortComponents.lastObject;
+            ascending = customAscending.boolValue;
+            sortKey = sortComponents[0];
+        }
+        
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
     return results;
 }
 
@@ -120,13 +140,10 @@
 {
     NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
     [request setFetchLimit:1];
+    [request setFetchBatchSize:1];
     
-    __block NSArray *results = nil;
-    [context performBlockAndWait:^{
-        NSError *error;
-        results = [context executeFetchRequest:request error:&error];
-    }];
-    
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
     return [results firstObject];
 }
 
@@ -135,13 +152,40 @@
     NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
     [request setPredicate:[NSPredicate predicateWithFormat:@"%K = %@", attribute, value]];
     [request setFetchLimit:1];
+    [request setFetchBatchSize:1];
     
-    __block NSArray *results = nil;
-    [context performBlockAndWait:^{
-        NSError *error;
-        results = [context executeFetchRequest:request error:&error];
-    }];
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
+    return [results firstObject];
+}
+
++ (instancetype)firstWithPredicate:(NSPredicate *)pred sortedBy:(NSString *)sortTerm ascending:(BOOL)ascending inContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
+    [request setPredicate:pred];
+    [request setFetchLimit:1];
+    [request setFetchBatchSize:1];
     
+    NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
+    NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];
+    for (__strong NSString *sortKey in sortKeys)
+    {
+        NSArray * sortComponents = [sortKey componentsSeparatedByString:@":"];
+        if (sortComponents.count > 1)
+        {
+            NSString *customAscending = sortComponents.lastObject;
+            ascending = customAscending.boolValue;
+            sortKey = sortComponents[0];
+        }
+        
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
     return [results firstObject];
 }
 
