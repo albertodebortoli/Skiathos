@@ -23,8 +23,7 @@ static ADBCoreDataStack *sharedInstance = nil;
     dispatch_once(&onceToken, ^{
         ADBPersistentController *pc = [[ADBPersistentController alloc] initWithStoreType:ADBStoreTypeInMemory dataModelFileName:kDataModelFileName];
         ADBDALService *dalService = [[ADBDALService alloc] initWithPersistenceController:pc];
-        sharedInstance = [[self alloc] initWithPersistenceController:pc
-                                                          dalService:dalService];
+        sharedInstance = [[self alloc] initWithPersistenceController:pc dalService:dalService];
     });
     
     return sharedInstance;

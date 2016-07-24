@@ -14,6 +14,10 @@
 #import "ADBQueryModelProtocol.h"
 #import "ADBCommandModelProtocol.h"
 
+#define JustPersistenceHandleError(...) [[NSNotificationCenter defaultCenter] postNotificationName:kJustPersistenceHandleErrorNotification object:self userInfo:@{@"error":__VA_ARGS__}];
+
+static NSString *const kJustPersistenceHandleErrorNotification = @"kJustPersistenceHandleErrorNotification";
+
 @interface ADBCoreDataStack : NSObject
 
 @property (nonatomic, readonly) id <ADBPersistenceProtocol> persistenceController;

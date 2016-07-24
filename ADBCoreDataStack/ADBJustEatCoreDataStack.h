@@ -12,7 +12,6 @@
 #import "ADBCoreDataStack.h"
 
 #define JustPersistence [ADBJustEatCoreDataStack sharedInstance].DALService
-#define JustPersistenceHandleError(...) [[ADBJustEatCoreDataStack sharedInstance] handleError:__VA_ARGS__]
 
 @interface ADBJustEatCoreDataStack : ADBCoreDataStack
 

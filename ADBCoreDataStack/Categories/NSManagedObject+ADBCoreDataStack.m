@@ -7,9 +7,7 @@
 //
 
 #import "NSManagedObject+ADBCoreDataStack.h"
-
-// I don't like this, but I guess we have to make some compromises
-#import "ADBJustEatCoreDataStack.h"
+#import "ADBCoreDataStack.h"
 
 @implementation NSManagedObject (ADBCoreDataStack)
 

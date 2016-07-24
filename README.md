@@ -109,6 +109,5 @@ JustPersistence writing:
 
 ## TO DO
 
-- Error handling
 - Tests
 - Swift version
