@@ -13,13 +13,19 @@
 #import "ADBPersistenceProtocol.h"
 #import "ADBQueryModelProtocol.h"
 #import "ADBCommandModelProtocol.h"
+#import "ADBErrorHandlerProtocol.h"
+#import "ADBLoggerProtocol.h"
 
 @interface ADBCoreDataStack : NSObject
 
 @property (nonatomic, readonly) id <ADBPersistenceProtocol> persistenceController;
 @property (nonatomic, readonly) id <ADBQueryModelProtocol, ADBCommandModelProtocol> DALService;
+@property (nonatomic, readonly) id <ADBErrorHandlerProtocol> errorHandler;
+@property (nonatomic, readonly) id <ADBLoggerProtocol> logger;
 
 - (instancetype)initWithPersistenceController:(id <ADBPersistenceProtocol>)persistenceController
-                                   dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService;
+                                   dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService
+                                 errorHandler:(id <ADBErrorHandlerProtocol>)errorHandler
+                                       logger:(id <ADBLoggerProtocol>)logger;
 
 @end

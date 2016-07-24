@@ -10,7 +10,8 @@
 
 #import "ADBDALService.h"
 #import "ADBPersistenceController.h"
-#import "ADBReactor.h"
+#import "ADBErrorHandler.h"
+#import "ADBLogger.h"
 
 static NSString *const kDataModelFileName = @"DataModel";
 
@@ -24,8 +25,12 @@ static ADBCoreDataStack *sharedInstance = nil;
     dispatch_once(&onceToken, ^{
         ADBPersistenceController *pc = [[ADBPersistenceController alloc] initWithStoreType:ADBStoreTypeInMemory dataModelFileName:kDataModelFileName];
         ADBDALService *dalService = [[ADBDALService alloc] initWithPersistenceController:pc];
+        ADBErrorHandler *errorHandler = [[ADBErrorHandler alloc] init];
+        ADBLogger *logger = [[ADBLogger alloc] init];
         sharedInstance = [[self alloc] initWithPersistenceController:pc
-                                                          dalService:dalService];
+                                                          dalService:dalService
+                                                        errorHandler:errorHandler
+                                                              logger:logger];
     });
     
     return sharedInstance;

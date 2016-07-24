@@ -21,7 +21,7 @@
         BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
         if (!success)
         {
-//            [MagicalRecord handleErrors:error];
+            // handle error
             return nil;
         }
     }
@@ -29,7 +29,7 @@
     error = nil;
     
     NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
-//    [MagicalRecord handleErrors:error];
+    // handle error
     
     return inContext;
 }
@@ -68,7 +68,7 @@
     return result;
 }
 
-- (void)removeInContext:(NSManagedObjectContext *)context
+- (void)deleteInContext:(NSManagedObjectContext *)context
 {
     [context deleteObject:self];
 }
@@ -112,24 +112,22 @@
 {
     NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
     [request setPredicate:pred];
+    [request setSortDescriptors:[self adb_sortDescriptorsForSortTerm:sortTerm ascending:ascending]];
     
-    NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
-    NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];
-    for (__strong NSString *sortKey in sortKeys)
-    {
-        NSArray * sortComponents = [sortKey componentsSeparatedByString:@":"];
-        if (sortComponents.count > 1)
-        {
-            NSString *customAscending = sortComponents.lastObject;
-            ascending = customAscending.boolValue;
-            sortKey = sortComponents[0];
-        }
-        
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
-        [sortDescriptors addObject:sortDescriptor];
-    }
-    
-    [request setSortDescriptors:sortDescriptors];
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
+    return results;
+}
+
++ (NSArray *)allWhereAttribute:(NSString *)attribute
+                     isEqualTo:(NSString *)value
+                      sortedBy:(NSString *)sortTerm
+                     ascending:(BOOL)ascending
+                     inContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *request = [self adb_basicFetchRequestInContext:context];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%K = %@", attribute, value]];
+    [request setSortDescriptors:[self adb_sortDescriptorsForSortTerm:sortTerm ascending:ascending]];
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
@@ -165,24 +163,7 @@
     [request setPredicate:pred];
     [request setFetchLimit:1];
     [request setFetchBatchSize:1];
-    
-    NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
-    NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];
-    for (__strong NSString *sortKey in sortKeys)
-    {
-        NSArray * sortComponents = [sortKey componentsSeparatedByString:@":"];
-        if (sortComponents.count > 1)
-        {
-            NSString *customAscending = sortComponents.lastObject;
-            ascending = customAscending.boolValue;
-            sortKey = sortComponents[0];
-        }
-        
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
-        [sortDescriptors addObject:sortDescriptor];
-    }
-    
-    [request setSortDescriptors:sortDescriptors];
+    [request setSortDescriptors:[self adb_sortDescriptorsForSortTerm:sortTerm ascending:ascending]];
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
@@ -198,6 +179,26 @@
                                                          inManagedObjectContext:context];
     [request setEntity:entityDescription];
     return request;
+}
+
++ (NSArray *)adb_sortDescriptorsForSortTerm:(NSString *)sortTerm ascending:(BOOL)ascending
+{
+    NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
+    NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];
+    for (__strong NSString *sortKey in sortKeys)
+    {
+        NSArray * sortComponents = [sortKey componentsSeparatedByString:@":"];
+        if (sortComponents.count > 1)
+        {
+            NSString *customAscending = sortComponents.lastObject;
+            ascending = customAscending.boolValue;
+            sortKey = sortComponents[0];
+        }
+        
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    return sortDescriptors;
 }
 
 @end

@@ -110,6 +110,5 @@ JustPersistence writing:
 ## TO DO
 
 - Error handling
-- Complete Active Record interface
 - Tests
 - Swift version
