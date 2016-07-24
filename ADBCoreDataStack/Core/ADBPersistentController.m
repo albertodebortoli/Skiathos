@@ -1,21 +1,21 @@
 //
-//  ADBPersistenceController.m
+//  ADBPersistentController.m
 //  ADBCoreDataStack
 //
 //  Created by Alberto De Bortoli on 15/11/2015.
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
-#import "ADBPersistenceController.h"
+#import "ADBPersistentController.h"
 
-@interface ADBPersistenceController ()
+@interface ADBPersistentController ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
 
 @end
 
-@implementation ADBPersistenceController
+@implementation ADBPersistentController
 
 - (id)initWithStoreType:(ADBStoreType)storeType dataModelFileName:(NSString *)dataModelFileName
 {

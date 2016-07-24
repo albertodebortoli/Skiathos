@@ -11,7 +11,7 @@
 
 // Core
 #import "ADBDALService.h"
-#import "ADBPersistenceController.h"
+#import "ADBPersistentController.h"
 #import "ADBReactor.h"
 #import "ADBCoreDataStack.h"
 #import "ADBErrorHandler.h"

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ADBPersistenceController.h"
+#import "ADBPersistentController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

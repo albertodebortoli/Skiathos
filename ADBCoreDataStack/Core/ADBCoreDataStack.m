@@ -15,8 +15,6 @@ static NSString *const kDataModelFileName = @"DataModel";
 
 @property (nonatomic, strong, readwrite) id <ADBPersistenceProtocol> persistenceController;
 @property (nonatomic, strong, readwrite) id <ADBQueryModelProtocol, ADBCommandModelProtocol> DALService;
-@property (nonatomic, strong, readwrite) id <ADBErrorHandlerProtocol> errorHandler;
-@property (nonatomic, strong, readwrite) id <ADBLoggerProtocol> logger;
 @property (nonatomic, strong, readwrite) ADBReactor *reactor;
 
 @end
@@ -27,20 +25,21 @@ static ADBCoreDataStack *sharedInstance = nil;
 
 - (instancetype)initWithPersistenceController:(id <ADBPersistenceProtocol>)persistenceController
                                    dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService
-                                 errorHandler:(id <ADBErrorHandlerProtocol>)errorHandler
-                                       logger:(id <ADBLoggerProtocol>)logger
 {
     self = [super init];
     if (self)
     {
         _persistenceController = persistenceController;
         _DALService = dalService;
-        _errorHandler = errorHandler;
-        _logger = logger;
         _reactor = [[ADBReactor alloc] initWithPersistenceController:_persistenceController];
         [_reactor initialize];
     }
     return self;
+}
+
+- (void)handleError:(NSError *)error
+{
+    // override in subclasses
 }
 
 @end

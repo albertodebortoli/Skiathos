@@ -8,6 +8,9 @@
 
 #import "NSManagedObject+ADBCoreDataStack.h"
 
+// I don't like this, but I guess we have to make some compromises
+#import "ADBJustEatCoreDataStack.h"
+
 @implementation NSManagedObject (ADBCoreDataStack)
 
 #pragma mark - Public
@@ -19,9 +22,8 @@
     if ([[self objectID] isTemporaryID])
     {
         BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
-        if (!success)
-        {
-            // handle error
+        if (!success) {
+            JustPersistenceHandleError(error);
             return nil;
         }
     }
@@ -29,7 +31,10 @@
     error = nil;
     
     NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
-    // handle error
+    
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     
     return inContext;
 }
@@ -49,6 +54,9 @@
     [context performBlockAndWait:^{
         NSError *error;
         result = [context countForFetchRequest:request error:&error];
+        if (error) {
+            JustPersistenceHandleError(error);
+        }
     }];
     
     return result;
@@ -63,6 +71,9 @@
     [context performBlockAndWait:^{
         NSError *error;
         result = [context countForFetchRequest:request error:&error];
+        if (error) {
+            JustPersistenceHandleError(error);
+        }
     }];
     
     return result;
@@ -82,7 +93,10 @@
     NSError *error = nil;
     NSArray *objectsToDelete = [context executeFetchRequest:request error:&error];
     
-    if (!error) {
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
+    else {
         for (NSManagedObject *objectToDelete in objectsToDelete) {
             [context deleteObject:objectToDelete];
         }
@@ -95,6 +109,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return results;
 }
 
@@ -105,6 +122,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return results;
 }
 
@@ -116,6 +136,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return results;
 }
 
@@ -131,6 +154,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return results;
 }
 
@@ -142,6 +168,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return [results firstObject];
 }
 
@@ -154,6 +183,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return [results firstObject];
 }
 
@@ -167,6 +199,9 @@
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    if (error) {
+        JustPersistenceHandleError(error);
+    }
     return [results firstObject];
 }
 

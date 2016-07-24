@@ -1,5 +1,5 @@
 //
-//  ADBPersistenceController.h
+//  ADBPersistentController.h
 //  ADBCoreDataStack
 //
 //  Created by Alberto De Bortoli on 15/11/2015.
@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, ADBStoreType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ADBPersistenceController : NSObject <ADBPersistenceProtocol>
+@interface ADBPersistentController : NSObject <ADBPersistenceProtocol>
 
 /**
  *  These methods initialize a Core Data stack. dataModelFileName must be the name of the xcdatamodeld file.
