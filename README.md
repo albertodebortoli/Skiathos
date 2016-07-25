@@ -19,7 +19,7 @@ The stack used by this component is the one described [here](http://martiancraft
                            Main Context (NSMainQueueConcurrencyType)
              ^                                 ^                                  ^
              |                                 |                                  |
-     Slave Contexts                    Slave Contexts                     Slave Contexts
+      Slave Context                     Slave Context                      Slave Context
 (NSPrivateQueueConcurrencyType)   (NSPrivateQueueConcurrencyType)    (NSPrivateQueueConcurrencyType)
 ```
 
@@ -43,7 +43,7 @@ It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 
 We don't want to consider creating interfaces to hide the concept of `ManagedObjectContext`: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level (that would be ignoring the benefits that Core Data gives to us).
 Therefore, the design of JustPersistence forces us to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `createInContext:`).
 
-Readings happen to the main context, while writings happen to the slave one and changes are always saved back to the persistence store asynchronously without blocking the main thread.
+Readings happen to the main context, while writings happen to a slave one. The changes are always saved back to the persistence store asynchronously without blocking the main thread.
 
 ## Show me the code
 
