@@ -13,12 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^Read)(NSManagedObjectContext * context);
 
-@protocol ADBCommandModelProtocol;
-
 @protocol ADBQueryModelProtocol <NSObject>
 
 @required
-- (void)read:(Read)statements;
+- (instancetype)read:(Read)statements;
 
 @end
 

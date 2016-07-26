@@ -46,6 +46,7 @@
 		4F43F2401B67DFBE00A03939 /* ADBCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADBCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4F70DA121D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObject_ADBCOreDataStackTests.m; sourceTree = "<group>"; };
+		4F70DA151D47B139009B4675 /* ADBCQRSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCQRSProtocol.h; sourceTree = "<group>"; };
 		4F87039B1D43672200AAF71C /* ADBCommandModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBCommandModelProtocol.h; sourceTree = "<group>"; };
 		4F87039C1D43672200AAF71C /* ADBQueryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBQueryModelProtocol.h; sourceTree = "<group>"; };
 		4F9401731D4574FE00A7C3F9 /* ADBPersistentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBPersistentController.h; sourceTree = "<group>"; };
@@ -181,6 +182,7 @@
 			children = (
 				4F87039C1D43672200AAF71C /* ADBQueryModelProtocol.h */,
 				4F87039B1D43672200AAF71C /* ADBCommandModelProtocol.h */,
+				4F70DA151D47B139009B4675 /* ADBCQRSProtocol.h */,
 				4FE2E8B11BF933D800580749 /* ADBPersistenceProtocol.h */,
 			);
 			path = Protocols;

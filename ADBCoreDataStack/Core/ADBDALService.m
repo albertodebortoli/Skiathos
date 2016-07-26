@@ -31,22 +31,24 @@
 
 #pragma mark - ADBQueryModelProtocol
 
-- (void)read:(void(^)(NSManagedObjectContext *))statements
+- (instancetype)read:(Read)statements
 {
     NSParameterAssert(statements);
     
     NSManagedObjectContext *context = self.persistenceController.mainContext;
     [context performBlockAndWait:^{ statements(context); }];
+    
+    return self;
 }
 
 #pragma mark - ADBCommandModelProtocol
 
-- (void)write:(Write)changes
+- (instancetype)write:(Write)changes
 {
     return [self write:changes completion:nil];
 }
 
-- (void)write:(Write)changes completion:(void (^)(NSError * _Nullable))handler
+- (instancetype)write:(Write)changes completion:(void (^)(NSError * _Nullable))handler
 {
     NSParameterAssert(changes);
     
@@ -62,6 +64,8 @@
             [_persistenceController save:handler];
         }
     }];
+    
+    return self;
 }
 
 #pragma mark - Private

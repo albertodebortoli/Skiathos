@@ -9,16 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@protocol ADBQueryModelProtocol;
-
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^Write)(NSManagedObjectContext * context);
 
 @protocol ADBCommandModelProtocol <NSObject>
 
-- (void)write:(Write)changes;
-- (void)write:(Write)changes completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
+- (instancetype)write:(Write)changes;
+- (instancetype)write:(Write)changes completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
 
 @end
 
