@@ -41,19 +41,19 @@
 
 #pragma mark - ADBCommandModelProtocol
 
-- (void)write:(void(^)(NSManagedObjectContext *))statements
+- (void)write:(Write)changes
 {
-    return [self write:statements completion:nil];
+    return [self write:changes completion:nil];
 }
 
-- (void)write:(void(^)(NSManagedObjectContext *))statements completion:(void(^)(NSError * _Nullable))handler
+- (void)write:(Write)changes completion:(void (^)(NSError * _Nullable))handler
 {
-    NSParameterAssert(statements);
+    NSParameterAssert(changes);
     
     NSManagedObjectContext *context = [self adb_slaveContext];
     [context performBlockAndWait:^{
         
-        statements(context);
+        changes(context);
         
         NSError *error;
         [context save:&error];
