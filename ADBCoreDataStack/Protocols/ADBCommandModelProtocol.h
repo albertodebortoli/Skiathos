@@ -13,9 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ADBCommandModelProtocol <NSObject>
 
-// Writings
-
-- (void)write:(void(^)(NSManagedObjectContext *))changes;
+- (void)write:(void(^)(NSManagedObjectContext *context))changes;
+- (void)write:(void(^)(NSManagedObjectContext *context))statements completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
 
 @end
 

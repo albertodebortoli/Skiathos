@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F13A10D1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F13A10C1C0B6FB6002F3DC3 /* NSManagedObject+ADBCoreDataStack.m */; };
 		4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43F2501B67DFC800A03939 /* CoreData.framework */; };
+		4F70DA131D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA121D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m */; };
 		4F9401751D4574FE00A7C3F9 /* ADBPersistentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9401741D4574FE00A7C3F9 /* ADBPersistentController.m */; };
 		4FB075951D44E092000E8448 /* ADBJustEatCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB075941D44E092000E8448 /* ADBJustEatCoreDataStack.m */; };
 		4FE2E8B91BF933D800580749 /* ADBReactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8991BF933D800580749 /* ADBReactor.m */; };
@@ -23,7 +24,6 @@
 		4FE2E8DD1BF9345100580749 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FE2E8D71BF9345100580749 /* Main.storyboard */; };
 		4FE2E8DF1BF9345100580749 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FE2E8DB1BF9345100580749 /* Images.xcassets */; };
 		4FE2E8E21BF9347200580749 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2E8E01BF9347200580749 /* DataModel.xcdatamodeld */; };
-		C8BBE8C9F232292F7681066F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0F45071651135B5F43166 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +45,7 @@
 		4F43F2271B67DFBE00A03939 /* ADBCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADBCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2401B67DFBE00A03939 /* ADBCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADBCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4F70DA121D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObject_ADBCOreDataStackTests.m; sourceTree = "<group>"; };
 		4F87039B1D43672200AAF71C /* ADBCommandModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBCommandModelProtocol.h; sourceTree = "<group>"; };
 		4F87039C1D43672200AAF71C /* ADBQueryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBQueryModelProtocol.h; sourceTree = "<group>"; };
 		4F9401731D4574FE00A7C3F9 /* ADBPersistentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBPersistentController.h; sourceTree = "<group>"; };
@@ -81,7 +82,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */,
-				C8BBE8C9F232292F7681066F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				4FE2E8C71BF933E400580749 /* Info.plist */,
+				4F70DA121D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m */,
 			);
 			path = ADBCoreDataStackTests;
 			sourceTree = "<group>";
@@ -336,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F70DA131D4776ED009B4675 /* NSManagedObject_ADBCOreDataStackTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

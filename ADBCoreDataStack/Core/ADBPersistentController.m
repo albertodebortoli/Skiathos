@@ -49,9 +49,11 @@
     }];
     
     if (!mainHasChanges && !privateHasChanges) {
-        if (handler) {
-            handler(nil);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(nil);
+            }
+        });
         return;
     }
     
@@ -67,9 +69,11 @@
         NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", mcError.localizedDescription, mcError.userInfo);
         
         if (mcError) {
-            if (handler) {
-                handler(mcError);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (handler) {
+                    handler(mcError);
+                }
+            });
             return;
         }
         
@@ -81,12 +85,12 @@
             NSError *pcError = nil;
             BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&pcError];
             NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", pcError.localizedDescription, pcError.userInfo);
-
-            if (pcError) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
                 if (handler) {
                     handler(pcError);
                 }
-            }
+            });
         }];
     }];
 }

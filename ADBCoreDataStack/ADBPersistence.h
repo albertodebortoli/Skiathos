@@ -9,15 +9,15 @@
 #ifndef ADBCoreDataStack_h
 #define ADBCoreDataStack_h
 
-// Core
-#import "ADBDALService.h"
-#import "ADBPersistentController.h"
-#import "ADBReactor.h"
+// Facade
 #import "ADBCoreDataStack.h"
-#import "ADBErrorHandler.h"
-#import "ADBLogger.h"
+
+// Core
+#import "ADBPersistentController.h"
+#import "ADBDALService.h"
+#import "ADBReactor.h"
 
 // Categories
-#import "NSManagedObjectContext+JEAdditions.h"
+#import "NSManagedObject+ADBCoreDataStack.h"
 
 #endif /* ADBCoreDataStack_h */

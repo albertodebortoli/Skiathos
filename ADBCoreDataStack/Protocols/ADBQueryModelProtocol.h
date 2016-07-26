@@ -13,9 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ADBQueryModelProtocol <NSObject>
 
-// Readings
-
-- (void)read:(void(^)(NSManagedObjectContext *))changes;
+- (void)read:(void(^)(NSManagedObjectContext *context))changes;
 
 @end
 

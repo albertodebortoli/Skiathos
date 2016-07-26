@@ -43,6 +43,11 @@
 
 - (void)write:(void(^)(NSManagedObjectContext *))statements
 {
+    return [self write:statements completion:nil];
+}
+
+- (void)write:(void(^)(NSManagedObjectContext *))statements completion:(void(^)(NSError * _Nullable))handler
+{
     NSParameterAssert(statements);
     
     NSManagedObjectContext *context = [self adb_slaveContext];
@@ -54,7 +59,7 @@
         [context save:&error];
         if (!error)
         {
-            [_persistenceController save:nil];
+            [_persistenceController save:handler];
         }
     }];
 }
