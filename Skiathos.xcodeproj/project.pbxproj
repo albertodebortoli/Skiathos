@@ -1,0 +1,572 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43F2501B67DFC800A03939 /* CoreData.framework */; };
+		4F70DA701D49721F009B4675 /* Pet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA431D49721F009B4675 /* Pet.m */; };
+		4F70DA711D49721F009B4675 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA451D49721F009B4675 /* User.m */; };
+		4F70DA721D49721F009B4675 /* SkiathosClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA471D49721F009B4675 /* SkiathosClient.m */; };
+		4F70DA731D49721F009B4675 /* ADBDALService+DotNotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA4B1D49721F009B4675 /* ADBDALService+DotNotation.m */; };
+		4F70DA741D49721F009B4675 /* ADBDALService+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA4D1D49721F009B4675 /* ADBDALService+Helpers.m */; };
+		4F70DA751D49721F009B4675 /* NSManagedObject+Skiathos.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA4F1D49721F009B4675 /* NSManagedObject+Skiathos.m */; };
+		4F70DA761D49721F009B4675 /* ADBAppStateReactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA521D49721F009B4675 /* ADBAppStateReactor.m */; };
+		4F70DA771D49721F009B4675 /* ADBCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA541D49721F009B4675 /* ADBCoreDataStack.m */; };
+		4F70DA781D49721F009B4675 /* ADBDALService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA561D49721F009B4675 /* ADBDALService.m */; };
+		4F70DA791D49721F009B4675 /* Skiathos.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA5D1D49721F009B4675 /* Skiathos.m */; };
+		4F70DA7A1D49721F009B4675 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA601D49721F009B4675 /* AppDelegate.m */; };
+		4F70DA7B1D49721F009B4675 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA611D49721F009B4675 /* LaunchScreen.xib */; };
+		4F70DA7C1D49721F009B4675 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA631D49721F009B4675 /* Main.storyboard */; };
+		4F70DA7D1D49721F009B4675 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */; };
+		4F70DA7E1D49721F009B4675 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA671D49721F009B4675 /* Images.xcassets */; };
+		4F70DA801D49721F009B4675 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA691D49721F009B4675 /* main.m */; };
+		4F70DA811D49721F009B4675 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA6B1D49721F009B4675 /* ViewController.m */; };
+		4F70DA891D49722D009B4675 /* DALServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA861D49722D009B4675 /* DALServiceTests.m */; };
+		4F70DA8B1D49722D009B4675 /* NSManagedObject_SkiathosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA881D49722D009B4675 /* NSManagedObject_SkiathosTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4F43F2411B67DFBE00A03939 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F43F21F1B67DFBE00A03939 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F43F2261B67DFBE00A03939;
+			remoteInfo = JEPersistence;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00C0F45071651135B5F43166 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F186AA91B7601F1007E0091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4F43F2271B67DFBE00A03939 /* Skiathos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skiathos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F43F2401B67DFBE00A03939 /* Skiathos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Skiathos.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4F70DA421D49721F009B4675 /* Pet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pet.h; sourceTree = "<group>"; };
+		4F70DA431D49721F009B4675 /* Pet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pet.m; sourceTree = "<group>"; };
+		4F70DA441D49721F009B4675 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		4F70DA451D49721F009B4675 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		4F70DA461D49721F009B4675 /* SkiathosClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkiathosClient.h; sourceTree = "<group>"; };
+		4F70DA471D49721F009B4675 /* SkiathosClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkiathosClient.m; sourceTree = "<group>"; };
+		4F70DA4A1D49721F009B4675 /* ADBDALService+DotNotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ADBDALService+DotNotation.h"; sourceTree = "<group>"; };
+		4F70DA4B1D49721F009B4675 /* ADBDALService+DotNotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ADBDALService+DotNotation.m"; sourceTree = "<group>"; };
+		4F70DA4C1D49721F009B4675 /* ADBDALService+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ADBDALService+Helpers.h"; sourceTree = "<group>"; };
+		4F70DA4D1D49721F009B4675 /* ADBDALService+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ADBDALService+Helpers.m"; sourceTree = "<group>"; };
+		4F70DA4E1D49721F009B4675 /* NSManagedObject+Skiathos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Skiathos.h"; sourceTree = "<group>"; };
+		4F70DA4F1D49721F009B4675 /* NSManagedObject+Skiathos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Skiathos.m"; sourceTree = "<group>"; };
+		4F70DA511D49721F009B4675 /* ADBAppStateReactor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBAppStateReactor.h; sourceTree = "<group>"; };
+		4F70DA521D49721F009B4675 /* ADBAppStateReactor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBAppStateReactor.m; sourceTree = "<group>"; };
+		4F70DA531D49721F009B4675 /* ADBCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCoreDataStack.h; sourceTree = "<group>"; };
+		4F70DA541D49721F009B4675 /* ADBCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBCoreDataStack.m; sourceTree = "<group>"; };
+		4F70DA551D49721F009B4675 /* ADBDALService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBDALService.h; sourceTree = "<group>"; };
+		4F70DA561D49721F009B4675 /* ADBDALService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADBDALService.m; sourceTree = "<group>"; };
+		4F70DA581D49721F009B4675 /* ADBCommandModelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCommandModelProtocol.h; sourceTree = "<group>"; };
+		4F70DA591D49721F009B4675 /* ADBCoreDataStackProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBCoreDataStackProtocol.h; sourceTree = "<group>"; };
+		4F70DA5A1D49721F009B4675 /* ADBDALProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBDALProtocol.h; sourceTree = "<group>"; };
+		4F70DA5B1D49721F009B4675 /* ADBQueryModelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBQueryModelProtocol.h; sourceTree = "<group>"; };
+		4F70DA5C1D49721F009B4675 /* Skiathos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skiathos.h; sourceTree = "<group>"; };
+		4F70DA5D1D49721F009B4675 /* Skiathos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skiathos.m; sourceTree = "<group>"; };
+		4F70DA5F1D49721F009B4675 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4F70DA601D49721F009B4675 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F70DA621D49721F009B4675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		4F70DA641D49721F009B4675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		4F70DA671D49721F009B4675 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4F70DA681D49721F009B4675 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F70DA691D49721F009B4675 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F70DA6A1D49721F009B4675 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4F70DA6B1D49721F009B4675 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4F70DA861D49722D009B4675 /* DALServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALServiceTests.m; sourceTree = "<group>"; };
+		4F70DA871D49722D009B4675 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F70DA881D49722D009B4675 /* NSManagedObject_SkiathosTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObject_SkiathosTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4F43F2241B67DFBE00A03939 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F43F23D1B67DFBE00A03939 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F43F21E1B67DFBE00A03939 = {
+			isa = PBXGroup;
+			children = (
+				4F186AA91B7601F1007E0091 /* README.md */,
+				4F70DA401D49721F009B4675 /* Skiathos */,
+				4F70DA851D49722D009B4675 /* SkiathosTests */,
+				4F43F2521B67DFD600A03939 /* Frameworks */,
+				4F43F2281B67DFBE00A03939 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F43F2281B67DFBE00A03939 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4F43F2271B67DFBE00A03939 /* Skiathos.app */,
+				4F43F2401B67DFBE00A03939 /* Skiathos.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4F43F2521B67DFD600A03939 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F43F2501B67DFC800A03939 /* CoreData.framework */,
+				00C0F45071651135B5F43166 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4F70DA401D49721F009B4675 /* Skiathos */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA411D49721F009B4675 /* MOs */,
+				4F70DA461D49721F009B4675 /* SkiathosClient.h */,
+				4F70DA471D49721F009B4675 /* SkiathosClient.m */,
+				4F70DA481D49721F009B4675 /* src */,
+				4F70DA5E1D49721F009B4675 /* Supporting Files */,
+				4F70DA6A1D49721F009B4675 /* ViewController.h */,
+				4F70DA6B1D49721F009B4675 /* ViewController.m */,
+			);
+			path = Skiathos;
+			sourceTree = "<group>";
+		};
+		4F70DA411D49721F009B4675 /* MOs */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA421D49721F009B4675 /* Pet.h */,
+				4F70DA431D49721F009B4675 /* Pet.m */,
+				4F70DA441D49721F009B4675 /* User.h */,
+				4F70DA451D49721F009B4675 /* User.m */,
+			);
+			path = MOs;
+			sourceTree = "<group>";
+		};
+		4F70DA481D49721F009B4675 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA491D49721F009B4675 /* Categories */,
+				4F70DA501D49721F009B4675 /* Core */,
+				4F70DA571D49721F009B4675 /* Protocols */,
+				4F70DA5C1D49721F009B4675 /* Skiathos.h */,
+				4F70DA5D1D49721F009B4675 /* Skiathos.m */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		4F70DA491D49721F009B4675 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA4A1D49721F009B4675 /* ADBDALService+DotNotation.h */,
+				4F70DA4B1D49721F009B4675 /* ADBDALService+DotNotation.m */,
+				4F70DA4C1D49721F009B4675 /* ADBDALService+Helpers.h */,
+				4F70DA4D1D49721F009B4675 /* ADBDALService+Helpers.m */,
+				4F70DA4E1D49721F009B4675 /* NSManagedObject+Skiathos.h */,
+				4F70DA4F1D49721F009B4675 /* NSManagedObject+Skiathos.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		4F70DA501D49721F009B4675 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA511D49721F009B4675 /* ADBAppStateReactor.h */,
+				4F70DA521D49721F009B4675 /* ADBAppStateReactor.m */,
+				4F70DA531D49721F009B4675 /* ADBCoreDataStack.h */,
+				4F70DA541D49721F009B4675 /* ADBCoreDataStack.m */,
+				4F70DA551D49721F009B4675 /* ADBDALService.h */,
+				4F70DA561D49721F009B4675 /* ADBDALService.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4F70DA571D49721F009B4675 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA581D49721F009B4675 /* ADBCommandModelProtocol.h */,
+				4F70DA591D49721F009B4675 /* ADBCoreDataStackProtocol.h */,
+				4F70DA5A1D49721F009B4675 /* ADBDALProtocol.h */,
+				4F70DA5B1D49721F009B4675 /* ADBQueryModelProtocol.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		4F70DA5E1D49721F009B4675 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA5F1D49721F009B4675 /* AppDelegate.h */,
+				4F70DA601D49721F009B4675 /* AppDelegate.m */,
+				4F70DA611D49721F009B4675 /* LaunchScreen.xib */,
+				4F70DA631D49721F009B4675 /* Main.storyboard */,
+				4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */,
+				4F70DA671D49721F009B4675 /* Images.xcassets */,
+				4F70DA681D49721F009B4675 /* Info.plist */,
+				4F70DA691D49721F009B4675 /* main.m */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4F70DA851D49722D009B4675 /* SkiathosTests */ = {
+			isa = PBXGroup;
+			children = (
+				4F70DA861D49722D009B4675 /* DALServiceTests.m */,
+				4F70DA871D49722D009B4675 /* Info.plist */,
+				4F70DA881D49722D009B4675 /* NSManagedObject_SkiathosTests.m */,
+			);
+			name = SkiathosTests;
+			path = Skiathos/SkiathosTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4F43F2261B67DFBE00A03939 /* Skiathos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F43F24A1B67DFBE00A03939 /* Build configuration list for PBXNativeTarget "Skiathos" */;
+			buildPhases = (
+				4F43F2231B67DFBE00A03939 /* Sources */,
+				4F43F2241B67DFBE00A03939 /* Frameworks */,
+				4F43F2251B67DFBE00A03939 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Skiathos;
+			productName = JEPersistence;
+			productReference = 4F43F2271B67DFBE00A03939 /* Skiathos.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F43F23F1B67DFBE00A03939 /* SkiathosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F43F24D1B67DFBE00A03939 /* Build configuration list for PBXNativeTarget "SkiathosTests" */;
+			buildPhases = (
+				4F43F23C1B67DFBE00A03939 /* Sources */,
+				4F43F23D1B67DFBE00A03939 /* Frameworks */,
+				4F43F23E1B67DFBE00A03939 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F43F2421B67DFBE00A03939 /* PBXTargetDependency */,
+			);
+			name = SkiathosTests;
+			productName = JEPersistenceTests;
+			productReference = 4F43F2401B67DFBE00A03939 /* Skiathos.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F43F21F1B67DFBE00A03939 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "JUST EAT";
+				TargetAttributes = {
+					4F43F2261B67DFBE00A03939 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					4F43F23F1B67DFBE00A03939 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 4F43F2261B67DFBE00A03939;
+					};
+				};
+			};
+			buildConfigurationList = 4F43F2221B67DFBE00A03939 /* Build configuration list for PBXProject "Skiathos" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4F43F21E1B67DFBE00A03939;
+			productRefGroup = 4F43F2281B67DFBE00A03939 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4F43F2261B67DFBE00A03939 /* Skiathos */,
+				4F43F23F1B67DFBE00A03939 /* SkiathosTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4F43F2251B67DFBE00A03939 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F70DA7E1D49721F009B4675 /* Images.xcassets in Resources */,
+				4F70DA7B1D49721F009B4675 /* LaunchScreen.xib in Resources */,
+				4F70DA7C1D49721F009B4675 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F43F23E1B67DFBE00A03939 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F43F2231B67DFBE00A03939 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F70DA811D49721F009B4675 /* ViewController.m in Sources */,
+				4F70DA801D49721F009B4675 /* main.m in Sources */,
+				4F70DA7A1D49721F009B4675 /* AppDelegate.m in Sources */,
+				4F70DA711D49721F009B4675 /* User.m in Sources */,
+				4F70DA731D49721F009B4675 /* ADBDALService+DotNotation.m in Sources */,
+				4F70DA701D49721F009B4675 /* Pet.m in Sources */,
+				4F70DA751D49721F009B4675 /* NSManagedObject+Skiathos.m in Sources */,
+				4F70DA721D49721F009B4675 /* SkiathosClient.m in Sources */,
+				4F70DA771D49721F009B4675 /* ADBCoreDataStack.m in Sources */,
+				4F70DA741D49721F009B4675 /* ADBDALService+Helpers.m in Sources */,
+				4F70DA781D49721F009B4675 /* ADBDALService.m in Sources */,
+				4F70DA7D1D49721F009B4675 /* DataModel.xcdatamodeld in Sources */,
+				4F70DA761D49721F009B4675 /* ADBAppStateReactor.m in Sources */,
+				4F70DA791D49721F009B4675 /* Skiathos.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F43F23C1B67DFBE00A03939 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F70DA891D49722D009B4675 /* DALServiceTests.m in Sources */,
+				4F70DA8B1D49722D009B4675 /* NSManagedObject_SkiathosTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4F43F2421B67DFBE00A03939 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F43F2261B67DFBE00A03939 /* Skiathos */;
+			targetProxy = 4F43F2411B67DFBE00A03939 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4F70DA611D49721F009B4675 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F70DA621D49721F009B4675 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		4F70DA631D49721F009B4675 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F70DA641D49721F009B4675 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4F43F2481B67DFBE00A03939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F43F2491B67DFBE00A03939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4F43F24B1B67DFBE00A03939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Skiathos/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.albertodebortoli.Skiathos;
+				PRODUCT_NAME = Skiathos;
+			};
+			name = Debug;
+		};
+		4F43F24C1B67DFBE00A03939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Skiathos/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.albertodebortoli.Skiathos;
+				PRODUCT_NAME = Skiathos;
+			};
+			name = Release;
+		};
+		4F43F24E1B67DFBE00A03939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SkiathosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.albertodebortoli.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Skiathos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skiathos.app/Skiathos";
+			};
+			name = Debug;
+		};
+		4F43F24F1B67DFBE00A03939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SkiathosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.albertodebortoli.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Skiathos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skiathos.app/Skiathos";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F43F2221B67DFBE00A03939 /* Build configuration list for PBXProject "Skiathos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F43F2481B67DFBE00A03939 /* Debug */,
+				4F43F2491B67DFBE00A03939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F43F24A1B67DFBE00A03939 /* Build configuration list for PBXNativeTarget "Skiathos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F43F24B1B67DFBE00A03939 /* Debug */,
+				4F43F24C1B67DFBE00A03939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F43F24D1B67DFBE00A03939 /* Build configuration list for PBXNativeTarget "SkiathosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F43F24E1B67DFBE00A03939 /* Debug */,
+				4F43F24F1B67DFBE00A03939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 4F43F21F1B67DFBE00A03939 /* Project object */;
+}
