@@ -29,7 +29,7 @@ The basic design involves a few main components:
 - DALService (Data Access Layer)
 - CoreDataStack
 
-Client can configure the CoreDataStack inheriting from it and providing a sharedInstance for ease of use (e.g. JustEatCoreDataStack).
+Client can configure the CoreDataStack inheriting from it and providing a sharedInstance for ease of use (e.g. ADBCoreDataStackClient).
 
 An important difference from Magical Record, or other third-party libraries, is that the saves always go in one direction, from slaves down to the persistent store.
 Magical Record allows you to create slaves that have the private context as parent and this causes the main context not to be updated or to be updated via notifications to merge the context.
@@ -42,12 +42,37 @@ All the accesses to the persistence layer should be done via the DALService and 
 It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 1` in your project to make sure that the you don't misuse Core Data in terms of threading and concurrency (by accessing managed objects from different threads and similar errors).
 
 We don't want to consider creating interfaces to hide the concept of `ManagedObjectContext`: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level (that would be ignoring the benefits that Core Data gives to us).
-Therefore, the design of JustPersistence forces us to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `createInContext:`).
+Therefore, our design forces to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `createInContext:`).
 
 Readings happen to the main context, while writings happen to a slave one. The changes are always saved back to the persistence store asynchronously without blocking the main thread.
 
 Writings are always consistent in the main managed object context and eventual consistent in the persistent store.
 Data are always available in the main managed object context.
+
+## How to use ADBCoreDataStack
+
+The main object responsible for aggregating different parts There are 2 reasons why you should inherit from `ADBCoreDataStack`.
+You should inherit from `ADBCoreDataStack` and override ```- (void)handleError:(NSError *)error;``` to get the 
+
+
+We don't like singletons. They are not testable by nature, clients don't have control over the lifecycle of the object and they break a some principles.
+To use this component, you should create a property of type ADBCoreDataStack and instantiate it like so:
+
+```
+self.stack = [ADBCoreDataStack inMemoryCoreDataStackWithDataModelFileName:@"DataModel"];
+```
+or
+```
+self.stack = [ADBCoreDataStack sqliteCoreDataStackWithDataModelFileName:@"DataModel"];
+```
+
+You could then pass around the stack in other parts of the app via dependency injection. 
+Nonetheless, sometimes it's ok to use singletons to access global objects, and the CoreDataStack might very well be one example. To create a singleton, you should inherit from ADBCoreDataStack like so:
+
+
+
+
+
 
 ## Show me the code
 
@@ -92,25 +117,25 @@ NSManagedObjectContext *context = ...;
 
 ```
 
-JustPersistence reading: 
+ADBCoreDataStack reading: 
 
 ```
-[JustPersistence read:^(NSManagedObjectContext *context) {
+[CoreDataClient read:^(NSManagedObjectContext *context) {
     NSArray *allUsers = [User allInContext:context];
     NSLog(@"All users: %@", allUsers);
 }];
 ```
 
-JustPersistence writing:
+ADBCoreDataStack writing:
 
 ```
-[JustPersistence write:^(NSManagedObjectContext *context) {
+[CoreDataClient write:^(NSManagedObjectContext *context) {
     User *user = [User createInContext:context];
     user.firstname = @"John";
     user.lastname = @"Doe";
 }];
 
-[JustPersistence write:^(NSManagedObjectContext *context) {
+[CoreDataClient write:^(NSManagedObjectContext *context) {
     User *user = [User createInContext:context];
     user.firstname = @"John";
     user.lastname = @"Doe";
@@ -121,5 +146,7 @@ JustPersistence writing:
 
 ## TO DO
 
+- Proper documentation in Readme
+- Documentation via AppleDoc
 - Swift version
-- Dot notiation (for chaining)
+- Create a pod

@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "AppDelegate.h"
 
 @interface ViewController ()
 

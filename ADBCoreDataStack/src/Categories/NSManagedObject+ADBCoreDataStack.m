@@ -21,7 +21,7 @@
     {
         BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
         if (!success) {
-            JustPersistenceHandleError(error);
+            CoreDataStackHandleError(error);
             return nil;
         }
     }
@@ -31,7 +31,7 @@
     NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
     
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     
     return inContext;
@@ -53,7 +53,7 @@
         NSError *error;
         result = [context countForFetchRequest:request error:&error];
         if (error) {
-            JustPersistenceHandleError(error);
+            CoreDataStackHandleError(error);
         }
     }];
     
@@ -70,7 +70,7 @@
         NSError *error;
         result = [context countForFetchRequest:request error:&error];
         if (error) {
-            JustPersistenceHandleError(error);
+            CoreDataStackHandleError(error);
         }
     }];
     
@@ -92,7 +92,7 @@
     NSArray *objectsToDelete = [context executeFetchRequest:request error:&error];
     
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     else {
         for (NSManagedObject *objectToDelete in objectsToDelete) {
@@ -108,7 +108,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return results;
 }
@@ -121,7 +121,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return results;
 }
@@ -135,7 +135,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return results;
 }
@@ -153,7 +153,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return results;
 }
@@ -167,7 +167,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return [results firstObject];
 }
@@ -182,7 +182,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return [results firstObject];
 }
@@ -198,7 +198,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        JustPersistenceHandleError(error);
+        CoreDataStackHandleError(error);
     }
     return [results firstObject];
 }
@@ -214,7 +214,7 @@
     return request;
 }
 
-+ (NSArray *)adb_sortDescriptorsForSortTerm:(NSString *)sortTerm ascending:(BOOL)ascending
++ (NSArray <__kindof NSSortDescriptor *> *)adb_sortDescriptorsForSortTerm:(NSString *)sortTerm ascending:(BOOL)ascending
 {
     NSMutableArray* sortDescriptors = [[NSMutableArray alloc] init];
     NSArray* sortKeys = [sortTerm componentsSeparatedByString:@","];

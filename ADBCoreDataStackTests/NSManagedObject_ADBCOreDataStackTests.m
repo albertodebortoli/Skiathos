@@ -2,8 +2,8 @@
 //  NSManagedObject_ADBCOreDataStackTests.m
 //  ADBCoreDataStack
 //
-//  Created by Alberto DeBortoli on 26/07/2016.
-//  Copyright © 2016 JUST EAT. All rights reserved.
+//  Created by Alberto De Bortoli on 26/07/2016.
+//  Copyright © 2016 Alberto De Bortoli. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
@@ -23,9 +23,7 @@
 - (void)setUp
 {
     [super setUp];
-    ADBPersistentController *pc = [[ADBPersistentController alloc] initWithStoreType:ADBStoreTypeInMemory dataModelFileName:@"DataModel"];
-    ADBDALService *dalService = [[ADBDALService alloc] initWithPersistenceController:pc];
-    self.stack = [[ADBCoreDataStack alloc] initWithPersistenceController:pc dalService:dalService];
+    self.stack = [ADBCoreDataStack inMemoryCoreDataStackWithDataModelFileName:@"DataModel"];
 }
 
 - (void)tearDown

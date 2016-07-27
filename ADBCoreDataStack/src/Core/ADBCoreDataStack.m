@@ -14,7 +14,7 @@ static NSString *const kDataModelFileName = @"DataModel";
 @interface ADBCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) id <ADBPersistenceProtocol> persistenceController;
-@property (nonatomic, strong, readwrite) id <ADBQueryModelProtocol, ADBCommandModelProtocol> DALService;
+@property (nonatomic, strong, readwrite) id <ADBDALProtocol> DALService;
 @property (nonatomic, strong, readwrite) ADBReactor *reactor;
 
 @end
@@ -25,17 +25,17 @@ static ADBCoreDataStack *sharedInstance = nil;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kJustPersistenceHandleErrorNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCoreDataStackHandleErrorNotification object:nil];
 }
 
 - (instancetype)initWithPersistenceController:(id <ADBPersistenceProtocol>)persistenceController
-                                   dalService:(id <ADBQueryModelProtocol, ADBCommandModelProtocol>)dalService
+                                   dalService:(id <ADBDALProtocol>)dalService
 {
     self = [super init];
     if (self)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(receiveErrorNotification:) name:kJustPersistenceHandleErrorNotification
+                                                 selector:@selector(receiveErrorNotification:) name:kCoreDataStackHandleErrorNotification
                                                    object:nil];
         _persistenceController = persistenceController;
         _DALService = dalService;

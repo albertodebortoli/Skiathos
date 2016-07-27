@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Alberto De Bortoli. All rights reserved.
 //
 
-// Frameworks
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-// Protocols
 #import "ADBPersistenceProtocol.h"
 
 typedef NS_ENUM(NSUInteger, ADBStoreType) {
@@ -23,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ADBPersistentController : NSObject <ADBPersistenceProtocol>
 
 /**
- *  These methods initialize a Core Data stack. dataModelFileName must be the name of the xcdatamodeld file.
+ *  These methods initialize the chain of managed object contextes and the persistent store coordinator.
+ *  The parameter 'dataModelFileName' must be the name of the xcdatamodeld file.
  *  The first version is synchronous and creates the entire stack before returning.
  *  The second one creates the persistent store in background and the callback is called asynchronously.
  *  If the callback parameter is nil, the second method behaves like the first one.

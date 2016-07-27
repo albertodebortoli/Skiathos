@@ -7,8 +7,6 @@
 //
 
 #import "ADBReactor.h"
-
-// Frameworks
 #import <UIKit/UIKit.h>
 
 @interface ADBReactor ()

@@ -11,10 +11,12 @@
 
 // Facade
 #import "ADBCoreDataStack.h"
+#import "ADBCoreDataStack+Helpers.h"
 
 // Core
 #import "ADBPersistentController.h"
 #import "ADBDALService.h"
+#import "ADBDALService+DotNotation.h"
 #import "ADBReactor.h"
 
 // Categories
