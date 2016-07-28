@@ -9,22 +9,14 @@
 #import "ADBAppStateReactor.h"
 #import <UIKit/UIKit.h>
 
-@interface ADBAppStateReactor ()
-
-@property (nonatomic, strong, readwrite) id<ADBCoreDataStackProtocol> coreDataStack;
-
-@end
-
 @implementation ADBAppStateReactor
 
-- (instancetype)initWithCoreDataStack:(id<ADBCoreDataStackProtocol>)coreDataStack
+- (instancetype)init
 {
-    NSParameterAssert(coreDataStack);
-    
     self = [super init];
     if (self)
     {
-        _coreDataStack = coreDataStack;
+        [self initialize];
     }
     return self;
 }
@@ -54,31 +46,22 @@
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-    [self persist:nil];
+    [self _forwardStatusChange];
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification
 {
-    [self persist:nil];
+    [self _forwardStatusChange];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    [self persist:nil];
+    [self _forwardStatusChange];
 }
 
-- (void)persist:(void(^)(NSError *))handler
+- (void)_forwardStatusChange
 {
-    UIApplication *application = [UIApplication sharedApplication];
-    __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    return [self.coreDataStack save:^(NSError *error) {
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
+    [self.delegate appStateReactorDidReceiveStateChange:self];
 }
 
 @end

@@ -139,4 +139,32 @@
     [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
 }
 
+- (void)test_performance
+{
+    [self measureBlock:^{
+        dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+        
+        __block NSInteger count = 3;
+        
+        while (count)
+        {
+            dispatch_semaphore_wait(sem, DISPATCH_TIME_NOW);
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+            
+            [self.skiathos.write(^(NSManagedObjectContext *context) {
+                User *user = [User createInContext:context];
+                user.firstname = @"John";
+                user.lastname = @"Doe";
+            }).write(^(NSManagedObjectContext *context) {
+                [User deleteAllInContext:context];
+            }) write:^(NSManagedObjectContext *context) {
+                [User allInContext:context];
+            } completion:^(NSError * _Nullable error) {
+                count--;
+                dispatch_semaphore_signal(sem);
+            }];
+        }
+    }];
+}
+
 @end

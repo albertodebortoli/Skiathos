@@ -8,8 +8,9 @@
 
 #import "ADBCoreDataStack.h"
 #import "ADBAppStateReactor.h"
+#import <UIKit/UIKit.h>
 
-@interface ADBCoreDataStack ()
+@interface ADBCoreDataStack () <ADBAppStateReactorDelegate>
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
@@ -30,12 +31,29 @@
     if (self)
     {
         [self _initializeStoreType:storeType dataModelFileName:dataModelFileName callback:callback];
-        _appStateReactor = [[ADBAppStateReactor alloc] initWithCoreDataStack:self];
-        [_appStateReactor initialize];
+        _appStateReactor = [[ADBAppStateReactor alloc] init];
+        _appStateReactor.delegate = self;
     }
     
     return self;
 }
+
+#pragma mark - ADBAppStateReactorDelegate
+
+- (void)appStateReactorDidReceiveStateChange:(ADBAppStateReactor *)reactor
+{
+    UIApplication *application = [UIApplication sharedApplication];
+    __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    return [self save:^(NSError *error) {
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+}
+
 
 #pragma mark - ADBCoreDataStackProtocol
 
@@ -70,7 +88,11 @@
         
         NSError *mcError = nil;
         BOOL saveOnMainContextSucceeded = [strongSelf.mainContext save:&mcError];
-        NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", mcError.localizedDescription, mcError.userInfo);
+        if (!saveOnMainContextSucceeded)
+        {
+            NSAssert(saveOnMainContextSucceeded, @"Failed to save main context: %@\n%@", mcError.localizedDescription, mcError.userInfo);
+            return;
+        }
         
         if (mcError) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -88,7 +110,12 @@
             
             NSError *pcError = nil;
             BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&pcError];
-            NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", pcError.localizedDescription, pcError.userInfo);
+            
+            if (!saveOnPrivateContextSucceeded)
+            {
+                NSAssert(saveOnPrivateContextSucceeded, @"Error saving private context: %@\n%@", pcError.localizedDescription, pcError.userInfo);
+                return;
+            }
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (handler) {

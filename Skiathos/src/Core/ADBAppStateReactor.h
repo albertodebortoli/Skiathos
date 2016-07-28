@@ -8,15 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ADBCoreDataStackProtocol.h"
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class ADBAppStateReactor;
+
+@protocol ADBAppStateReactorDelegate <NSObject>
+
+- (void)appStateReactorDidReceiveStateChange:(ADBAppStateReactor *)reactor;
+
+@end
 
 @interface ADBAppStateReactor : NSObject
 
-@property (nonatomic, readonly) id<ADBCoreDataStackProtocol> coreDataStack;
+@property (nonatomic, weak) id<ADBAppStateReactorDelegate> delegate;
 
-- (instancetype)initWithCoreDataStack:(id<ADBCoreDataStackProtocol>)coreDataStack;
 - (void)initialize;
 
 @end
