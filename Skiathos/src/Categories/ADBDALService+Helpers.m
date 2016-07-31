@@ -12,13 +12,13 @@
 
 @implementation ADBDALService (Helpers)
 
-+ (instancetype)sqliteCoreDataStackWithDataModelFileName:(NSString *)dataModelFileName
++ (instancetype)sqliteStackWithDataModelFileName:(NSString *)dataModelFileName
 {
     ADBCoreDataStack *cds = [[ADBCoreDataStack alloc] initWithStoreType:ADBStoreTypeSQLite dataModelFileName:dataModelFileName];
     return [[ADBDALService alloc] initWithCoreDataStack:cds];
 }
 
-+ (instancetype)inMemoryCoreDataStackWithDataModelFileName:(NSString *)dataModelFileName
++ (instancetype)inMemoryStackWithDataModelFileName:(NSString *)dataModelFileName
 {
     ADBCoreDataStack *cds = [[ADBCoreDataStack alloc] initWithStoreType:ADBStoreTypeInMemory dataModelFileName:dataModelFileName];
     return [[ADBDALService alloc] initWithCoreDataStack:cds];

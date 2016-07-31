@@ -10,7 +10,7 @@
 
 @interface ADBDALService (Helpers)
 
-+ (instancetype)sqliteCoreDataStackWithDataModelFileName:(NSString *)dataModelFileName;
-+ (instancetype)inMemoryCoreDataStackWithDataModelFileName:(NSString *)dataModelFileName;
++ (instancetype)sqliteStackWithDataModelFileName:(NSString *)dataModelFileName;
++ (instancetype)inMemoryStackWithDataModelFileName:(NSString *)dataModelFileName;
 
 @end

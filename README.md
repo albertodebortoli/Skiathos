@@ -1,7 +1,9 @@
-# Skiathos 🇬🇷
+# Skiathos (Work in progress)
 
 A minimalistic, thread safe, non-boilerplate and super easy to use version of Active Record on Core Data.
-Simply all you need for doing Core Data.
+Simply all you need for doing Core Data. Objective-C flavour.
+
+[Swift version](https://github.com/albertodebortoli/Skopelos)
 
 ## General notes
 
@@ -60,12 +62,12 @@ Import `Skiathos.h`.
 
 To use this component, you could create a property of type `Skiathos` and instantiate it like so:
 
-```
-self.skiathos = [Skiathos inMemoryCoreDataStackWithDataModelFileName:@"<#DataModelFileName>"];
+```objc
+self.skiathos = [Skiathos inMemoryStackWithDataModelFileName:@"<#DataModelFileName>"];
 ```
 or
-```
-self.skiathos = [Skiathos sqliteCoreDataStackWithDataModelFileName:@"<#DataModelFileName>"];
+```objc
+self.skiathos = [Skiathos sqliteStackWithDataModelFileName:@"<#DataModelFileName>"];
 ```
 
 You could then pass around the skiathos in other parts of the app via dependency injection.
@@ -80,7 +82,7 @@ To create a singleton, you should inherit from Skiathos like so:
 
 ### Singleton
 
-```
+```objc
 @interface SkiathosClient : Skiathos
 
 + (SkiathosClient *)sharedInstance;
@@ -116,7 +118,7 @@ Speaking of readings and writings, let's do now a comparison between some standa
 
 Standard Core Data reading:
 
-```
+```objc
 __block NSArray *results = nil;
 
 NSManagedObjectContext *context = ...;
@@ -136,7 +138,7 @@ return results;
 
 Standard Core Data writing:
 
-```
+```objc
 NSManagedObjectContext *context = ...;
 [context performBlockAndWait:^{
 
@@ -157,7 +159,7 @@ NSManagedObjectContext *context = ...;
 
 Skiathos reading: 
 
-```
+```objc
 [[SkiathosClient sharedInstance] read:^(NSManagedObjectContext *context) {
     NSArray *allUsers = [User allInContext:context];
     NSLog(@"All users: %@", allUsers);
@@ -166,7 +168,7 @@ Skiathos reading:
 
 Skiathos writing:
 
-```
+```objc
 [[SkiathosClient sharedInstance] write:^(NSManagedObjectContext *context) {
     User *user = [User createInContext:context];
     user.firstname = @"John";
@@ -184,7 +186,7 @@ Skiathos writing:
 
 Skiathos also supports dot notation and chaining:
 
-```
+```objc
 __block User *user = nil;
 
 [SkiathosClient sharedInstance].write(^(NSManagedObjectContext *context) {
@@ -207,17 +209,17 @@ __block User *user = nil;
 
 The `NSManagedObject` category provides CRUD methods always explicit on the context. The context passed as parameter should be the one received in the read or write block. You should always use these methods from within read/write blocks. Main methods are:
 
-```
-+ (instancetype)createInContext:(NSManagedObjectContext *)context;
-+ (NSUInteger)numberOfEntitiesInContext:(NSManagedObjectContext *)context;
-- (void)deleteInContext:(NSManagedObjectContext *)context;
-+ (void)deleteAllInContext:(NSManagedObjectContext *)context;
-+ (NSArray *)allInContext:(NSManagedObjectContext *)context;
-+ (NSArray *)allWithPredicate:(NSPredicate *)pred inContext:(NSManagedObjectContext *)context;
-+ (instancetype)firstInContext:(NSManagedObjectContext *)context;
+```objc
++ (instancetype)SK_createInContext:(NSManagedObjectContext *)context;
++ (NSUInteger)SK_numberOfEntitiesInContext:(NSManagedObjectContext *)context;
+- (void)SK_deleteInContext:(NSManagedObjectContext *)context;
++ (void)SK_deleteAllInContext:(NSManagedObjectContext *)context;
++ (NSArray *)SK_allInContext:(NSManagedObjectContext *)context;
++ (NSArray *)SK_allWithPredicate:(NSPredicate *)pred inContext:(NSManagedObjectContext *)context;
++ (instancetype)SK_firstInContext:(NSManagedObjectContext *)context;
 ```
 
-Mind the usage of `inContext:` to retrieve an object in different write blocks.
+Mind the usage of `SK_inContext:` to retrieve an object in different read/write blocks (same read blocks are safe).
 
 
 ## Thread-safery notes
@@ -227,10 +229,9 @@ All the accesses to the persistence layer done via a `Skiathos` instance are gua
 It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 1` in your project to make sure that the you don't misuse Core Data in terms of threading and concurrency (by accessing managed objects from different threads and similar errors).
 
 This component doesn't aim to introduce interfaces with the goal of hiding the concept of `ManagedObjectContext`: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level (that would be ignoring the benefits that Core Data gives to us).
-Therefore, our design forces to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `createInContext:`).
+Therefore, our design forces to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `SK_createInContext:`).
 
 
 ## TO DO
 
-- Swift version
 - Create a pod

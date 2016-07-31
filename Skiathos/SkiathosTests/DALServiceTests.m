@@ -25,7 +25,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.skiathos = [Skiathos inMemoryCoreDataStackWithDataModelFileName:@"DataModel"];
+    self.skiathos = [Skiathos inMemoryStackWithDataModelFileName:@"DataModel"];
 }
 
 - (void)tearDown
@@ -41,18 +41,18 @@
     __block User *user = nil;
     
     [[[self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        user = [User createInContext:context];
-        user = [user inContext:context];
-        [User createInContext:context];
-        NSArray *users = [User allInContext:context];
+        user = [User SK_createInContext:context];
+        user = [user SK_inContext:context];
+        [User SK_createInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
     }] write:^(NSManagedObjectContext * _Nonnull context) {
-        User *userInContext = [user inContext:context];
-        [userInContext deleteInContext:context];
-        NSArray *users = [User allInContext:context];
+        User *userInContext = [user SK_inContext:context];
+        [userInContext SK_deleteInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
     }] read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
         [expectation fulfill];
     }];
@@ -67,18 +67,18 @@
     __block User *user = nil;
     
     self.skiathos.write(^(NSManagedObjectContext * _Nonnull context) {
-        user = [User createInContext:context];
-        user = [user inContext:context];
-        [User createInContext:context];
-        NSArray *users = [User allInContext:context];
+        user = [User SK_createInContext:context];
+        user = [user SK_inContext:context];
+        [User SK_createInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
     }).write(^(NSManagedObjectContext * _Nonnull context) {
-        User *userInContext = [user inContext:context];
-        [userInContext deleteInContext:context];
-        NSArray *users = [User allInContext:context];
+        User *userInContext = [user SK_inContext:context];
+        [userInContext SK_deleteInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
     }).read(^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
         [expectation fulfill];
     });
@@ -93,16 +93,16 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         
         self.skiathos.write(^(NSManagedObjectContext *context) {
-            [User deleteAllInContext:context];
+            [User SK_deleteAllInContext:context];
         }).read(^(NSManagedObjectContext *context) {
-            NSArray *users = [User allInContext:context];
+            NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 0);
         }).write(^(NSManagedObjectContext *context) {
-            User *user = [User createInContext:context];
+            User *user = [User SK_createInContext:context];
             user.firstname = @"John";
             user.lastname = @"Doe";
         }).read(^(NSManagedObjectContext *context) {
-            NSArray *users = [User allInContext:context];
+            NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 1);
             [expectation fulfill];
         });
@@ -120,16 +120,16 @@
     dispatch_async(q, ^{
         
         self.skiathos.write(^(NSManagedObjectContext *context) {
-            [User deleteAllInContext:context];
+            [User SK_deleteAllInContext:context];
         }).read(^(NSManagedObjectContext *context) {
-            NSArray *users = [User allInContext:context];
+            NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 0);
         }).write(^(NSManagedObjectContext *context) {
-            User *user = [User createInContext:context];
+            User *user = [User SK_createInContext:context];
             user.firstname = @"John";
             user.lastname = @"Doe";
         }).read(^(NSManagedObjectContext *context) {
-            NSArray *users = [User allInContext:context];
+            NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 1);
             [expectation fulfill];
         });
@@ -152,13 +152,13 @@
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
             
             [self.skiathos.write(^(NSManagedObjectContext *context) {
-                User *user = [User createInContext:context];
+                User *user = [User SK_createInContext:context];
                 user.firstname = @"John";
                 user.lastname = @"Doe";
             }).write(^(NSManagedObjectContext *context) {
-                [User deleteAllInContext:context];
+                [User SK_deleteAllInContext:context];
             }) write:^(NSManagedObjectContext *context) {
-                [User allInContext:context];
+                [User SK_allInContext:context];
             } completion:^(NSError * _Nullable error) {
                 count--;
                 dispatch_semaphore_signal(sem);

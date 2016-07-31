@@ -23,7 +23,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.skiathos = [Skiathos inMemoryCoreDataStackWithDataModelFileName:@"DataModel"];
+    self.skiathos = [Skiathos inMemoryStackWithDataModelFileName:@"DataModel"];
 }
 
 - (void)tearDown
@@ -37,16 +37,16 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 0);
     }];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        [User createInContext:context];
+        [User SK_createInContext:context];
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
         [expectation fulfill];
     }];
@@ -61,22 +61,22 @@
     __block User *user = nil;
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        user = [User createInContext:context];
-        user = [user inContext:context];
-        [User createInContext:context];
-        NSArray *users = [User allInContext:context];
+        user = [User SK_createInContext:context];
+        user = [user SK_inContext:context];
+        [User SK_createInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
     }];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *userInContext = [user inContext:context];
-        [userInContext deleteInContext:context];
-        NSArray *users = [User allInContext:context];
+        User *userInContext = [user SK_inContext:context];
+        [userInContext SK_deleteInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
         [expectation fulfill];
     }];
@@ -90,18 +90,18 @@
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
         NSArray *users = nil;
-        User *user1 = [User createInContext:context];
-        [User createInContext:context];
-        users = [User allInContext:context];
+        User *user1 = [User SK_createInContext:context];
+        [User SK_createInContext:context];
+        users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
         
-        [user1 deleteInContext:context];
-        users = [User allInContext:context];
+        [user1 SK_deleteInContext:context];
+        users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 1);
         [expectation fulfill];
     }];
@@ -116,18 +116,18 @@
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
         NSArray *users = nil;
         
-        [User createInContext:context];
-        [User createInContext:context];
-        users = [User allInContext:context];
+        [User SK_createInContext:context];
+        [User SK_createInContext:context];
+        users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
         
-        [User deleteAllInContext:context];
-        users = [User allInContext:context];
+        [User SK_deleteAllInContext:context];
+        users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 0);
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 0);
         [expectation fulfill];
     }];
@@ -140,12 +140,12 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        [User createInContext:context];
-        [User createInContext:context];
+        [User SK_createInContext:context];
+        [User SK_createInContext:context];
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSUInteger numberOfEntitities = [User numberOfEntitiesInContext:context];
+        NSUInteger numberOfEntitities = [User SK_numberOfEntitiesInContext:context];
         XCTAssertEqual(numberOfEntitities, 2);
         [expectation fulfill];
     }];
@@ -158,15 +158,15 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u2.firstname = @"Jane";
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"firstname", @"John"];
-        NSUInteger numberOfEntitities = [User numberOfEntitiesWithPredicate:predicate inContext:context];
+        NSUInteger numberOfEntitities = [User SK_numberOfEntitiesWithPredicate:predicate inContext:context];
         XCTAssertEqual(numberOfEntitities, 1);
         [expectation fulfill];
     }];
@@ -179,12 +179,12 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        [User createInContext:context];
-        [User createInContext:context];
+        [User SK_createInContext:context];
+        [User SK_createInContext:context];
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allInContext:context];
+        NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
         [expectation fulfill];
     }];
@@ -197,15 +197,15 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u2.firstname = @"Jane";
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"firstname", @"John"];
-        NSArray *users = [User allWithPredicate:predicate inContext:context];
+        NSArray *users = [User SK_allWithPredicate:predicate inContext:context];
         XCTAssertEqual(users.count, 1);
         User *user = [users firstObject];
         XCTAssertEqual(user.firstname, @"John");
@@ -220,8 +220,8 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
@@ -230,7 +230,7 @@
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"lastname", @"Doe"];
-        NSArray *users = [User allWithPredicate:predicate sortedBy:@"firstname" ascending:YES inContext:context];
+        NSArray *users = [User SK_allWithPredicate:predicate sortedBy:@"firstname" ascending:YES inContext:context];
         XCTAssertEqual(users.count, 2);
         User *user = [users firstObject];
         XCTAssertEqual(user.firstname, @"Jane");
@@ -245,8 +245,8 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
@@ -254,7 +254,7 @@
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        NSArray *users = [User allWhereAttribute:@"lastname" isEqualTo:@"Doe" sortedBy:@"firstname" ascending:NO inContext:context];
+        NSArray *users = [User SK_allWhereAttribute:@"lastname" isEqualTo:@"Doe" sortedBy:@"firstname" ascending:NO inContext:context];
         XCTAssertEqual(users.count, 2);
         User *user = [users firstObject];
         XCTAssertEqual(user.firstname, @"John");
@@ -269,14 +269,14 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u2.firstname = @"Jane";
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        User *user = [User firstInContext:context];
+        User *user = [User SK_firstInContext:context];
         XCTAssertNotNil(user);
         [expectation fulfill];
     }];
@@ -289,8 +289,8 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
@@ -299,7 +299,7 @@
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"lastname", @"Doe"];
-        User *user = [User firstWithPredicate:predicate sortedBy:@"firstname" ascending:YES inContext:context];
+        User *user = [User SK_firstWithPredicate:predicate sortedBy:@"firstname" ascending:YES inContext:context];
         XCTAssertEqual(user.firstname, @"Jane");
         [expectation fulfill];
     }];
@@ -312,8 +312,8 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
-        User *u1 = [User createInContext:context];
-        User *u2 = [User createInContext:context];
+        User *u1 = [User SK_createInContext:context];
+        User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
@@ -321,10 +321,10 @@
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
-        User *user1 = [User firstWhereAttribute:@"lastname" isEqualTo:@"Doe" inContext:context];
+        User *user1 = [User SK_firstWhereAttribute:@"lastname" isEqualTo:@"Doe" inContext:context];
         XCTAssertNotNil(user1);
     
-        User *user2 = [User firstWhereAttribute:@"lastname" isEqualTo:@"Smith" inContext:context];
+        User *user2 = [User SK_firstWhereAttribute:@"lastname" isEqualTo:@"Smith" inContext:context];
         XCTAssertNil(user2);
     
         [expectation fulfill];

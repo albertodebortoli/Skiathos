@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ADBCoreDataStack : NSObject <ADBCoreDataStackProtocol>
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
 /**
  *  These methods initialize the chain of managed object contextes and the persistent store coordinator.
  *  The parameter 'dataModelFileName' must be the name of the xcdatamodeld file.

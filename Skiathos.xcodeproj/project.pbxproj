@@ -198,10 +198,10 @@
 		4F70DA571D49721F009B4675 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				4F70DA5B1D49721F009B4675 /* ADBQueryModelProtocol.h */,
 				4F70DA581D49721F009B4675 /* ADBCommandModelProtocol.h */,
 				4F70DA591D49721F009B4675 /* ADBCoreDataStackProtocol.h */,
 				4F70DA5A1D49721F009B4675 /* ADBDALProtocol.h */,
-				4F70DA5B1D49721F009B4675 /* ADBQueryModelProtocol.h */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";

@@ -13,9 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kSkiathosHandleErrorNotification = @"kSkiathosHandleErrorNotification";
+static NSString *const kHandleDALServiceErrorNotification = @"kHandleDALServiceErrorNotification";
 
-#define SkiathosHandleError(...) [[NSNotificationCenter defaultCenter] postNotificationName:kSkiathosHandleErrorNotification object:self userInfo:@{@"error":__VA_ARGS__}];
+#define HandleDALServiceError(...) [[NSNotificationCenter defaultCenter] postNotificationName:kHandleDALServiceErrorNotification object:self userInfo:@{@"error":__VA_ARGS__}];
 
 @interface ADBDALService : NSObject <ADBDALProtocol>
 

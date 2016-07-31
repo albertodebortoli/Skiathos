@@ -19,7 +19,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSkiathosHandleErrorNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHandleDALServiceErrorNotification object:nil];
 }
 
 - (instancetype)initWithCoreDataStack:(id<ADBCoreDataStackProtocol>)coreDataStack
@@ -31,7 +31,7 @@
     {
         _coreDataStack = coreDataStack;
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(receiveErrorNotification:) name:kSkiathosHandleErrorNotification
+                                                 selector:@selector(receiveErrorNotification:) name:kHandleDALServiceErrorNotification
                                                    object:nil];
     }
     return self;
