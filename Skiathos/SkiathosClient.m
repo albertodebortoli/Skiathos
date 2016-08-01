@@ -8,8 +8,6 @@
 
 #import "SkiathosClient.h"
 
-#import "ADBDALService+Helpers.h"
-
 static SkiathosClient *sharedInstance = nil;
 
 @implementation SkiathosClient

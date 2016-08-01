@@ -7,7 +7,7 @@
 //
 
 #import "NSManagedObject+Skiathos.h"
-#import "ADBDALService.h"
+#import "Skiathos.h"
 
 @implementation NSManagedObject (Skiathos)
 

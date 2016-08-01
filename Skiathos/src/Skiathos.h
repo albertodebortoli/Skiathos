@@ -15,11 +15,15 @@
 #import "ADBAppStateReactor.h"
 
 // Categories
-#import "ADBDALService+Helpers.h"
 #import "ADBDALService+DotNotation.h"
 #import "NSManagedObject+Skiathos.h"
 
+#define HandleDALServiceError(...) [[NSNotificationCenter defaultCenter] postNotificationName:kHandleDALServiceErrorNotification object:self userInfo:@{@"error":__VA_ARGS__}];
+
 @interface Skiathos : ADBDALService
+
++ (instancetype)sqliteStackWithDataModelFileName:(NSString *)dataModelFileName;
++ (instancetype)inMemoryStackWithDataModelFileName:(NSString *)dataModelFileName;
 
 @end
 

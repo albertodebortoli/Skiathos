@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kHandleDALServiceErrorNotification = @"kHandleDALServiceErrorNotification";
 
-#define HandleDALServiceError(...) [[NSNotificationCenter defaultCenter] postNotificationName:kHandleDALServiceErrorNotification object:self userInfo:@{@"error":__VA_ARGS__}];
-
 @interface ADBDALService : NSObject <ADBDALProtocol>
 
 - (instancetype)initWithCoreDataStack:(id<ADBCoreDataStackProtocol>)coreDataStack;

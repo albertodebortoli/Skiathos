@@ -1,5 +1,5 @@
 //
-//  DALServiceTests.m
+//  SkiathosTests.m
 // 
 //
 //  Created by Alberto De Bortoli on 26/07/2016.
@@ -14,13 +14,13 @@
 
 #define kUnitTestTimeout (10.0)
 
-@interface DALServiceTests : XCTestCase
+@interface SkiathosTests : XCTestCase
 
 @property (nonatomic, strong) Skiathos *skiathos;
 
 @end
 
-@implementation DALServiceTests
+@implementation SkiathosTests
 
 - (void)setUp
 {
