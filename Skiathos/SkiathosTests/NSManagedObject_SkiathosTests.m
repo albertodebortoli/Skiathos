@@ -222,10 +222,13 @@
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
+        User *u3 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
         u2.lastname  = @"Doe";
+        u3.firstname = @"Mark";
+        u3.lastname  = @"Smith";
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
@@ -247,10 +250,13 @@
     [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
+        User *u3 = [User SK_createInContext:context];
         u1.firstname = @"John";
         u1.lastname  = @"Doe";
         u2.firstname = @"Jane";
         u2.lastname  = @"Doe";
+        u3.firstname = @"Mark";
+        u3.lastname  = @"Smith";
     }];
     
     [self.skiathos read:^(NSManagedObjectContext * _Nonnull context) {
@@ -258,6 +264,10 @@
         XCTAssertEqual(users.count, 2);
         User *user = [users firstObject];
         XCTAssertEqual(user.firstname, @"John");
+        users = [User SK_allWhereAttribute:@"lastname" isEqualTo:@"Doe" sortedBy:@"firstname" ascending:YES inContext:context];
+        XCTAssertEqual(users.count, 2);
+        user = [users firstObject];
+        XCTAssertEqual(user.firstname, @"Jane");
         [expectation fulfill];
     }];
     

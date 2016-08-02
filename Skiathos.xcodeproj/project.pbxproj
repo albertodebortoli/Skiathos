@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43F2501B67DFC800A03939 /* CoreData.framework */; };
-		4F70DA701D49721F009B4675 /* Pet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA431D49721F009B4675 /* Pet.m */; };
-		4F70DA711D49721F009B4675 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA451D49721F009B4675 /* User.m */; };
+		4F55678B1D5078430058011C /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F5567851D5078430058011C /* DataModel.xcdatamodeld */; };
+		4F55678C1D5078430058011C /* Pet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5567881D5078430058011C /* Pet.m */; };
+		4F55678D1D5078430058011C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F55678A1D5078430058011C /* User.m */; };
 		4F70DA721D49721F009B4675 /* SkiathosClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA471D49721F009B4675 /* SkiathosClient.m */; };
 		4F70DA731D49721F009B4675 /* ADBDALService+DotNotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA4B1D49721F009B4675 /* ADBDALService+DotNotation.m */; };
 		4F70DA751D49721F009B4675 /* NSManagedObject+Skiathos.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA4F1D49721F009B4675 /* NSManagedObject+Skiathos.m */; };
@@ -20,7 +20,6 @@
 		4F70DA7A1D49721F009B4675 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA601D49721F009B4675 /* AppDelegate.m */; };
 		4F70DA7B1D49721F009B4675 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA611D49721F009B4675 /* LaunchScreen.xib */; };
 		4F70DA7C1D49721F009B4675 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA631D49721F009B4675 /* Main.storyboard */; };
-		4F70DA7D1D49721F009B4675 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */; };
 		4F70DA7E1D49721F009B4675 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F70DA671D49721F009B4675 /* Images.xcassets */; };
 		4F70DA801D49721F009B4675 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA691D49721F009B4675 /* main.m */; };
 		4F70DA811D49721F009B4675 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F70DA6B1D49721F009B4675 /* ViewController.m */; };
@@ -39,15 +38,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00C0F45071651135B5F43166 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F186AA91B7601F1007E0091 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4F43F2271B67DFBE00A03939 /* Skiathos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skiathos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F43F2401B67DFBE00A03939 /* Skiathos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Skiathos.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F43F2501B67DFC800A03939 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		4F70DA421D49721F009B4675 /* Pet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pet.h; sourceTree = "<group>"; };
-		4F70DA431D49721F009B4675 /* Pet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pet.m; sourceTree = "<group>"; };
-		4F70DA441D49721F009B4675 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		4F70DA451D49721F009B4675 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		4F5567861D5078430058011C /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		4F5567871D5078430058011C /* Pet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pet.h; sourceTree = "<group>"; };
+		4F5567881D5078430058011C /* Pet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pet.m; sourceTree = "<group>"; };
+		4F5567891D5078430058011C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		4F55678A1D5078430058011C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4F70DA461D49721F009B4675 /* SkiathosClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkiathosClient.h; sourceTree = "<group>"; };
 		4F70DA471D49721F009B4675 /* SkiathosClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkiathosClient.m; sourceTree = "<group>"; };
 		4F70DA4A1D49721F009B4675 /* ADBDALService+DotNotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ADBDALService+DotNotation.h"; sourceTree = "<group>"; };
@@ -70,7 +68,6 @@
 		4F70DA601D49721F009B4675 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4F70DA621D49721F009B4675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4F70DA641D49721F009B4675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		4F70DA671D49721F009B4675 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4F70DA681D49721F009B4675 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F70DA691D49721F009B4675 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F43F2511B67DFC800A03939 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +102,6 @@
 				4F186AA91B7601F1007E0091 /* README.md */,
 				4F70DA401D49721F009B4675 /* Skiathos */,
 				4F70DA851D49722D009B4675 /* SkiathosTests */,
-				4F43F2521B67DFD600A03939 /* Frameworks */,
 				4F43F2281B67DFBE00A03939 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,38 +115,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4F43F2521B67DFD600A03939 /* Frameworks */ = {
+		4F5567841D5078430058011C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4F43F2501B67DFC800A03939 /* CoreData.framework */,
-				00C0F45071651135B5F43166 /* libPods.a */,
+				4F5567851D5078430058011C /* DataModel.xcdatamodeld */,
+				4F5567871D5078430058011C /* Pet.h */,
+				4F5567881D5078430058011C /* Pet.m */,
+				4F5567891D5078430058011C /* User.h */,
+				4F55678A1D5078430058011C /* User.m */,
 			);
-			name = Frameworks;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		4F70DA401D49721F009B4675 /* Skiathos */ = {
 			isa = PBXGroup;
 			children = (
-				4F70DA411D49721F009B4675 /* MOs */,
 				4F70DA461D49721F009B4675 /* SkiathosClient.h */,
 				4F70DA471D49721F009B4675 /* SkiathosClient.m */,
+				4F5567841D5078430058011C /* Model */,
 				4F70DA481D49721F009B4675 /* src */,
 				4F70DA5E1D49721F009B4675 /* Supporting Files */,
 				4F70DA6A1D49721F009B4675 /* ViewController.h */,
 				4F70DA6B1D49721F009B4675 /* ViewController.m */,
 			);
 			path = Skiathos;
-			sourceTree = "<group>";
-		};
-		4F70DA411D49721F009B4675 /* MOs */ = {
-			isa = PBXGroup;
-			children = (
-				4F70DA421D49721F009B4675 /* Pet.h */,
-				4F70DA431D49721F009B4675 /* Pet.m */,
-				4F70DA441D49721F009B4675 /* User.h */,
-				4F70DA451D49721F009B4675 /* User.m */,
-			);
-			path = MOs;
 			sourceTree = "<group>";
 		};
 		4F70DA481D49721F009B4675 /* src */ = {
@@ -208,7 +195,6 @@
 				4F70DA601D49721F009B4675 /* AppDelegate.m */,
 				4F70DA611D49721F009B4675 /* LaunchScreen.xib */,
 				4F70DA631D49721F009B4675 /* Main.storyboard */,
-				4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */,
 				4F70DA671D49721F009B4675 /* Images.xcassets */,
 				4F70DA681D49721F009B4675 /* Info.plist */,
 				4F70DA691D49721F009B4675 /* main.m */,
@@ -327,17 +313,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F55678D1D5078430058011C /* User.m in Sources */,
+				4F55678B1D5078430058011C /* DataModel.xcdatamodeld in Sources */,
 				4F70DA811D49721F009B4675 /* ViewController.m in Sources */,
 				4F70DA801D49721F009B4675 /* main.m in Sources */,
 				4F70DA7A1D49721F009B4675 /* AppDelegate.m in Sources */,
-				4F70DA711D49721F009B4675 /* User.m in Sources */,
 				4F70DA731D49721F009B4675 /* ADBDALService+DotNotation.m in Sources */,
-				4F70DA701D49721F009B4675 /* Pet.m in Sources */,
 				4F70DA751D49721F009B4675 /* NSManagedObject+Skiathos.m in Sources */,
 				4F70DA721D49721F009B4675 /* SkiathosClient.m in Sources */,
 				4F70DA771D49721F009B4675 /* ADBCoreDataStack.m in Sources */,
 				4F70DA781D49721F009B4675 /* ADBDALService.m in Sources */,
-				4F70DA7D1D49721F009B4675 /* DataModel.xcdatamodeld in Sources */,
+				4F55678C1D5078430058011C /* Pet.m in Sources */,
 				4F70DA761D49721F009B4675 /* ADBAppStateReactor.m in Sources */,
 				4F70DA791D49721F009B4675 /* Skiathos.m in Sources */,
 			);
@@ -550,12 +536,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		4F70DA651D49721F009B4675 /* DataModel.xcdatamodeld */ = {
+		4F5567851D5078430058011C /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */,
+				4F5567861D5078430058011C /* DataModel.xcdatamodel */,
 			);
-			currentVersion = 4F70DA661D49721F009B4675 /* DataModel.xcdatamodel */;
+			currentVersion = 4F5567861D5078430058011C /* DataModel.xcdatamodel */;
 			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
