@@ -12,7 +12,7 @@
 @protocol ADBCoreDataStackProtocol <NSObject>
 
 @property (nonatomic, readonly) NSManagedObjectContext *mainContext;
-@property (nonatomic, readonly) NSManagedObjectContext *privateContext;
+@property (nonatomic, readonly) NSManagedObjectContext *rootContext;
 
 - (void)save:(void(^)(NSError *error))handler;
 

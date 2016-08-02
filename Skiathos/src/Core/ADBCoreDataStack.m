@@ -13,7 +13,7 @@
 @interface ADBCoreDataStack () <ADBAppStateReactorDelegate>
 
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *mainContext;
-@property (nonatomic, strong, readwrite) NSManagedObjectContext *privateContext;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *rootContext;
 @property (nonatomic, strong, readwrite) ADBAppStateReactor *appStateReactor;
 
 @end
@@ -66,8 +66,8 @@
         mainHasChanges = [self.mainContext hasChanges];
     }];
     
-    [self.privateContext performBlockAndWait:^{
-        privateHasChanges = [self.privateContext hasChanges];
+    [self.rootContext performBlockAndWait:^{
+        privateHasChanges = [self.rootContext hasChanges];
     }];
     
     if (!mainHasChanges && !privateHasChanges) {
@@ -103,13 +103,13 @@
             return;
         }
         
-        [[self privateContext] performBlock:^{
+        [self.rootContext performBlock:^{
             
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return;
             
             NSError *pcError = nil;
-            BOOL saveOnPrivateContextSucceeded = [strongSelf.privateContext save:&pcError];
+            BOOL saveOnPrivateContextSucceeded = [strongSelf.rootContext save:&pcError];
             
             if (!saveOnPrivateContextSucceeded)
             {
@@ -143,12 +143,12 @@
     
     [self setMainContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType]];
     
-    self.privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    self.privateContext.persistentStoreCoordinator = coordinator;
-    self.mainContext.parentContext = self.privateContext;
+    self.rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    self.rootContext.persistentStoreCoordinator = coordinator;
+    self.mainContext.parentContext = self.rootContext;
     
     void (^privateContextSetupBlock)() = ^{
-        NSPersistentStoreCoordinator *psc = [[self privateContext] persistentStoreCoordinator];
+        NSPersistentStoreCoordinator *psc = [self.rootContext persistentStoreCoordinator];
         
         switch (storeType) {
             case ADBStoreTypeSQLite:
