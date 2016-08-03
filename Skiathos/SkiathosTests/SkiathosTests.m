@@ -25,7 +25,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.skiathos = [Skiathos inMemoryStackWithDataModelFileName:@"DataModel"];
+    self.skiathos = [Skiathos setupInMemoryStackWithDataModelFileName:@"DataModel"];
 }
 
 - (void)tearDown

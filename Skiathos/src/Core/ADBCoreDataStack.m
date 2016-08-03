@@ -81,7 +81,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [[self mainContext] performBlock:^{
+    [self.mainContext performBlock:^{
         
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) return;
@@ -103,7 +103,7 @@
             return;
         }
         
-        [self.rootContext performBlock:^{
+        [strongSelf.rootContext performBlock:^{
             
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return;

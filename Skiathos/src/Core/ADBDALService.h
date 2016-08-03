@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kHandleDALServiceErrorNotification = @"kHandleDALServiceErrorNotification";
 
+extern void HandleDALServiceError(id sender, NSError *error);
+
 @interface ADBDALService : NSObject <ADBDALProtocol>
 
 - (instancetype)initWithCoreDataStack:(id<ADBCoreDataStackProtocol>)coreDataStack;

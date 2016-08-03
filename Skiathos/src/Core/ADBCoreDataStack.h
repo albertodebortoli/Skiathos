@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ADBCoreDataStack : NSObject <ADBCoreDataStackProtocol>
 
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 /**
  *  These methods initialize the chain of managed object contextes and the persistent store coordinator.

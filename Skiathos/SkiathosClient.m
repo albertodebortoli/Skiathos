@@ -16,7 +16,7 @@ static SkiathosClient *sharedInstance = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [self sqliteStackWithDataModelFileName:@"DataModel"];
+        sharedInstance = [self setupSqliteStackWithDataModelFileName:@"DataModel"];
     });
     
     return sharedInstance;

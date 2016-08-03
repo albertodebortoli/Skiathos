@@ -12,13 +12,13 @@
 
 @implementation Skiathos
 
-+ (instancetype)sqliteStackWithDataModelFileName:(NSString *)dataModelFileName
++ (instancetype)setupSqliteStackWithDataModelFileName:(NSString *)dataModelFileName
 {
     ADBCoreDataStack *cds = [[ADBCoreDataStack alloc] initWithStoreType:ADBStoreTypeSQLite dataModelFileName:dataModelFileName];
     return [[self alloc] initWithCoreDataStack:cds];
 }
 
-+ (instancetype)inMemoryStackWithDataModelFileName:(NSString *)dataModelFileName
++ (instancetype)setupInMemoryStackWithDataModelFileName:(NSString *)dataModelFileName
 {
     ADBCoreDataStack *cds = [[ADBCoreDataStack alloc] initWithStoreType:ADBStoreTypeInMemory dataModelFileName:dataModelFileName];
     return [[self alloc] initWithCoreDataStack:cds];

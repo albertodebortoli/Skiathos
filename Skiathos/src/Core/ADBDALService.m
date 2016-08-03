@@ -9,6 +9,10 @@
 #import "ADBDALService.h"
 #import <CoreData/CoreData.h>
 
+void HandleDALServiceError(id sender, NSError *error) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHandleDALServiceErrorNotification object:sender userInfo:@{@"error":error}];
+}
+
 @interface ADBDALService ()
 
 @property (nonatomic, strong) id<ADBCoreDataStackProtocol> coreDataStack;

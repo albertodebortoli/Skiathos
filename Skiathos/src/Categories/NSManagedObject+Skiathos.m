@@ -21,7 +21,7 @@
     {
         BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
         if (!success) {
-            HandleDALServiceError(error);
+            HandleDALServiceError(self, error);
             return nil;
         }
     }
@@ -31,7 +31,7 @@
     NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
     
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     
     return inContext;
@@ -51,7 +51,7 @@
     NSError *error;
     NSUInteger result = [context countForFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     
     return result;
@@ -65,7 +65,7 @@
     NSError *error;
     NSUInteger result = [context countForFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     
     return result;
@@ -86,7 +86,7 @@
     NSArray *objectsToDelete = [context executeFetchRequest:request error:&error];
     
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     else {
         for (NSManagedObject *objectToDelete in objectsToDelete) {
@@ -102,7 +102,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return results;
 }
@@ -115,7 +115,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return results;
 }
@@ -129,7 +129,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return results;
 }
@@ -147,7 +147,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return results;
 }
@@ -161,7 +161,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return [results firstObject];
 }
@@ -176,7 +176,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return [results firstObject];
 }
@@ -192,7 +192,7 @@
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
     if (error) {
-        HandleDALServiceError(error);
+        HandleDALServiceError(self, error);
     }
     return [results firstObject];
 }
