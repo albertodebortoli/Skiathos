@@ -63,11 +63,11 @@ Import `Skiathos.h`.
 To use this component, you could create a property of type `Skiathos` and instantiate it like so:
 
 ```objc
-self.skiathos = [Skiathos inMemoryStackWithDataModelFileName:@"<#DataModelFileName>"];
+self.skiathos = [Skiathos setupInMemoryStackWithDataModelFileName:@"<#DataModelFileName>"];
 ```
 or
 ```objc
-self.skiathos = [Skiathos sqliteStackWithDataModelFileName:@"<#DataModelFileName>"];
+self.skiathos = [Skiathos setupSqliteStackWithDataModelFileName:@"<#DataModelFileName>"];
 ```
 
 You could then pass around the skiathos in other parts of the app via dependency injection.
@@ -97,7 +97,7 @@ static SkiathosClient *sharedInstance = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [self sqliteCoreDataStackWithDataModelFileName:@"<#DataModelFileName>"];
+        sharedInstance = [self setupSqliteStackWithDataModelFileName:@"<#DataModelFileName>"];
     });
 
     return sharedInstance;
@@ -230,8 +230,3 @@ It is highly suggested to enable the flag `-com.apple.CoreData.ConcurrencyDebug 
 
 This component doesn't aim to introduce interfaces with the goal of hiding the concept of `ManagedObjectContext`: it would open up the doors to threading issues in clients' code as developers should be responsible to check for the type of the calling thread at some level (that would be ignoring the benefits that Core Data gives to us).
 Therefore, our design forces to make all the readings and writings via the `DALService` and the `ManagedObject` category methods are intended to always be explicit on the context (e.g. `SK_createInContext:`).
-
-
-## TO DO
-
-- Create a pod
