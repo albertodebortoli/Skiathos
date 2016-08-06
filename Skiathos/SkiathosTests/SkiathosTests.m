@@ -167,4 +167,69 @@
     }];
 }
 
+- (void)test_CorrectOrderOfOperationsMainQueue
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    __block NSUInteger counter = 0;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        XCTAssertEqual(counter, 0);
+        counter++;
+        
+        self.skiathos.write(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 1);
+            counter++;
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 2);
+            counter++;
+        }).write(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 3);
+            counter++;
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 4);
+            counter++;
+        });
+        
+        XCTAssertEqual(counter, 5);
+        [expectation fulfill];
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
+- (void)test_CorrectOrderOfOperationsBkgQueue
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    __block NSUInteger counter = 0;
+    
+    dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(q, ^{
+        
+        XCTAssertEqual(counter, 0);
+        counter++;
+        
+        self.skiathos.write(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 1);
+            counter++;
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 2);
+            counter++;
+        }).write(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 3);
+            counter++;
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertEqual(counter, 4);
+            counter++;
+        });
+        
+        XCTAssertEqual(counter, 5);
+        [expectation fulfill];
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
 @end
