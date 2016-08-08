@@ -15,8 +15,12 @@ typedef void (^Write)(NSManagedObjectContext * context);
 
 @protocol ADBCommandModelProtocol <NSObject>
 
-- (instancetype)write:(Write)changes;
-- (instancetype)write:(Write)changes completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
+- (instancetype)writeSync:(Write)changes;
+- (instancetype)writeSync:(Write)changes completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
+
+// async writings are not chainable, return value is void
+- (void)writeAsync:(Write)changes;
+- (void)writeAsync:(Write)changes completion:(void(^ _Nullable)(NSError * _Nullable error))handler;
 
 @end
 

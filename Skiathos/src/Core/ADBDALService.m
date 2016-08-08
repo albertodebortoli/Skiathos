@@ -55,12 +55,12 @@ void HandleDALServiceError(id sender, NSError *error) {
 
 #pragma mark - ADBCommandModelProtocol
 
-- (instancetype)write:(Write)changes
+- (instancetype)writeSync:(Write)changes
 {
-    return [self write:changes completion:nil];
+    return [self writeSync:changes completion:nil];
 }
 
-- (instancetype)write:(Write)changes completion:(void (^)(NSError * _Nullable))handler
+- (instancetype)writeSync:(Write)changes completion:(void (^)(NSError * _Nullable))handler
 {
     NSParameterAssert(changes);
     
@@ -78,6 +78,29 @@ void HandleDALServiceError(id sender, NSError *error) {
     }];
     
     return self;
+}
+
+- (void)writeAsync:(Write)changes
+{
+    return [self writeAsync:changes completion:nil];
+}
+
+- (void)writeAsync:(Write)changes completion:(void (^)(NSError * _Nullable))handler
+{
+    NSParameterAssert(changes);
+    
+    NSManagedObjectContext *context = [self adb_slaveContext];
+    [context performBlock:^{
+        
+        changes(context);
+        
+        NSError *error;
+        [context save:&error];
+        if (!error)
+        {
+            [_coreDataStack save:handler];
+        }
+    }];
 }
 
 #pragma mark - Private

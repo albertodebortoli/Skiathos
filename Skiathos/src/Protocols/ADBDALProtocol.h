@@ -16,13 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ADBDALProtocol;
 
 typedef _Nonnull id <ADBDALProtocol> (^ReadDotNotation)(Read read);
-typedef _Nonnull id <ADBDALProtocol> (^WriteDotNotation)(Write write);
+typedef _Nonnull id <ADBDALProtocol> (^WriteSyncDotNotation)(Write write);
+typedef void (^WriteAsyncDotNotation)(Write write); // async writings are not chainable, return value is void
 
 @protocol ADBDALProtocol <ADBQueryModelProtocol, ADBCommandModelProtocol>
 
 @optional
 - (ReadDotNotation)read;
-- (WriteDotNotation)write;
+- (WriteSyncDotNotation)writeSync;
+- (WriteAsyncDotNotation)writeAsync;
 
 @end
 

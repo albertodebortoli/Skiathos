@@ -40,13 +40,13 @@
     
     __block User *user = nil;
     
-    [[[self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [[[self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         user = [User SK_createInContext:context];
         user = [user SK_inContext:context];
         [User SK_createInContext:context];
         NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
-    }] write:^(NSManagedObjectContext * _Nonnull context) {
+    }] writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *userInContext = [user SK_inContext:context];
         [userInContext SK_deleteInContext:context];
         NSArray *users = [User SK_allInContext:context];
@@ -66,13 +66,13 @@
     
     __block User *user = nil;
     
-    self.skiathos.write(^(NSManagedObjectContext * _Nonnull context) {
+    self.skiathos.writeSync(^(NSManagedObjectContext * _Nonnull context) {
         user = [User SK_createInContext:context];
         user = [user SK_inContext:context];
         [User SK_createInContext:context];
         NSArray *users = [User SK_allInContext:context];
         XCTAssertEqual(users.count, 2);
-    }).write(^(NSManagedObjectContext * _Nonnull context) {
+    }).writeSync(^(NSManagedObjectContext * _Nonnull context) {
         User *userInContext = [user SK_inContext:context];
         [userInContext SK_deleteInContext:context];
         NSArray *users = [User SK_allInContext:context];
@@ -92,12 +92,12 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        self.skiathos.write(^(NSManagedObjectContext *context) {
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
             [User SK_deleteAllInContext:context];
         }).read(^(NSManagedObjectContext *context) {
             NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 0);
-        }).write(^(NSManagedObjectContext *context) {
+        }).writeSync(^(NSManagedObjectContext *context) {
             User *user = [User SK_createInContext:context];
             user.firstname = @"John";
             user.lastname = @"Doe";
@@ -119,12 +119,12 @@
     dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(q, ^{
         
-        self.skiathos.write(^(NSManagedObjectContext *context) {
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
             [User SK_deleteAllInContext:context];
         }).read(^(NSManagedObjectContext *context) {
             NSArray *users = [User SK_allInContext:context];
             XCTAssertEqual(users.count, 0);
-        }).write(^(NSManagedObjectContext *context) {
+        }).writeSync(^(NSManagedObjectContext *context) {
             User *user = [User SK_createInContext:context];
             user.firstname = @"John";
             user.lastname = @"Doe";
@@ -151,13 +151,13 @@
             dispatch_semaphore_wait(sem, DISPATCH_TIME_NOW);
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
             
-            [self.skiathos.write(^(NSManagedObjectContext *context) {
+            [self.skiathos.writeSync(^(NSManagedObjectContext *context) {
                 User *user = [User SK_createInContext:context];
                 user.firstname = @"John";
                 user.lastname = @"Doe";
-            }).write(^(NSManagedObjectContext *context) {
+            }).writeSync(^(NSManagedObjectContext *context) {
                 [User SK_deleteAllInContext:context];
-            }) write:^(NSManagedObjectContext *context) {
+            }) writeSync:^(NSManagedObjectContext *context) {
                 [User SK_allInContext:context];
             } completion:^(NSError * _Nullable error) {
                 count--;
@@ -167,7 +167,7 @@
     }];
 }
 
-- (void)test_CorrectOrderOfOperationsMainQueue
+- (void)test_CorrectOrderOfOperationsMainQueue_SyncWrites
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
@@ -178,13 +178,13 @@
         XCTAssertEqual(counter, 0);
         counter++;
         
-        self.skiathos.write(^(NSManagedObjectContext *context) {
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 1);
             counter++;
         }).read(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 2);
             counter++;
-        }).write(^(NSManagedObjectContext *context) {
+        }).writeSync(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 3);
             counter++;
         }).read(^(NSManagedObjectContext *context) {
@@ -199,7 +199,7 @@
     [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
 }
 
-- (void)test_CorrectOrderOfOperationsBkgQueue
+- (void)test_CorrectOrderOfOperationsBkgQueue_SyncWrites
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
@@ -211,13 +211,13 @@
         XCTAssertEqual(counter, 0);
         counter++;
         
-        self.skiathos.write(^(NSManagedObjectContext *context) {
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 1);
             counter++;
         }).read(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 2);
             counter++;
-        }).write(^(NSManagedObjectContext *context) {
+        }).writeSync(^(NSManagedObjectContext *context) {
             XCTAssertEqual(counter, 3);
             counter++;
         }).read(^(NSManagedObjectContext *context) {
@@ -227,6 +227,80 @@
         
         XCTAssertEqual(counter, 5);
         [expectation fulfill];
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
+- (void)test_CorrectThreadingOfOperationsMainQueue_SyncWrite
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
+            XCTAssertTrue([NSThread isMainThread]);
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertTrue([NSThread isMainThread]);
+            [expectation fulfill];
+        });
+        
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
+- (void)test_CorrectThreadingOfOperationsBkgQueue_SyncWrite
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(q, ^{
+        
+        self.skiathos.writeSync(^(NSManagedObjectContext *context) {
+            XCTAssertFalse([NSThread isMainThread]);
+        }).read(^(NSManagedObjectContext *context) {
+            XCTAssertTrue([NSThread isMainThread]);
+            [expectation fulfill];
+        });
+        
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
+- (void)test_CorrectThreadingOfOperationsMainQueue_AsyncWrite
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.skiathos writeAsync:^(NSManagedObjectContext * _Nonnull context) {
+            XCTAssertFalse([NSThread isMainThread]);
+        } completion:^(NSError * _Nullable error) {
+            XCTAssertTrue([NSThread isMainThread]);
+            [expectation fulfill];
+        }];
+        
+    });
+    
+    [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
+}
+
+- (void)test_CorrectThreadingOfOperationsBkgQueue_AsyncWrite
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(q, ^{
+        
+        [self.skiathos writeAsync:^(NSManagedObjectContext * _Nonnull context) {
+            XCTAssertFalse([NSThread isMainThread]);
+        } completion:^(NSError * _Nullable error) {
+            XCTAssertTrue([NSThread isMainThread]);
+            [expectation fulfill];
+        }];
+        
     });
     
     [self waitForExpectationsWithTimeout:kUnitTestTimeout handler:nil];
