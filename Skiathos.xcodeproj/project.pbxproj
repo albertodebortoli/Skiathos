@@ -205,8 +205,8 @@
 		4F70DA851D49722D009B4675 /* SkiathosTests */ = {
 			isa = PBXGroup;
 			children = (
-				4F70DA861D49722D009B4675 /* SkiathosTests.m */,
 				4F70DA871D49722D009B4675 /* Info.plist */,
+				4F70DA861D49722D009B4675 /* SkiathosTests.m */,
 				4F70DA881D49722D009B4675 /* NSManagedObject_SkiathosTests.m */,
 			);
 			name = SkiathosTests;

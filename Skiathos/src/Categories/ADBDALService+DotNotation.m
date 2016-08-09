@@ -21,12 +21,21 @@
     };
 }
 
-- (WriteDotNotation)write
+- (WriteSyncDotNotation)writeSync
 {
     __weak typeof(self) weakSelf = self;
     
     return ^id <ADBDALProtocol>(Write write) {
-        return [weakSelf write:write];
+        return [weakSelf writeSync:write];
+    };
+}
+
+- (WriteAsyncDotNotation)writeAsync
+{
+    __weak typeof(self) weakSelf = self;
+    
+    return ^void(Write write) {
+        return [weakSelf writeAsync:write];
     };
 }
 

@@ -46,9 +46,9 @@ You should ignore this one. It sits in the CoreDataStack and takes care of savin
 ### DALService (Data Access Layer) / Skiathos
 
 If you have experience with Core Data, you might also know that most of the operations are repetitive and that we usually call `performBlock:`/`performBlockAndWait:` on a context providing a block that eventually will call `save:` on that context as last statement.
-Databases are all about readings and writings and for this reason our APIs are in the form of `read:` and `write:`: 2 protocols providing a CQRS (Command and Query Responsibility Segregation) approach.
-Read blocks will be executed on the main context (as it's considered to be the single source of truth). Write blocks are executed on a slave context which is saved synchronously at the end; changes are eventually saved asynchronously back to the persistent store without blocking the main thread. 
-The method `write:completion:` calls the completion handler when the changes are saved back to the persistent store.  
+Databases are all about readings and writings and for this reason our APIs are in the form of `read:` and `writeSync:`/`writeAsync:`: 2 protocols providing a CQRS (Command and Query Responsibility Segregation) approach.
+Read blocks will be executed on the main context (as it's considered to be the single source of truth). Write blocks are executed on a slave context which is saved at the end; changes are eventually saved asynchronously back to the persistent store without blocking the main thread. 
+The completion handler of the write methods calls the completion handler when the changes are saved back to the persistent store.  
 
 In other words, writings are always consistent in the main managed object context and eventual consistent in the persistent store.
 Data are always available in the main managed object context.
@@ -169,13 +169,29 @@ Skiathos reading:
 Skiathos writing:
 
 ```objc
-[[SkiathosClient sharedInstance] write:^(NSManagedObjectContext *context) {
+// Sync
+[[SkiathosClient sharedInstance] writeSync:^(NSManagedObjectContext *context) {
     User *user = [User createInContext:context];
     user.firstname = @"John";
     user.lastname = @"Doe";
 }];
 
-[[SkiathosClient sharedInstance] write:^(NSManagedObjectContext *context) {
+[[SkiathosClient sharedInstance] writeSync:^(NSManagedObjectContext *context) {
+    User *user = [User createInContext:context];
+    user.firstname = @"John";
+    user.lastname = @"Doe";
+} completion:^(NSError *error) {
+    // changes are saved to the persistent store
+}];
+
+// Async
+[[SkiathosClient sharedInstance] writeAsync:^(NSManagedObjectContext *context) {
+    User *user = [User createInContext:context];
+    user.firstname = @"John";
+    user.lastname = @"Doe";
+}];
+
+[[SkiathosClient sharedInstance] writeAsync:^(NSManagedObjectContext *context) {
     User *user = [User createInContext:context];
     user.firstname = @"John";
     user.lastname = @"Doe";
@@ -189,13 +205,13 @@ Skiathos also supports dot notation and chaining:
 ```objc
 __block User *user = nil;
 
-[SkiathosClient sharedInstance].write(^(NSManagedObjectContext *context) {
+[SkiathosClient sharedInstance].writeSync(^(NSManagedObjectContext *context) {
 
     user = [User createInContext:context];
     user.firstname = @"John";
     user.lastname = @"Doe";
 
-}).write(^(NSManagedObjectContext *context) {
+}).writeSync(^(NSManagedObjectContext *context) {
 
     User *userInContext = [user inContext:context];
     [userInContext deleteInContext:context];

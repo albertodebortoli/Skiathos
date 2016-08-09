@@ -41,7 +41,7 @@
         XCTAssertEqual(users.count, 0);
     }];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         [User SK_createInContext:context];
     }];
     
@@ -60,7 +60,7 @@
     
     __block User *user = nil;
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         user = [User SK_createInContext:context];
         user = [user SK_inContext:context];
         [User SK_createInContext:context];
@@ -68,7 +68,7 @@
         XCTAssertEqual(users.count, 2);
     }];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *userInContext = [user SK_inContext:context];
         [userInContext SK_deleteInContext:context];
         NSArray *users = [User SK_allInContext:context];
@@ -88,7 +88,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         NSArray *users = nil;
         User *user1 = [User SK_createInContext:context];
         [User SK_createInContext:context];
@@ -113,7 +113,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         NSArray *users = nil;
         
         [User SK_createInContext:context];
@@ -139,7 +139,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         [User SK_createInContext:context];
         [User SK_createInContext:context];
     }];
@@ -157,7 +157,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
@@ -178,7 +178,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         [User SK_createInContext:context];
         [User SK_createInContext:context];
     }];
@@ -196,7 +196,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
@@ -219,7 +219,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         User *u3 = [User SK_createInContext:context];
@@ -247,7 +247,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         User *u3 = [User SK_createInContext:context];
@@ -278,7 +278,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
@@ -298,7 +298,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
@@ -321,7 +321,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self.skiathos write:^(NSManagedObjectContext * _Nonnull context) {
+    [self.skiathos writeSync:^(NSManagedObjectContext * _Nonnull context) {
         User *u1 = [User SK_createInContext:context];
         User *u2 = [User SK_createInContext:context];
         u1.firstname = @"John";
