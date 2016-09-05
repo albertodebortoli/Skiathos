@@ -1,5 +1,7 @@
 # Skiathos
 
+![logo](./skiathos.png)
+
 A minimalistic, thread-safe, non-boilerplate and super easy to use version of Active Record on Core Data.
 Simply all you need for doing Core Data. Objective-C flavour.
 
