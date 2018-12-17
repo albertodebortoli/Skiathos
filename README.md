@@ -2,7 +2,7 @@
 
 ![logo](./skiathos.png)
 
-[![Build Status](https://www.bitrise.io/app/578199a68df6f89e.svg?token=kpuN5kAJoHbkvuHyD9lbjQ&branch=master)](https://www.bitrise.io/app/578199a68df6f89e)
+[![Build Status](https://app.bitrise.io/app/578199a68df6f89e/status.svg?token=kpuN5kAJoHbkvuHyD9lbjQ&branch=master)](https://app.bitrise.io/app/578199a68df6f89e)
 
 A minimalistic, thread-safe, non-boilerplate and super easy to use version of Active Record on Core Data.
 Simply all you need for doing Core Data. Objective-C flavour.
