@@ -1,8 +1,8 @@
 # Skiathos
 
-![logo](./skiathos.png)
+**This project has been deprecated. Please move to [Skopelos](https://github.com/albertodebortoli/Skopelos), the Swift version.**
 
-[![Build Status](https://app.bitrise.io/app/578199a68df6f89e/status.svg?token=kpuN5kAJoHbkvuHyD9lbjQ&branch=master)](https://app.bitrise.io/app/578199a68df6f89e)
+![logo](./skiathos.png)
 
 A minimalistic, thread-safe, non-boilerplate and super easy to use version of Active Record on Core Data.
 Simply all you need for doing Core Data. Objective-C flavour.
